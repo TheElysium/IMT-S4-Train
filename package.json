@@ -1,0 +1,21 @@
+{
+    "name": "css-cours",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "watch": "npm run lint && sass --watch style.scss:style.css",
+      "lint": "stylelint '**/*.scss'; exit 0"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "saas": "^1.0.0"
+    },
+    "devDependencies": {
+      "sass": "^1.60.0",
+      "stylelint": "^15.4.0",
+      "stylelint-config-standard-scss": "^7.0.1"
+    }
+  }
+  
