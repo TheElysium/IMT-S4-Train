@@ -1,0 +1,14 @@
+{
+  "name": "project-css",
+  "version": "1.0.0",
+  "description": "IMT project",
+  "main": "index.js",
+  "scripts": {
+    "watch": "sass --watch ./css_modules/style.scss ./css_modules/style.css"
+  },
+  "author": "Antonin Maystre",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.60.0"
+  }
+}

@@ -1,0 +1,28 @@
+
+h1 {
+    text-align: center;
+}
+
+.logo{
+    text-align: center;
+}
+
+.grid {
+    background-color: blueviolet;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px;
+    aspect-ratio: 1/1;
+    margin: auto;
+    &-case{
+        width: 16.3%;
+        height: 16.3%;
+        border: 1px black solid;
+    }
+}
+
+button {
+    display: block;
+    margin: auto;
+}
