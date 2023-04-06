@@ -1,0 +1,45 @@
+$main-color: blanchedalmond;
+
+:root {
+    --main-color: blanchedalmond;
+}
+
+body {
+    background-color: var(--main-color);
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+}
+
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.grid-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    height: 50%;
+}
+
+.grid {
+    margin: 0;
+    width: 15%;
+    height: 150%;
+    background-color: burlywood;
+    border: 1px solid;
+    text-align: center;
+}
+
+.grid:hover {
+    background-color: wheat;
+}
+
+#button {
+    background-color: whitesmoke;
+}
