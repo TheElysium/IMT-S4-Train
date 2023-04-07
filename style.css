@@ -1,3 +1,31 @@
+html, body {
+  background-color: #c7d4ff;
+  color: black;
+}
 
+.c-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.c-wrapper__grid-container {
+  width: 100%;
+}
+.c-wrapper__grid-container__grid {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background-color: red;
+  width: 40%;
+  aspect-ratio: 1/1;
+}
+.c-wrapper__grid-container__grid__cell {
+  border-color: white;
+  border-width: 5px;
+  border-style: solid;
+}
 
 /*# sourceMappingURL=style.css.map */
