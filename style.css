@@ -18,14 +18,9 @@ html, body {
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  background-color: red;
+  background-color: #44B140;
   width: 40%;
   aspect-ratio: 1/1;
-}
-.c-wrapper__grid-container__grid__cell {
-  border-color: white;
-  border-width: 5px;
-  border-style: solid;
 }
 
 /*# sourceMappingURL=style.css.map */
