@@ -48,8 +48,6 @@ export class TurnRail extends Rail {
                 neighbours.push(grid[this.x + 1]?.[this.y]);
                 break;
         }
-
-        console.log(neighbours);
         return neighbours;
     }
 }

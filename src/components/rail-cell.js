@@ -3,7 +3,7 @@ export class RailCell extends HTMLElement {
         super();
         this.rail = rail;
 
-        // Perhaps temporary, this is for testing purposes
+        // TODO : Perhaps temporary, this is for testing purposes
         this.addEventListener("mousedown", (event) => {
             event.stopPropagation(); // Stop event propagation
 

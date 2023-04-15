@@ -34,7 +34,6 @@ export class StraightRail extends Rail {
             neighbours.push(grid[this.x]?.[this.y - 1]);
             neighbours.push(grid[this.x]?.[this.y + 1]);
         }
-        console.log(neighbours);
         return neighbours;
     };
 }

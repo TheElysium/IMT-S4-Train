@@ -80,13 +80,11 @@ function addRail(rail, position, grid) {
 }
 
 function removeRail(x, y) {
-    const rail = grid[x][y];
+    const railToRemove = grid[x][y];
     grid[x][y] = null;
 
-    rail.neighbours.forEach((neighbour) => {
-        neighbour.removeNeighbour(rail);
+    railToRemove.neighbours.forEach((neighbour) => {
+        neighbour.removeNeighbour(railToRemove);
     });
-
-    console.log(grid);
 }
   
