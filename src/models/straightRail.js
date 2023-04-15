@@ -1,3 +1,4 @@
+import { StraightRailOrientation } from './orientations.js';
 import { Rail } from './rail.js';
 
 export class StraightRail extends Rail {
@@ -21,6 +22,33 @@ export class StraightRail extends Rail {
         <rect x="277" width="15" height="500" fill="#595959"/>
       </svg>    
       `;
+    }
+
+    getPossibleNeighbours(grid) {
+      const neighbours = [];
+      
+      if (this.orientation === StraightRailOrientation.VERTICAL) {
+        neighbours.push(grid[this.x - 1]?.[this.y]);
+        neighbours.push(grid[this.x + 1]?.[this.y]);
+      } else {
+        neighbours.push(grid[this.x]?.[this.y - 1]);
+        neighbours.push(grid[this.x]?.[this.y + 1]);
+      }
+      console.log(neighbours);
+      return neighbours;
+    };
+
+    // Only works if other rail is also a straight rail
+    canConnect(otherRail) {
+      if (this.orientation === StraightRailOrientation.HORIZONTAL) {
+        return otherRail.orientation === StraightRailOrientation.HORIZONTAL;
+      } else {
+        return otherRail.orientation === StraightRailOrientation.VERTICAL;
+      }
+    }
+
+    addNeighbour(rail) {
+      this.neighbours.push(rail);
     }
   }
   
