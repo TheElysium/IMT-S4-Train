@@ -2,7 +2,23 @@ export class RailCell extends HTMLElement {
     constructor(rail) {
         super();
         this.rail = rail;
+
+        // Perhaps temporary, this is for testing purposes
+        this.addEventListener("mousedown", (event) => {
+            event.stopPropagation(); // Stop event propagation
+
+            // Dispatch a custom event with the click event details
+            const railClickEvent = new CustomEvent("railclick", {
+                bubbles: true,
+                detail: {
+                    originalEvent: event,
+                },
+            });
+
+            this.dispatchEvent(railClickEvent);
+        });
     }
+
 
     connectedCallback() {
         const svgMarkup = this.rail.getSvg();
@@ -14,7 +30,6 @@ export class RailCell extends HTMLElement {
         svg.setAttribute('width', '100%');
         svg.setAttribute('height', '100%');
         svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
         this.appendChild(svg);
     }
 }

@@ -25,7 +25,6 @@ for (let x = 0; x < gridHeight; x++) {
 // Add rail to grid
 gridContainer.addEventListener("mousedown", (event) => {
     const cell = event.target;
-
     if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
         const x = parseInt(cell.dataset.x);
         const y = parseInt(cell.dataset.y);
@@ -49,6 +48,20 @@ gridContainer.addEventListener("mousedown", (event) => {
     }
 });
 
+// TODO : Perhaps temporary, only for testing purposes
+gridContainer.addEventListener("railclick", (event) => {
+    const railCell = event.target;
+    const cell = railCell.parentElement;
+    const x = parseInt(cell.dataset.x);
+    const y = parseInt(cell.dataset.y);
+
+    // Remove rail from the grid array
+    removeRail(x, y);
+
+    // Remove rail cell from DOM
+    cell.removeChild(railCell);
+});
+
 // Add rail to the array representation of the grid 
 function addRail(rail, position, grid) {
     const {x, y} = position;
@@ -64,5 +77,16 @@ function addRail(rail, position, grid) {
             }
         }
     });
+}
+
+function removeRail(x, y) {
+    const rail = grid[x][y];
+    grid[x][y] = null;
+
+    rail.neighbours.forEach((neighbour) => {
+        neighbour.removeNeighbour(rail);
+    });
+
+    console.log(grid);
 }
   

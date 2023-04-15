@@ -27,5 +27,10 @@ export class Rail {
     addNeighbour(rail) {
         this.neighbours.push(rail);
     }
+
+    removeNeighbour(neighbour) {
+        this.neighbours = this.neighbours.filter(n => n !== neighbour);
+        console.log(this.neighbours);
+    }
 }
   
