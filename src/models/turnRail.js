@@ -1,13 +1,14 @@
-import { Rail } from './rail.js';
+import {Rail} from './rail.js';
+import {TurnRailOrientation} from "./orientations.js";
 
 export class TurnRail extends Rail {
     constructor(x, y, orientation) {
-      super(x, y, orientation);
+        super(x, y, orientation);
     }
-  
+
     getSvg() {
-      return `
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        return `
+        <svg class="ignore-pointer-events" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="200.5" y="422.5" width="15" height="98" transform="rotate(-90 200.5 422.5)" fill="#964415"/>
             <rect x="201.929" y="359.869" width="15" height="98" transform="rotate(-81.1459 201.929 359.869)" fill="#964415"/>
             <rect x="218" y="289.257" width="15" height="98" transform="rotate(-62.1073 218 289.257)" fill="#964415"/>
@@ -25,5 +26,29 @@ export class TurnRail extends Rail {
         </svg>
       `;
     }
-  }
+
+    getPossibleNeighbours(grid) {
+        const neighbours = [];
+
+        switch (this.orientation) {
+            case TurnRailOrientation.TOP_LEFT:
+                neighbours.push(grid[this.x]?.[this.y - 1]);
+                neighbours.push(grid[this.x - 1]?.[this.y]);
+                break;
+            case TurnRailOrientation.TOP_RIGHT:
+                neighbours.push(grid[this.x]?.[this.y + 1]);
+                neighbours.push(grid[this.x - 1]?.[this.y]);
+                break;
+            case TurnRailOrientation.BOTTOM_LEFT:
+                neighbours.push(grid[this.x]?.[this.y - 1]);
+                neighbours.push(grid[this.x + 1]?.[this.y]);
+                break;
+            case TurnRailOrientation.BOTTOM_RIGHT:
+                neighbours.push(grid[this.x]?.[this.y + 1]);
+                neighbours.push(grid[this.x + 1]?.[this.y]);
+                break;
+        }
+        return neighbours;
+    }
+}
   

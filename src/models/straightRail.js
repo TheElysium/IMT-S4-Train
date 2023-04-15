@@ -1,12 +1,13 @@
-import { Rail } from './rail.js';
+import {StraightRailOrientation} from './orientations.js';
+import {Rail} from './rail.js';
 
 export class StraightRail extends Rail {
     constructor(x, y, orientation) {
-      super(x, y, orientation);
+        super(x, y, orientation);
     }
-  
+
     getSvg() {
-      return `
+        return `
       <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="201" y="423" width="15" height="98" transform="rotate(-90 201 423)" fill="#964415"/>
         <rect x="201" y="368" width="15" height="98" transform="rotate(-90 201 368)" fill="#964415"/>
@@ -22,5 +23,18 @@ export class StraightRail extends Rail {
       </svg>    
       `;
     }
-  }
+
+    getPossibleNeighbours(grid) {
+        const neighbours = [];
+
+        if (this.orientation === StraightRailOrientation.VERTICAL) {
+            neighbours.push(grid[this.x - 1]?.[this.y]);
+            neighbours.push(grid[this.x + 1]?.[this.y]);
+        } else {
+            neighbours.push(grid[this.x]?.[this.y - 1]);
+            neighbours.push(grid[this.x]?.[this.y + 1]);
+        }
+        return neighbours;
+    };
+}
   
