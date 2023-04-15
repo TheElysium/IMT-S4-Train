@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "sass --watch style.scss:style.css",
+    "watch": "sass --watch styles/style.scss:styles/style.css",
     "lint": "stylelint '**/*.scss'; exit 0"
   },
   "author": "",

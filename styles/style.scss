@@ -21,7 +21,7 @@ html, body {
       grid-template-columns: repeat(4, 1fr);
       grid-column-gap: 0px;
       grid-row-gap: 0px;
-      background-color: #586657;
+      background-color: #62b05c;
       width: 40%;
       aspect-ratio: 1/1;
 
@@ -29,6 +29,11 @@ html, body {
         width: 100%;
         height: 100%;
         aspect-ratio: 1/1;
+
+        rail-cell {
+          display: inline-block;
+          height: 100%;
+        }
       }
     }
   }
