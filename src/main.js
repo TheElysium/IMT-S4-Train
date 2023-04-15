@@ -1,3 +1,6 @@
+import { StraightRail } from "./models/straightRail.js";
+import { RailCell } from "./components/rail-cell.js";
+
 const gridWidth = 4;
 const gridHeight = 4;
 
@@ -26,9 +29,9 @@ gridContainer.addEventListener("click", (event) => {
       const y = parseInt(cell.dataset.y);
   
       cell.innerHTML = '';
-  
-      const railCell = document.createElement("rail-cell");
-      cell.appendChild(railCell);
+      const straightRail = new StraightRail(x, y, 'horizontal');
+      const straightRailCell = new RailCell(straightRail);
+      cell.appendChild(straightRailCell);
     }
   });
   
