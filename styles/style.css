@@ -1,33 +1,35 @@
 html, body {
-    background-color: #c7d4ff;
-    color: black;
+  background-color: #c7d4ff;
+  color: black;
 }
 
 .c-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
-
 .c-wrapper__grid-container {
-    width: 100%;
+  width: 100%;
 }
-
 .c-wrapper__grid-container__grid {
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    background-color: #44B140;
-    width: 40%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background-color: #62b05c;
+  width: 40%;
+  aspect-ratio: 1/1;
 }
-
 .c-wrapper__grid-container__grid__cell {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+.c-wrapper__grid-container__grid__cell rail-cell {
+  display: inline-block;
+  height: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */

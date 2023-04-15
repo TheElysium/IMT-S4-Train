@@ -32,6 +32,14 @@ export class RailCell extends HTMLElement {
         svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
         this.appendChild(svg);
     }
+
+    updateTrackColor() {
+        const tracks = this.querySelectorAll(".track");
+        tracks.forEach((track) => {
+            track.style.fill = "red";
+            track.style.stroke = "red";
+        });
+    }
 }
 
 customElements.define('rail-cell', RailCell);

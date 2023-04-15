@@ -35,15 +35,15 @@ gridContainer.addEventListener("mousedown", (event) => {
         if (event.button === 0) {
             // Left click: Add turn rail
             const turnRail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
-            addRail(turnRail, {x, y}, grid);
             const turnRailCell = new RailCell(turnRail);
             cell.appendChild(turnRailCell);
+            addRail(turnRail, {x, y}, grid);
         } else if (event.button === 2) {
             // Right click: Add straight rail
             const straightRail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
-            addRail(straightRail, {x, y}, grid);
             const straightRailCell = new RailCell(straightRail);
             cell.appendChild(straightRailCell);
+            addRail(straightRail, {x, y}, grid);
         }
     }
 });
@@ -74,6 +74,7 @@ function addRail(rail, position, grid) {
             if (rail.canConnect(neighbour, grid)) {
                 rail.addNeighbour(neighbour);
                 neighbour.addNeighbour(rail);
+                updateTrackColor(position, neighbourPosition)
             }
         }
     });
@@ -87,4 +88,20 @@ function removeRail(x, y) {
         neighbour.removeNeighbour(railToRemove);
     });
 }
-  
+
+function updateTrackColor(railPosition, neighbourPosition) {
+    const railCell = gridContainer.querySelector(
+        `.c-wrapper__grid-container__grid__cell[data-x="${railPosition.x}"][data-y="${railPosition.y}"] rail-cell`
+    );
+    const neighbourRailCell = gridContainer.querySelector(
+        `.c-wrapper__grid-container__grid__cell[data-x="${neighbourPosition.x}"][data-y="${neighbourPosition.y}"] rail-cell`
+    );
+
+    if (railCell) {
+        railCell.updateTrackColor("#ff0000");
+    }
+
+    if (neighbourRailCell) {
+        neighbourRailCell.updateTrackColor("#ff0000");
+    }
+}
