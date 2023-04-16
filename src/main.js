@@ -105,3 +105,13 @@ function updateTrackColor(railPosition, neighbourPosition) {
         neighbourRailCell.updateTrackColor("#ff0000");
     }
 }
+
+// addEventListener("wheel", rotation);
+
+gridContainer.addEventListener("railrotate", rotateRail);
+
+
+function rotateRail(event){
+    const railCell = event.target;
+    railCell.rotate();
+}

@@ -36,5 +36,15 @@ export class StraightRail extends Rail {
         }
         return neighbours;
     };
+
+    getRotationAngle(){
+
+        if(this.orientation === StraightRailOrientation.VERTICAL){
+            this.orientation = StraightRailOrientation.HORIZONTAL
+        }else{
+            this.orientation = StraightRailOrientation.VERTICAL
+        }
+        return this.orientation.angle;
+    }
 }
   
