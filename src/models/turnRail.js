@@ -17,12 +17,12 @@ export class TurnRail extends Rail {
             <rect x="422" y="299" width="15" height="98" transform="rotate(-180 422 299)" fill="#964415"/>
             <rect x="373.186" y="297.644" width="15" height="98" transform="rotate(172.675 373.186 297.644)" fill="#964415"/>
             <rect x="477" y="299" width="15" height="98" transform="rotate(-180 477 299)" fill="#964415"/>
-            <rect  class="track" x="392" y="291" width="15" height="108" transform="rotate(-90 392 291)" fill="#595959"/>
-            <rect  class="track" x="358" y="223" width="15" height="142" transform="rotate(-90 358 223)" fill="#595959"/>
-            <rect  class="track" x="208" y="357" width="15" height="143" fill="#595959"/>
-            <rect  class="track" x="276" y="391.239" width="15" height="108.761" fill="#595959"/>
-            <path  class="track" d="M283.5 392.5C283.5 362.354 287.708 326.092 307.5 306.5C326.868 287.328 362.5 283.5 392 283.5" stroke="#595959" stroke-width="15"/>
-            <path  class="track" d="M358 215.5C320.339 215.5 285.221 230.961 258.591 257.591C231.961 284.221 215.5 319.339 215.5 357" stroke="#595959" stroke-width="15"/>
+            <rect  class="track-rect" x="392" y="291" width="15" height="108" transform="rotate(-90 392 291)" fill="#595959"/>
+            <rect  class="track-rect" x="358" y="223" width="15" height="142" transform="rotate(-90 358 223)" fill="#595959"/>
+            <rect  class="track-rect" x="208" y="357" width="15" height="143" fill="#595959"/>
+            <rect  class="track-rect" x="276" y="391.239" width="15" height="108.761" fill="#595959"/>
+            <path  class="track-path" d="M283.5 392.5C283.5 362.354 287.708 326.092 307.5 306.5C326.868 287.328 362.5 283.5 392 283.5" stroke="#595959" stroke-width="15"/>
+            <path  class="track-path" d="M358 215.5C320.339 215.5 285.221 230.961 258.591 257.591C231.961 284.221 215.5 319.339 215.5 357" stroke="#595959" stroke-width="15"/>
         </svg>
       `;
     }

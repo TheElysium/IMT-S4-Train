@@ -2,11 +2,11 @@
 export const StraightRailOrientation = {
     HORIZONTAL: {
         name: 'horizontal',
-        angle: 0,
+        angle: 90,
     },
     VERTICAL: {
         name: 'vertical',
-        angle: 90,
+        angle: 0,
     },
 };
 
