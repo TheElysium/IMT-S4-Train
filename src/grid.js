@@ -46,13 +46,13 @@ export class Grid {
                 const turnRail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
                 const turnRailCell = new RailCell(turnRail);
                 cell.appendChild(turnRailCell);
-                this.addRail(turnRail, {x, y}, this.grid);
+                this.addRail(turnRail, {x, y});
             } else if (event.button === 2) {
                 // Right click: Add straight rail
                 const straightRail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
                 const straightRailCell = new RailCell(straightRail);
                 cell.appendChild(straightRailCell);
-                this.addRail(straightRail, {x, y}, this.grid);
+                this.addRail(straightRail, {x, y});
             }
         }
     }
@@ -78,16 +78,16 @@ export class Grid {
     }
 
     // Add rail to the array representation of the grid
-    addRail(rail, position, grid) {
+    addRail(rail, position) {
         const {x, y} = position;
-        grid[x][y] = rail;
+        this.grid[x][y] = rail;
         this.updateTrackColor(position, "#595959");
 
-        const neighbours = rail.getPossibleNeighbours(grid);
+        const neighbours = rail.getPossibleNeighbours(this.grid);
         neighbours.forEach((neighbour) => {
             if (neighbour) {
                 const neighbourPosition = {x: neighbour.x, y: neighbour.y};
-                if (rail.canConnect(neighbour, grid)) {
+                if (rail.canConnect(neighbour, this.grid)) {
                     rail.addNeighbour(neighbour);
                     neighbour.addNeighbour(rail);
                     this.updateTrackColor(position, "red");
