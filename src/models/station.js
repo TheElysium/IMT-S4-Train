@@ -21,7 +21,7 @@ export class Station extends Rail {
             <rect x="148" y="299" width="15" height="98" transform="rotate(-180 148 299)" fill="#964415"/>
             <rect class="track-rect" y="291" width="15" height="500" transform="rotate(-90 0 291)" fill="#595959"/>
             <rect class="track-rect" y="223" width="15" height="500" transform="rotate(-90 0 223)" fill="#595959"/>
-            <rect x="83" y="74" width="335" height="111" fill="#D9D9D9"/>
+            <rect class="station-rect" x="83" y="74" width="335" height="111" fill="#D9D9D9"/>
             <path d="M124.5 9L250 9V74H63L124.5 9Z" fill="#CC5E1F"/>
             <path d="M374.5 9L249 9V74H436L374.5 9Z" fill="#CC5E1F"/>
         </svg>

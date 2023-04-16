@@ -57,6 +57,8 @@ export class Grid {
 
         // Remove rail cell from DOM
         cell.removeChild(railCell);
+
+        this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
     rotateRail(event) {
@@ -64,6 +66,7 @@ export class Grid {
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
+        this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
     addRail(event) {
@@ -78,15 +81,19 @@ export class Grid {
             if (event.button === 0) {
                 // Left click: Add turn rail
                 rail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
-                railCell = new RailCell(rail);
             } else if (event.button === 2) {
                 // Right click: Add straight rail
                 rail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
-                railCell = new RailCell(rail);
             }
+            railCell = new RailCell(rail);
+
+            // Add rail to the DOM
             cell.innerHTML = '';
             cell.appendChild(railCell);
+
             this.addRailToGridArray(rail, {x, y});
+
+            this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
         }
     }
 
@@ -110,6 +117,7 @@ export class Grid {
         });
     }
 
+    // Remove rail from the array representation of the grid
     removeRailFromGridArray(x, y) {
         const railToRemove = this.grid[x][y];
         this.grid[x][y] = null;
@@ -120,6 +128,7 @@ export class Grid {
                 this.updateTrackColor({x: neighbour.x, y: neighbour.y}, '#595959');
             }
         });
+        railToRemove.neighbours = [];
     }
 
     updateTrackColor(position, color) {
@@ -137,10 +146,25 @@ export class Grid {
         }
     }
 
+    updateStationsColor(color) {
+        const startStationCell = this.container.querySelector(
+            `.c-wrapper__grid-container__grid__cell[data-x="${this.startStation.position.x}"][data-y="${this.startStation.position.y}"] station-cell`
+        );
+        const endStationCell = this.container.querySelector(
+            `.c-wrapper__grid-container__grid__cell[data-x="${this.endStation.position.x}"][data-y="${this.endStation.position.y}"] station-cell`
+        );
+        startStationCell.updateStationColor(color);
+        endStationCell.updateStationColor(color);
+    }
+
     getCellPosition(cell) {
         return {
             x: parseInt(cell.dataset.x),
             y: parseInt(cell.dataset.y),
         };
+    }
+
+    areStationsConnected() {
+        return this.startStation.isConnectedTo(this.startStation, this.endStation);
     }
 }

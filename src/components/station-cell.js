@@ -23,6 +23,11 @@ export class StationCell extends HTMLElement {
             track.style.fill = color;
         });
     }
+
+    updateStationColor(color) {
+        const stationRect = this.querySelector(".station-rect");
+        stationRect.style.fill = color;
+    }
 }
 
 customElements.define('station-cell', StationCell);
