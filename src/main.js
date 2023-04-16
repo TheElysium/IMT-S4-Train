@@ -106,26 +106,12 @@ function updateTrackColor(railPosition, neighbourPosition) {
     }
 }
 
-addEventListener("wheel", rotation);
+// addEventListener("wheel", rotation);
 
-function rotation(event){
+gridContainer.addEventListener("railrotate", rotateRail);
 
-    let divGrid;
-    let target;
 
-    if(event.target.tagName == "svg" && Array.from(event.target.classList).includes("rail")){
-        divGrid = event.target.parentNode.parentNode
-        target = event.target
-
-    }else if(event.target.tagName == "rect" && Array.from(event.target.parentNode.classList).includes("rail")){
-        divGrid = event.target.parentNode.parentNode.parentNode
-        target = event.target.parentNode
-    }
-
-    const x = parseInt(divGrid.dataset.x);
-    const y = parseInt(divGrid.dataset.y);
-
-    const straightRail = grid[x][y];
-    straightRail.rotate(target)
-
+function rotateRail(event){
+    const railCell = event.target;
+    railCell.rotate();
 }

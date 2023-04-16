@@ -50,5 +50,25 @@ export class TurnRail extends Rail {
         }
         return neighbours;
     }
+
+    getRotationAngle() {
+        switch (this.orientation) {
+            case TurnRailOrientation.TOP_LEFT:
+                this.orientation = TurnRailOrientation.TOP_RIGHT;
+                break;
+            case TurnRailOrientation.TOP_RIGHT:
+                this.orientation = TurnRailOrientation.BOTTOM_RIGHT;
+                break;
+            case TurnRailOrientation.BOTTOM_LEFT:
+                this.orientation = TurnRailOrientation.TOP_LEFT;
+                break;
+            case TurnRailOrientation.BOTTOM_RIGHT:
+                this.orientation = TurnRailOrientation.BOTTOM_LEFT;
+                break;
+            default:
+                throw new Error('Invalid orientation');
+        }
+        return this.orientation.angle;
+    }
 }
   

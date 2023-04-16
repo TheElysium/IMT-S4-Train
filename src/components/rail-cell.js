@@ -17,6 +17,20 @@ export class RailCell extends HTMLElement {
 
             this.dispatchEvent(railClickEvent);
         });
+
+        this.addEventListener("wheel", (event) => {
+            event.stopPropagation(); // Stop event propagation
+
+            // Dispatch a custom event with the click event details
+            const railClickEvent = new CustomEvent("railrotate", {
+                bubbles: true,
+                detail: {
+                    originalEvent: event,
+                },
+            });
+
+            this.dispatchEvent(railClickEvent);
+        });
     }
 
 
@@ -39,6 +53,10 @@ export class RailCell extends HTMLElement {
             track.style.fill = "red";
             track.style.stroke = "red";
         });
+    }
+
+    rotate() {
+        this.style.transform = `rotate(${this.rail.getRotationAngle()}deg)`;
     }
 }
 

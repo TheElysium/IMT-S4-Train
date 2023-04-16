@@ -8,7 +8,7 @@ export class StraightRail extends Rail {
 
     getSvg() {
         return `
-      <svg class="rail" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="201" y="423" width="15" height="98" transform="rotate(-90 201 423)" fill="#964415"/>
         <rect x="201" y="368" width="15" height="98" transform="rotate(-90 201 368)" fill="#964415"/>
         <rect x="201" y="478" width="15" height="98" transform="rotate(-90 201 478)" fill="#964415"/>
@@ -37,16 +37,14 @@ export class StraightRail extends Rail {
         return neighbours;
     };
 
-    rotate(target){
+    getRotationAngle(){
 
-        if(this.orientation == StraightRailOrientation.HORIZONTAL){
-            this.orientation = StraightRailOrientation.VERTICAL
-            target.setAttribute("transform", "rotate(180)");
-        }else{
+        if(this.orientation === StraightRailOrientation.VERTICAL){
             this.orientation = StraightRailOrientation.HORIZONTAL
-            target.setAttribute("transform", "rotate(90)");
+        }else{
+            this.orientation = StraightRailOrientation.VERTICAL
         }
-        
+        return this.orientation.angle;
     }
 }
   
