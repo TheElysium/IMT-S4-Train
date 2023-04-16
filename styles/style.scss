@@ -18,12 +18,10 @@ html, body {
     &__grid {
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
       grid-column-gap: 0px;
       grid-row-gap: 0px;
       background-color: #62b05c;
       width: 40%;
-      aspect-ratio: 1/1;
 
       &__cell {
         width: 100%;
