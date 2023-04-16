@@ -35,5 +35,18 @@ export class Rail {
     getRotationAngle(){
         throw new Error('rotate() must be implemented by child classes');
     }
+
+    isConnectedTo(previous, goal) {
+        if(this === goal) {
+            return true;
+        } else {
+            const next = this.neighbours.filter(n => n !== previous)[0];
+            if(next) {
+                return next.isConnectedTo(this, goal);
+            } else {
+                return false;
+            }
+        }
+    }
 }
   
