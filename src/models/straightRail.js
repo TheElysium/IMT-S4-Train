@@ -18,8 +18,8 @@ export class StraightRail extends Rail {
         <rect x="201" y="93" width="15" height="98" transform="rotate(-90 201 93)" fill="#964415"/>
         <rect x="201" y="38" width="15" height="98" transform="rotate(-90 201 38)" fill="#964415"/>
         <rect x="201" y="148" width="15" height="98" transform="rotate(-90 201 148)" fill="#964415"/>
-        <rect class="track" x="209" width="15" height="500" fill="#595959"/>
-        <rect class="track" x="277" width="15" height="500" fill="#595959"/>
+        <rect class="track-rect" x="209" width="15" height="500" fill="#595959"/>
+        <rect class="track-rect" x="277" width="15" height="500" fill="#595959"/>
       </svg>    
       `;
     }

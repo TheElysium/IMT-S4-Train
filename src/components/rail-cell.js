@@ -48,9 +48,12 @@ export class RailCell extends HTMLElement {
     }
 
     updateTrackColor(color) {
-        const tracks = this.querySelectorAll(".track");
-        tracks.forEach((track) => {
+        const tracksRect = this.querySelectorAll(".track-rect");
+        tracksRect.forEach((track) => {
             track.style.fill = color;
+        });
+        const tracksPath = this.querySelectorAll(".track-path");
+        tracksPath.forEach((track) => {
             track.style.stroke = color;
         });
     }
