@@ -47,16 +47,17 @@ export class RailCell extends HTMLElement {
         this.appendChild(svg);
     }
 
-    updateTrackColor() {
+    updateTrackColor(color) {
         const tracks = this.querySelectorAll(".track");
         tracks.forEach((track) => {
-            track.style.fill = "red";
-            track.style.stroke = "red";
+            track.style.fill = color;
+            track.style.stroke = color;
         });
     }
 
     rotate() {
-        this.style.transform = `rotate(${this.rail.getRotationAngle()}deg)`;
+        const angle = this.rail.getRotationAngle();
+        this.style.transform = `rotate(${angle}deg)`;
     }
 }
 

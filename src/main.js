@@ -66,6 +66,7 @@ gridContainer.addEventListener("railclick", (event) => {
 function addRail(rail, position, grid) {
     const {x, y} = position;
     grid[x][y] = rail;
+    updateTrackColor(position, "#595959");
 
     const neighbours = rail.getPossibleNeighbours(grid);
     neighbours.forEach((neighbour) => {
@@ -74,7 +75,8 @@ function addRail(rail, position, grid) {
             if (rail.canConnect(neighbour, grid)) {
                 rail.addNeighbour(neighbour);
                 neighbour.addNeighbour(rail);
-                updateTrackColor(position, neighbourPosition)
+                updateTrackColor(position, "red");
+                updateTrackColor(neighbourPosition, "red");
             }
         }
     });
@@ -86,32 +88,26 @@ function removeRail(x, y) {
 
     railToRemove.neighbours.forEach((neighbour) => {
         neighbour.removeNeighbour(railToRemove);
+        if(neighbour.neighbours.length === 0) {
+            updateTrackColor({x: neighbour.x, y: neighbour.y}, '#595959');
+        }
     });
 }
 
-function updateTrackColor(railPosition, neighbourPosition) {
+function updateTrackColor(position, color) {
     const railCell = gridContainer.querySelector(
-        `.c-wrapper__grid-container__grid__cell[data-x="${railPosition.x}"][data-y="${railPosition.y}"] rail-cell`
+        `.c-wrapper__grid-container__grid__cell[data-x="${position.x}"][data-y="${position.y}"] rail-cell`
     );
-    const neighbourRailCell = gridContainer.querySelector(
-        `.c-wrapper__grid-container__grid__cell[data-x="${neighbourPosition.x}"][data-y="${neighbourPosition.y}"] rail-cell`
-    );
-
     if (railCell) {
-        railCell.updateTrackColor("#ff0000");
-    }
-
-    if (neighbourRailCell) {
-        neighbourRailCell.updateTrackColor("#ff0000");
+        railCell.updateTrackColor(color);
     }
 }
 
-// addEventListener("wheel", rotation);
-
 gridContainer.addEventListener("railrotate", rotateRail);
-
 
 function rotateRail(event){
     const railCell = event.target;
     railCell.rotate();
+    removeRail(railCell.rail.x, railCell.rail.y);
+    addRail(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, grid);
 }
