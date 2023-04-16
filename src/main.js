@@ -105,3 +105,27 @@ function updateTrackColor(railPosition, neighbourPosition) {
         neighbourRailCell.updateTrackColor("#ff0000");
     }
 }
+
+addEventListener("wheel", rotation);
+
+function rotation(event){
+
+    let divGrid;
+    let target;
+
+    if(event.target.tagName == "svg" && Array.from(event.target.classList).includes("rail")){
+        divGrid = event.target.parentNode.parentNode
+        target = event.target
+
+    }else if(event.target.tagName == "rect" && Array.from(event.target.parentNode.classList).includes("rail")){
+        divGrid = event.target.parentNode.parentNode.parentNode
+        target = event.target.parentNode
+    }
+
+    const x = parseInt(divGrid.dataset.x);
+    const y = parseInt(divGrid.dataset.y);
+
+    const straightRail = grid[x][y];
+    straightRail.rotate(target)
+
+}

@@ -31,5 +31,9 @@ export class Rail {
     removeNeighbour(neighbour) {
         this.neighbours = this.neighbours.filter(n => n !== neighbour);
     }
+
+    rotate(target){
+        throw new Error('rotate() must be implemented by child classes');
+    }
 }
   
