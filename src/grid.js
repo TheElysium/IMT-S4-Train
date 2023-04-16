@@ -27,58 +27,56 @@ export class Grid {
     }
 
     addEventListeners() {
-        this.container.addEventListener("mousedown", (event) => this.handleMouseDown(event));
-        this.container.addEventListener("railclick", (event) => this.handleRailClick(event));
-        this.container.addEventListener("railrotate", (event) => this.handleRailRotate(event));
+        this.container.addEventListener("mousedown", (event) => this.addRail(event));
+        this.container.addEventListener("railclick", (event) => this.removeRail(event));
+        this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
     }
 
-    handleMouseDown(event) {
-        const cell = event.target;
-        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const x = parseInt(cell.dataset.x);
-            const y = parseInt(cell.dataset.y);
-
-            cell.innerHTML = '';
-
-            // TODO : Remove the left click and right click logic, it is only for testing purposes
-            if (event.button === 0) {
-                // Left click: Add turn rail
-                const turnRail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
-                const turnRailCell = new RailCell(turnRail);
-                cell.appendChild(turnRailCell);
-                this.addRail(turnRail, {x, y});
-            } else if (event.button === 2) {
-                // Right click: Add straight rail
-                const straightRail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
-                const straightRailCell = new RailCell(straightRail);
-                cell.appendChild(straightRailCell);
-                this.addRail(straightRail, {x, y});
-            }
-        }
-    }
-
-    handleRailClick(event) {
+    removeRail(event) {
         const railCell = event.target;
         const cell = railCell.parentElement;
-        const x = parseInt(cell.dataset.x);
-        const y = parseInt(cell.dataset.y);
+        const position = this.getCellPosition(cell);
 
         // Remove rail from the grid array
-        this.removeRail(x, y);
+        this.removeRailFromGridArray(position.x, position.y);
 
         // Remove rail cell from DOM
         cell.removeChild(railCell);
     }
 
-    handleRailRotate(event) {
+    rotateRail(event) {
         const railCell = event.target;
         railCell.rotate();
-        this.removeRail(railCell.rail.x, railCell.rail.y);
-        this.addRail(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
+        this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
+        this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
+    }
+
+    addRail(event) {
+        const cell = event.target;
+        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
+            const position = this.getCellPosition(cell);
+            const {x, y} = position;
+
+            // TODO : Remove the left click and right click logic, it is only for testing purposes
+            let rail;
+            let railCell;
+            if (event.button === 0) {
+                // Left click: Add turn rail
+                rail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
+                railCell = new RailCell(rail);
+            } else if (event.button === 2) {
+                // Right click: Add straight rail
+                rail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
+                railCell = new RailCell(rail);
+            }
+            cell.innerHTML = '';
+            cell.appendChild(railCell);
+            this.addRailToGridArray(rail, {x, y});
+        }
     }
 
     // Add rail to the array representation of the grid
-    addRail(rail, position) {
+    addRailToGridArray(rail, position) {
         const {x, y} = position;
         this.grid[x][y] = rail;
         this.updateTrackColor(position, "#595959");
@@ -97,7 +95,7 @@ export class Grid {
         });
     }
 
-    removeRail(x, y) {
+    removeRailFromGridArray(x, y) {
         const railToRemove = this.grid[x][y];
         this.grid[x][y] = null;
 
@@ -116,5 +114,12 @@ export class Grid {
         if (railCell) {
             railCell.updateTrackColor(color);
         }
+    }
+
+    getCellPosition(cell) {
+        return {
+            x: parseInt(cell.dataset.x),
+            y: parseInt(cell.dataset.y),
+        };
     }
 }
