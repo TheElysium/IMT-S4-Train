@@ -1,6 +1,6 @@
 html, body {
-  background-color: #c7d4ff;
   color: black;
+  margin: 0;
 }
 
 .c-wrapper {
@@ -8,26 +8,34 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  width: 100vw;
+  height: 100vh;
 }
 .c-wrapper__grid-container {
+  position: relative;
+  background-color: #99D46B;
   width: 100%;
 }
 .c-wrapper__grid-container__grid {
-  margin: 0 auto;
   display: grid;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  background-color: #62b05c;
-  width: 40%;
 }
 .c-wrapper__grid-container__grid__cell {
-  width: 100%;
-  height: 100%;
   aspect-ratio: 1/1;
+  box-sizing: border-box;
+  line-height: 0;
+  outline: 1px solid #88C15B;
 }
-.c-wrapper__grid-container__grid__cell rail-cell {
+.c-wrapper__grid-container__grid__cell:hover {
+  outline: 10px solid rgba(255, 255, 255, 0.5);
+  outline-offset: -10px;
+  position: relative;
+  z-index: 1000;
+}
+.c-wrapper__grid-container__grid__cell rail-cell, .c-wrapper__grid-container__grid__cell station-cell {
   display: inline-block;
-  height: 100%;
+  vertical-align: top;
 }
 
 /*# sourceMappingURL=style.css.map */
