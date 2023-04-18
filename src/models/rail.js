@@ -38,13 +38,14 @@ export class Rail {
 
     isConnectedTo(previous, goal) {
         if(this === goal) {
-            return true;
+            return [goal];
         } else {
+            // A rail has max 2 neighbours (FOR NOW), so we can assume that the next rail is the only one that is not the previous rail
             const next = this.neighbours.filter(n => n !== previous)[0];
             if(next) {
-                return next.isConnectedTo(this, goal);
+                return [this, ...next.isConnectedTo(this, goal)]
             } else {
-                return false;
+                return [null];
             }
         }
     }

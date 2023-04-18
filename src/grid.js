@@ -58,7 +58,7 @@ export class Grid {
         // Remove rail cell from DOM
         cell.removeChild(railCell);
 
-        this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        this.pathBetweenStations() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
     rotateRail(event) {
@@ -66,7 +66,7 @@ export class Grid {
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
-        this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        this.pathBetweenStations() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
     addRail(event) {
@@ -93,7 +93,7 @@ export class Grid {
 
             this.addRailToGridArray(rail, {x, y});
 
-            this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+            this.pathBetweenStations() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
         }
     }
 
@@ -164,7 +164,31 @@ export class Grid {
         };
     }
 
-    areStationsConnected() {
-        return this.startStation.isConnectedTo(this.startStation, this.endStation);
+    getCell(x, y) {
+        return this.container.querySelector(
+            `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
+        );
+    }
+
+    pathBetweenStations() {
+        const pathToEndStation = this.startStation.isConnectedTo(this.startStation, this.endStation);
+        console.log(this.getPathCoordinates(pathToEndStation));
+        return pathToEndStation[pathToEndStation.length - 1] === this.endStation;
+    }
+
+    getPathCoordinates(path) {
+        const coordinates = [];
+        path.filter((rail) => rail !== null).forEach((rail) => {
+            const cell = this.getCell(rail.x, rail.y);
+            const cellWidth = cell.clientWidth;
+            const cellHeight = cell.clientHeight;
+            const trainPosition = {
+                x: rail.x * cellWidth + cellWidth / 2,
+                y: rail.y * cellHeight + cellHeight / 2
+            };
+            coordinates.push(trainPosition);
+        });
+        return coordinates;
+
     }
 }
