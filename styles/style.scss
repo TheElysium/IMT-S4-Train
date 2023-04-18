@@ -28,7 +28,7 @@ html, body {
         aspect-ratio: 1/1;
         box-sizing: border-box;
         line-height: 0;
-        outline: 1px solid #88C15B;
+        outline: 2px solid #88C15B;
 
         &:hover {
           outline: 10px solid rgba(255, 255, 255, 0.5);
@@ -39,6 +39,7 @@ html, body {
         rail-cell, station-cell {
           display: inline-block;
           vertical-align: top;
+          transition: all 0.1s ease-in-out;
         }
       }
     }
