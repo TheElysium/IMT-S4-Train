@@ -31,6 +31,8 @@ export class Grid {
                 this.container.appendChild(cell);
                 if(x === this.startStation.position.x && y === this.startStation.position.y){
                     const stationCell = new StationCell(this.startStation);
+                    this.train = new Train(this.getPathCoordinates([this.startStation]));
+                    this.train.addToDom(stationCell);
                     cell.appendChild(stationCell);
                     this.addRailToGridArray(this.startStation, {x, y});
                 }
@@ -41,9 +43,9 @@ export class Grid {
                 }
             }
         }
-        console.log(this.getPathCoordinates([this.startStation]))
+/*        console.log(this.getPathCoordinates([this.startStation]))
         this.train = new Train(this.getPathCoordinates([this.startStation]));
-        this.train.addToDom(this.container);
+        this.train.addToDom(this.container);*/
     }
 
     addEventListeners() {
@@ -93,10 +95,10 @@ export class Grid {
             let railCell;
             if (event.button === 0) {
                 // Left click: Add turn rail
-                rail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
+                rail = new TurnRail(x, y);
             } else if (event.button === 2) {
                 // Right click: Add straight rail
-                rail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
+                rail = new StraightRail(x, y);
             }
             railCell = new RailCell(rail);
 
@@ -185,7 +187,7 @@ export class Grid {
     }
 
     pathBetweenStations() {
-        return this.startStation.isConnectedTo(this.startStation, this.endStation);
+        return this.startStation.getPathTo(this.startStation, this.endStation);
     }
 
     getPathCoordinates(path) {
@@ -196,7 +198,8 @@ export class Grid {
             const cellHeight = cell.clientHeight;
             const trainPosition1 = {
                 x: rail.x * cellWidth + cellWidth/2,
-                y: rail.y * cellHeight + cellHeight/2
+                y: rail.y * cellHeight + cellHeight/2,
+                rotation: rail.orientation.angle
             };
             coordinates.push(trainPosition1);
             // const trainPosition1 = {
@@ -223,15 +226,15 @@ export class Grid {
             if (!this.train.previousDeltaTime) {
                 this.train.previousDeltaTime = timestamp;
             }
-            const deltaTime = timestamp - this.train.previousDeltaTime;
+            const deltaTime = (timestamp - this.train.previousDeltaTime);
             const newPos = this.train.move(deltaTime);
 
-            if(newPos) {
+            if (newPos) {
                 this.train.render(newPos, this.container);
                 this.train.previousDeltaTime = timestamp;
                 requestAnimationFrame(move);
             }
-        }
+        };
 
         requestAnimationFrame(move);
     }

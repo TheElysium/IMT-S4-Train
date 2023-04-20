@@ -2,25 +2,25 @@ import {StraightRailOrientation} from './orientations.js';
 import {Rail} from './rail.js';
 
 export class StraightRail extends Rail {
-    constructor(x, y, orientation) {
+    constructor(x, y, orientation = StraightRailOrientation.HORIZONTAL) {
         super(x, y, orientation);
     }
 
     getSvg() {
         return `
-      <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="201" y="423" width="15" height="98" transform="rotate(-90 201 423)" fill="#964415"/>
-        <rect x="201" y="368" width="15" height="98" transform="rotate(-90 201 368)" fill="#964415"/>
-        <rect x="201" y="478" width="15" height="98" transform="rotate(-90 201 478)" fill="#964415"/>
-        <rect x="201" y="258" width="15" height="98" transform="rotate(-90 201 258)" fill="#964415"/>
-        <rect x="201" y="203" width="15" height="98" transform="rotate(-90 201 203)" fill="#964415"/>
-        <rect x="201" y="313" width="15" height="98" transform="rotate(-90 201 313)" fill="#964415"/>
-        <rect x="201" y="93" width="15" height="98" transform="rotate(-90 201 93)" fill="#964415"/>
-        <rect x="201" y="38" width="15" height="98" transform="rotate(-90 201 38)" fill="#964415"/>
-        <rect x="201" y="148" width="15" height="98" transform="rotate(-90 201 148)" fill="#964415"/>
-        <rect class="track-rect" x="209" width="15" height="500" fill="#595959"/>
-        <rect class="track-rect" x="277" width="15" height="500" fill="#595959"/>
-      </svg>    
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="423" y="299" width="15" height="98" transform="rotate(-180 423 299)" fill="#964415"/>
+            <rect x="368" y="299" width="15" height="98" transform="rotate(-180 368 299)" fill="#964415"/>
+            <rect x="478" y="299" width="15" height="98" transform="rotate(-180 478 299)" fill="#964415"/>
+            <rect x="258" y="299" width="15" height="98" transform="rotate(-180 258 299)" fill="#964415"/>
+            <rect x="203" y="299" width="15" height="98" transform="rotate(-180 203 299)" fill="#964415"/>
+            <rect x="313" y="299" width="15" height="98" transform="rotate(-180 313 299)" fill="#964415"/>
+            <rect x="93" y="299" width="15" height="98" transform="rotate(-180 93 299)" fill="#964415"/>
+            <rect x="38" y="299" width="15" height="98" transform="rotate(-180 38 299)" fill="#964415"/>
+            <rect x="148" y="299" width="15" height="98" transform="rotate(-180 148 299)" fill="#964415"/>
+            <rect class="track-rect" y="291" width="15" height="500" transform="rotate(-90 0 291)" fill="#595959"/>
+            <rect class="track-rect" y="223" width="15" height="500" transform="rotate(-90 0 223)" fill="#595959"/>
+        </svg>
       `;
     }
 

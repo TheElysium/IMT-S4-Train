@@ -3,7 +3,7 @@ import {StraightRailOrientation} from "./orientations.js";
 
 export class Station extends Rail {
     constructor(position, type) {
-        super(position.x, position.y, StraightRailOrientation.VERTICAL);
+        super(position.x, position.y, StraightRailOrientation.HORIZONTAL);
         this.position = position;
         this.type = type;
     }

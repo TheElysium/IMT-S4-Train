@@ -2,7 +2,7 @@ import {Rail} from './rail.js';
 import {TurnRailOrientation} from "./orientations.js";
 
 export class TurnRail extends Rail {
-    constructor(x, y, orientation) {
+    constructor(x, y, orientation = TurnRailOrientation.BOTTOM_RIGHT) {
         super(x, y, orientation);
     }
 

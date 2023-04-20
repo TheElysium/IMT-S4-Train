@@ -41,6 +41,10 @@ html, body {
   display: inline-block;
   vertical-align: top;
   transition: all 0.1s ease-in-out;
+  position: relative;
+}
+.c-wrapper__grid-container__grid__cell rail-cell train-cell, .c-wrapper__grid-container__grid__cell station-cell train-cell {
+  position: absolute;
 }
 
 /*# sourceMappingURL=style.css.map */
