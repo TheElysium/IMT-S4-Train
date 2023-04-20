@@ -21,6 +21,10 @@ html, body {
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 }
+.c-wrapper__grid-container__grid__cell-wrapper {
+  position: relative;
+  display: inline-block;
+}
 .c-wrapper__grid-container__grid__cell {
   aspect-ratio: 1/1;
   box-sizing: border-box;
@@ -31,7 +35,7 @@ html, body {
   outline: 10px solid rgba(255, 255, 255, 0.5);
   outline-offset: -10px;
   position: relative;
-  z-index: 1000;
+  z-index: 10;
 }
 .c-wrapper__grid-container__grid__cell rail-cell, .c-wrapper__grid-container__grid__cell station-cell {
   display: inline-block;

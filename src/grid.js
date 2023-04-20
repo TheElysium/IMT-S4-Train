@@ -5,6 +5,7 @@ import {StraightRail} from "./models/straightRail.js";
 import {Station} from "./models/station.js";
 import {stationType as StationType} from "./models/stationType.js";
 import {StationCell} from "./components/station-cell.js";
+import {Train} from "./models/train.js";
 
 export class Grid {
     constructor(width, height, container) {
@@ -14,6 +15,7 @@ export class Grid {
         this.grid = new Array(height).fill(null).map(() => new Array(width).fill(null));
         this.startStation = new Station({x: 0, y: 0}, StationType.START);
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
+        this.train = null;
         this.initGrid();
         this.addEventListeners();
     }
@@ -39,6 +41,9 @@ export class Grid {
                 }
             }
         }
+        console.log(this.getPathCoordinates([this.startStation]))
+        this.train = new Train(this.getPathCoordinates([this.startStation]));
+        this.train.addToDom(this.container);
     }
 
     addEventListeners() {
@@ -58,7 +63,8 @@ export class Grid {
         // Remove rail cell from DOM
         cell.removeChild(railCell);
 
-        this.pathBetweenStations() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        const pathBetweenStations = this.pathBetweenStations();
+        pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
     rotateRail(event) {
@@ -66,8 +72,15 @@ export class Grid {
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
-        this.pathBetweenStations() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+
+        const pathBetweenStations = this.pathBetweenStations();
+        pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        if (pathBetweenStations[pathBetweenStations.length-1] === this.endStation){
+            this.train.path = this.getPathCoordinates(pathBetweenStations);
+            this.moveTrain();
+        }
     }
+
 
     addRail(event) {
         const cell = event.target;
@@ -93,7 +106,8 @@ export class Grid {
 
             this.addRailToGridArray(rail, {x, y});
 
-            this.pathBetweenStations() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+            const pathBetweenStations = this.pathBetweenStations();
+            pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
         }
     }
 
@@ -171,9 +185,7 @@ export class Grid {
     }
 
     pathBetweenStations() {
-        const pathToEndStation = this.startStation.isConnectedTo(this.startStation, this.endStation);
-        console.log(this.getPathCoordinates(pathToEndStation));
-        return pathToEndStation[pathToEndStation.length - 1] === this.endStation;
+        return this.startStation.isConnectedTo(this.startStation, this.endStation);
     }
 
     getPathCoordinates(path) {
@@ -182,13 +194,45 @@ export class Grid {
             const cell = this.getCell(rail.x, rail.y);
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
-            const trainPosition = {
-                x: rail.x * cellWidth + cellWidth / 2,
-                y: rail.y * cellHeight + cellHeight / 2
+            const trainPosition1 = {
+                x: rail.x * cellWidth + cellWidth/2,
+                y: rail.y * cellHeight + cellHeight/2
             };
-            coordinates.push(trainPosition);
+            coordinates.push(trainPosition1);
+            // const trainPosition1 = {
+            //     x: rail.x * cellWidth + cellWidth/4,
+            //     y: rail.y * cellHeight + cellHeight/4
+            // };
+            // coordinates.push(trainPosition1);
+            // const trainPosition2 = {
+            //     x: rail.x * cellWidth + cellWidth / 2,
+            //     y: rail.y * cellHeight + cellHeight / 2
+            // };
+            // coordinates.push(trainPosition2);
+            // const trainPosition3 = {
+            //     x: rail.x * cellWidth + cellWidth * 3/4,
+            //     y: rail.y * cellHeight + cellHeight * 3/4
+            // }
+            // coordinates.push(trainPosition3);
         });
         return coordinates;
+    }
 
+    moveTrain() {
+        const move = (timestamp) => {
+            if (!this.train.previousDeltaTime) {
+                this.train.previousDeltaTime = timestamp;
+            }
+            const deltaTime = timestamp - this.train.previousDeltaTime;
+            const newPos = this.train.move(deltaTime);
+
+            if(newPos) {
+                this.train.render(newPos, this.container);
+                this.train.previousDeltaTime = timestamp;
+                requestAnimationFrame(move);
+            }
+        }
+
+        requestAnimationFrame(move);
     }
 }

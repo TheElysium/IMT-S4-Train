@@ -36,7 +36,7 @@ export class Rail {
         throw new Error('rotate() must be implemented by child classes');
     }
 
-    isConnectedTo(previous, goal) {
+    isConnectedTo(previous = this, goal) {
         if(this === goal) {
             return [goal];
         } else {

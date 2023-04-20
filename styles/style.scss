@@ -24,6 +24,11 @@ html, body {
       grid-column-gap: 0px;
       grid-row-gap: 0px;
 
+      &__cell-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+
       &__cell {
         aspect-ratio: 1/1;
         box-sizing: border-box;
@@ -33,7 +38,7 @@ html, body {
         &:hover {
           outline: 10px solid rgba(255, 255, 255, 0.5);
           outline-offset: -10px;
-          position: relative; z-index: 1000
+          position: relative; z-index: 10
         }
 
         rail-cell, station-cell {
