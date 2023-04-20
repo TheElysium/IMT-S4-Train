@@ -197,8 +197,8 @@ export class Grid {
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
             const trainPosition1 = {
-                x: rail.x * cellWidth + cellWidth/2,
-                y: rail.y * cellHeight + cellHeight/2,
+                x: rail.x * cellWidth,
+                y: rail.y * cellHeight,
                 rotation: rail.orientation.angle
             };
             coordinates.push(trainPosition1);
