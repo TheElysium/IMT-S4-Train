@@ -201,7 +201,8 @@ export class Grid {
             const cellHeight = cell.clientHeight;
             let trainPosition = {
                 x: rail.x * cellHeight + cellHeight / 2,
-                y: rail.y * cellWidth + cellWidth / 2
+                y: rail.y * cellWidth + cellWidth / 2,
+                orientation: rail.orientation,
             }
             coordinates.push(trainPosition);
         });
@@ -209,6 +210,7 @@ export class Grid {
     }
 
     moveTrain() {
+        console.log(this.train.path)
         const move = (timestamp) => {
             if (!this.train.previousDeltaTime) {
                 this.train.previousDeltaTime = timestamp;

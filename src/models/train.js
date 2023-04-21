@@ -6,6 +6,7 @@ export class Train {
         this.progress = 0;
         this.previousDeltaTime = null;
         this.currentCell = path[0];
+        this.currentRotation = 0;
     }
 
     getSvg() {
@@ -44,15 +45,19 @@ export class Train {
 
         const prevPosition = this.path[prevIndex];
         const nextPosition = this.path[nextIndex];
+        console.log(prevPosition.orientation)
 
-        // if(prevPosition !== this.currentCell){
-        //     console.log("Train has entered cell", prevPosition)
-        // }
+        if(prevPosition !== this.currentCell){
+            console.log("Train has entered cell", prevPosition);
+            this.currentCell = prevPosition;
+            this.currentRotation += prevPosition.orientation.rotation;
+            console.log("New rotation: ", this.currentRotation)
+        }
 
         // Linear interpolation
         const x = prevPosition.x * (1 - t) + nextPosition.x * t;
         const y = prevPosition.y * (1 - t) + nextPosition.y * t;
-        const rotation = 0;
+        const rotation = this.currentRotation;
 
         return { x, y, rotation };
     }
@@ -76,7 +81,7 @@ export class Train {
         this.svgElement.style.top = position.x + "px";
         this.svgElement.style.left = position.y + "px";
 
-        // this.svgElement.style.transform = `rotate(${position.rotation}deg)`;
+        this.svgElement.style.transform = `rotate(${position.rotation}deg)`;
 
         this.svgElement.style.transform = `translate(-50%, -50%) rotate(${position.rotation}deg)`;
     }

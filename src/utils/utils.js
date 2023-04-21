@@ -16,7 +16,6 @@ export function visualizePath(coordinates, container) {
     container.appendChild(svg);
 
     coordinates.forEach((coordinate, index) => {
-        console.log("create point");
         const point = document.createElement('div');
         point.classList.add('point');
         point.style.left = coordinate.y + 'px';
