@@ -164,7 +164,14 @@ export class Grid {
         };
     }
 
+    getCell(x, y) {
+        return this.container.querySelector(
+            `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
+        );
+    }
+
     areStationsConnected() {
         return this.startStation.isConnectedTo(this.startStation, this.endStation);
     }
+
 }

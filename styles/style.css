@@ -33,6 +33,12 @@ html, body {
   position: relative;
   z-index: 1000;
 }
+.active {
+  outline: 10px solid rgba(255, 255, 255, 0.5);
+  outline-offset: -10px;
+  position: relative;
+  z-index: 1000;
+}
 .c-wrapper__grid-container__grid__cell rail-cell, .c-wrapper__grid-container__grid__cell station-cell {
   display: inline-block;
   vertical-align: top;
