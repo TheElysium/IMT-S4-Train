@@ -1,11 +1,11 @@
 import {TurnRail} from "./models/turnRail.js";
 import {RailCell} from "./components/rail-cell.js";
-import {StraightRailOrientation, TurnRailOrientation} from "./models/orientations.js";
 import {StraightRail} from "./models/straightRail.js";
 import {Station} from "./models/station.js";
 import {stationType as StationType} from "./models/stationType.js";
 import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
+import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
 
 export class Grid {
     constructor(width, height, container) {
@@ -18,7 +18,6 @@ export class Grid {
         this.train = null;
         this.initGrid();
         this.addEventListeners();
-
     }
 
     initGrid() {
@@ -56,7 +55,7 @@ export class Grid {
     removeRail(event) {
         const railCell = event.target;
         const cell = railCell.parentElement;
-        const position = this.getCellPosition(cell);
+        const position = getCellPosition(cell);
 
         // Remove rail from the grid array
         this.removeRailFromGridArray(position.x, position.y);
@@ -64,8 +63,7 @@ export class Grid {
         // Remove rail cell from DOM
         cell.removeChild(railCell);
 
-        const pathBetweenStations = this.pathBetweenStations();
-        pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        this.updatePath();
     }
 
     rotateRail(event) {
@@ -74,6 +72,10 @@ export class Grid {
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
 
+        this.updatePath();
+    }
+
+    updatePath() {
         const pathBetweenStations = this.pathBetweenStations();
         pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
@@ -82,7 +84,7 @@ export class Grid {
     addRail(event) {
         const cell = event.target;
         if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const position = this.getCellPosition(cell);
+            const position = getCellPosition(cell);
             const {x, y} = position;
 
             // TODO : Remove the left click and right click logic, it is only for testing purposes
@@ -102,9 +104,7 @@ export class Grid {
             cell.appendChild(railCell);
 
             this.addRailToGridArray(rail, {x, y});
-
-            const pathBetweenStations = this.pathBetweenStations();
-                pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+            this.updatePath();
         }
     }
 
@@ -168,39 +168,35 @@ export class Grid {
         endStationCell.updateStationColor(color);
     }
 
-    getCellPosition(cell) {
-        return {
-            x: parseInt(cell.dataset.x),
-            y: parseInt(cell.dataset.y),
-        };
-    }
-
-    getCell(x, y) {
-        return this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
-        );
-    }
-
     startTrain() {
         const pathBetweenStations = this.pathBetweenStations();
-        if (pathBetweenStations[pathBetweenStations.length-1] !== this.endStation){
-            console.log("Stations not connected !")
+        if(this.train.animationFrame) {
+            this.resetTrain();
             return;
         }
         this.train.path = this.getPathCoordinates(pathBetweenStations);
         this.moveTrain();
     }
 
+    resetTrain() {
+        cancelAnimationFrame(this.train.animationFrame);
+        this.train.progress = 0;
+        this.train.previousDeltaTime = null;
+        this.train.currentCell = this.train.path[0];
+        this.train.animationFrame = null;
+        this.train.render(this.train.currentCell, this.container)
+    }
+
     pathBetweenStations() {
         const path = this.startStation.getPathTo(this.startStation, this.endStation);
-        this.visualizePath(this.getPathCoordinates(path));
+        visualizePath(this.getPathCoordinates(path), this.container);
         return path;
     }
 
     getPathCoordinates(path) {
         const coordinates = [];
         path.filter((rail) => rail !== null).forEach((rail) => {
-            const cell = this.getCell(rail.x, rail.y);
+            const cell = getCell(rail.x, rail.y, this.container);
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
             let trainPosition = {
@@ -209,54 +205,7 @@ export class Grid {
             }
             coordinates.push(trainPosition);
         });
-        this.visualizePath(coordinates);
         return coordinates;
-    }
-
-    visualizePath(coordinates) {
-        // Remove existing path and points
-        const existingPath = this.container.querySelectorAll(".path");
-        const existingPoints = this.container.querySelectorAll(".point");
-        existingPath.forEach((path) => path.remove());
-        existingPoints.forEach((point) => point.remove());
-        console.log("visualize path");
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.classList.add("path");
-        svg.setAttribute("width", "100%");
-        svg.setAttribute("height", "100%");
-        svg.style.position = "absolute";
-
-        // Prevent pointer events
-        svg.style.pointerEvents = "none";
-
-        this.container.appendChild(svg);
-
-        coordinates.forEach((coordinate, index) => {
-            console.log("create point");
-            const point = document.createElement('div');
-            point.classList.add('point');
-            point.style.left = coordinate.y + 'px';
-            point.style.top = coordinate.x + 'px';
-            point.style.position = 'absolute';
-            point.style.width = '10px';
-            point.style.height = '10px';
-            point.style.backgroundColor = 'blue';
-            this.container.appendChild(point);
-
-            if (index > 0) {
-                const previousCoordinate = coordinates[index - 1];
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", previousCoordinate.y);
-                line.setAttribute("y1", previousCoordinate.x);
-                line.setAttribute("x2", coordinate.y);
-                line.setAttribute("y2", coordinate.x);
-                line.setAttribute("stroke", "black");
-                line.setAttribute("stroke-width", "2");
-
-
-                svg.appendChild(line);
-            }
-        });
     }
 
     moveTrain() {
@@ -270,10 +219,10 @@ export class Grid {
             if (newPos) {
                 this.train.render(newPos, this.container);
                 this.train.previousDeltaTime = timestamp;
-                requestAnimationFrame(move);
+                this.train.animationFrame = requestAnimationFrame(move);
             }
         };
 
-        requestAnimationFrame(move);
+        this.train.animationFrame = requestAnimationFrame(move);
     }
 }

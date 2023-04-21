@@ -1,5 +1,6 @@
 export class Train {
     constructor(path, speed = 0.001) {
+        this.animationFrame = null;
         this.path = path;
         this.speed = speed;
         this.progress = 0;
@@ -44,9 +45,9 @@ export class Train {
         const prevPosition = this.path[prevIndex];
         const nextPosition = this.path[nextIndex];
 
-        if(prevPosition !== this.currentCell){
-            console.log("Train has entered cell", prevPosition)
-        }
+        // if(prevPosition !== this.currentCell){
+        //     console.log("Train has entered cell", prevPosition)
+        // }
 
         // Linear interpolation
         const x = prevPosition.x * (1 - t) + nextPosition.x * t;
@@ -71,7 +72,6 @@ export class Train {
         if (!this.svgElement) {
             this.addToDom(container);
         }
-        console.log("Train position", position)
         // Move the train to the new position
         this.svgElement.style.top = position.x + "px";
         this.svgElement.style.left = position.y + "px";
