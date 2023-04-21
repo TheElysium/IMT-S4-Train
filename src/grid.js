@@ -44,15 +44,13 @@ export class Grid {
                 }
             }
         }
-/*        console.log(this.getPathCoordinates([this.startStation]))
-        this.train = new Train(this.getPathCoordinates([this.startStation]));
-        this.train.addToDom(this.container);*/
     }
 
     addEventListeners() {
         this.container.addEventListener("mousedown", (event) => this.addRail(event));
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
+        this.container.addEventListener("stationclick", () => this.startTrain());
     }
 
     removeRail(event) {
@@ -78,10 +76,6 @@ export class Grid {
 
         const pathBetweenStations = this.pathBetweenStations();
         pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
-        if (pathBetweenStations[pathBetweenStations.length-1] === this.endStation){
-            this.train.path = this.getPathCoordinates(pathBetweenStations);
-            this.moveTrain();
-        }
     }
 
 
@@ -110,8 +104,7 @@ export class Grid {
             this.addRailToGridArray(rail, {x, y});
 
             const pathBetweenStations = this.pathBetweenStations();
-            console.log(this.getPathCoordinates(pathBetweenStations));
-            pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+                pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
         }
     }
 
@@ -188,8 +181,20 @@ export class Grid {
         );
     }
 
+    startTrain() {
+        const pathBetweenStations = this.pathBetweenStations();
+        if (pathBetweenStations[pathBetweenStations.length-1] !== this.endStation){
+            console.log("Stations not connected !")
+            return;
+        }
+        this.train.path = this.getPathCoordinates(pathBetweenStations);
+        this.moveTrain();
+    }
+
     pathBetweenStations() {
-        return this.startStation.getPathTo(this.startStation, this.endStation);
+        const path = this.startStation.getPathTo(this.startStation, this.endStation);
+        this.visualizePath(this.getPathCoordinates(path));
+        return path;
     }
 
     getPathCoordinates(path) {
@@ -198,181 +203,25 @@ export class Grid {
             const cell = this.getCell(rail.x, rail.y);
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
-            let trainPosition1;
-            let trainPosition2;
-            let trainPosition3;
-            let trainPosition4;
-
-            if (rail instanceof TurnRail) {
-                let posOnCurve;
-                let bezierControlPoint = {
-                    x: rail.x * cellHeight + cellHeight / 2,
-                    y: rail.y * cellWidth + cellWidth / 2
-                }
-
-                switch (rail.orientation) {
-                    case TurnRailOrientation.TOP_RIGHT:
-                        trainPosition1 = {
-                            x: rail.x * cellHeight + cellHeight / 4,
-                            y: rail.y * cellWidth + cellWidth / 2,
-                            rotation: 0
-                        }
-                        trainPosition3 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth * 3 / 4,
-                            rotation: 0
-                        }
-
-                        trainPosition4 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth,
-                        }
-
-                        posOnCurve = rail.getPointOnBezierCurve(0.5, trainPosition1, bezierControlPoint, trainPosition3)
-
-                        trainPosition2 = {
-                            x: posOnCurve.x,
-                            y: posOnCurve.y,
-                            rotation: 0
-                        }
-                        break;
-                    case TurnRailOrientation.TOP_LEFT:
-                        trainPosition1 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth / 4,
-                            rotation: 0
-                        }
-                        trainPosition3 = {
-                            x: rail.x * cellHeight + cellHeight / 4,
-                            y: rail.y * cellWidth + cellWidth / 2,
-                            rotation: 0
-                        }
-                        trainPosition4 = {
-                            x: rail.x * cellHeight,
-                            y: rail.y * cellWidth + cellWidth / 2,
-                        }
-                        bezierControlPoint = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth / 2
-                        }
-                        posOnCurve = rail.getPointOnBezierCurve(0.5, trainPosition1, bezierControlPoint, trainPosition3)
-
-                        trainPosition2 = {
-                            x: posOnCurve.x,
-                            y: posOnCurve.y,
-                            rotation: 0
-                        }
-                        break;
-                    case TurnRailOrientation.BOTTOM_LEFT:
-                        trainPosition1 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth / 4,
-                            rotation: 0
-                        }
-                        trainPosition3 = {
-                            x: rail.x * cellHeight + cellHeight * 3 / 4,
-                            y: rail.y * cellWidth + cellWidth / 2,
-                            rotation: 0
-                        }
-                        trainPosition4 = {
-                            x: rail.x * cellHeight + cellHeight,
-                            y: rail.y * cellWidth + cellWidth / 2,
-                        }
-                        bezierControlPoint = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth / 2
-                        }
-                        posOnCurve = rail.getPointOnBezierCurve(0.5, trainPosition1, bezierControlPoint, trainPosition3)
-
-                        trainPosition2 = {
-                            x: posOnCurve.x,
-                            y: posOnCurve.y,
-                            rotation: 0
-                        }
-                        break;
-                    case TurnRailOrientation.BOTTOM_RIGHT:
-                        trainPosition1 = {
-                            x: rail.x * cellHeight + cellHeight * 3 / 4,
-                            y: rail.y * cellWidth + cellWidth / 2,
-                            rotation: 0
-                        }
-                        trainPosition3 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth * 3 / 4,
-                            rotation: 0
-                        }
-                        trainPosition4 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth,
-                        }
-                        bezierControlPoint = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth / 2
-                        }
-                        posOnCurve = rail.getPointOnBezierCurve(0.5, trainPosition1, bezierControlPoint, trainPosition3)
-
-                        trainPosition2 = {
-                            x: posOnCurve.x,
-                            y: posOnCurve.y,
-                            rotation: 0
-                        }
-                        break;
-                }
-            } else {
-                switch (rail.orientation) {
-                    case StraightRailOrientation.VERTICAL:
-                        trainPosition1 = {
-                            x: rail.x * cellWidth + cellWidth / 4,
-                            y: rail.y * cellHeight + cellHeight / 2,
-                            rotation: 0
-                        }
-                        trainPosition2 = {
-                            x: rail.x * cellWidth + cellWidth / 2,
-                            y: rail.y * cellHeight + cellHeight / 2,
-                            rotation: 0
-                        }
-                        trainPosition3 = {
-                            x: rail.x * cellWidth + cellWidth * 3 / 4,
-                            y: rail.y * cellHeight + cellHeight / 2,
-                            rotation: 0
-                        }
-                        trainPosition4 = {
-                            x: rail.x * cellWidth + cellWidth,
-                            y: rail.y * cellHeight + cellHeight / 2,
-                        }
-                        break;
-                    case StraightRailOrientation.HORIZONTAL:
-                        trainPosition1 = {
-                            x: rail.x * cellWidth + cellWidth / 2,
-                            y: rail.y * cellHeight + cellHeight / 4,
-                            rotation: 0
-                        }
-                        trainPosition2 = {
-                            x: rail.x * cellWidth + cellWidth / 2,
-                            y: rail.y * cellHeight + cellHeight / 2,
-                            rotation: 0
-                        }
-                        trainPosition3 = {
-                            x: rail.x * cellWidth + cellWidth / 2,
-                            y: rail.y * cellHeight + cellHeight * 3 / 4,
-                            rotation: 0
-                        }
-                        trainPosition4 = {
-                            x: rail.x * cellWidth + cellWidth / 2,
-                            y: rail.y * cellHeight + cellHeight,
-                        }
-                        break;
-                }
+            let trainPosition = {
+                x: rail.x * cellHeight + cellHeight / 2,
+                y: rail.y * cellWidth + cellWidth / 2
             }
-            coordinates.push(trainPosition1);
-            coordinates.push(trainPosition2);
-            coordinates.push(trainPosition3);
-            coordinates.push(trainPosition4);
+            coordinates.push(trainPosition);
         });
+        this.visualizePath(coordinates);
+        return coordinates;
+    }
 
-
-        // Path visualisation
+    visualizePath(coordinates) {
+        // Remove existing path and points
+        const existingPath = this.container.querySelectorAll(".path");
+        const existingPoints = this.container.querySelectorAll(".point");
+        existingPath.forEach((path) => path.remove());
+        existingPoints.forEach((point) => point.remove());
+        console.log("visualize path");
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.classList.add("path");
         svg.setAttribute("width", "100%");
         svg.setAttribute("height", "100%");
         svg.style.position = "absolute";
@@ -381,9 +230,6 @@ export class Grid {
         svg.style.pointerEvents = "none";
 
         this.container.appendChild(svg);
-
-
-
 
         coordinates.forEach((coordinate, index) => {
             console.log("create point");
@@ -407,10 +253,10 @@ export class Grid {
                 line.setAttribute("stroke", "black");
                 line.setAttribute("stroke-width", "2");
 
+
                 svg.appendChild(line);
             }
         });
-        return coordinates;
     }
 
     moveTrain() {

@@ -2,6 +2,20 @@ export class StationCell extends HTMLElement {
     constructor(station) {
         super();
         this.station = station;
+
+        this.addEventListener("mousedown", (event) => {
+            event.stopPropagation(); // Stop event propagation
+
+            // Dispatch a custom event with the click event details
+            const railClickEvent = new CustomEvent("stationclick", {
+                bubbles: true,
+                detail: {
+                    originalEvent: event,
+                },
+            });
+
+            this.dispatchEvent(railClickEvent);
+        });
     }
 
     connectedCallback() {
