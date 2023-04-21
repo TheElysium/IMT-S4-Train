@@ -18,6 +18,7 @@ export class Grid {
         this.train = null;
         this.initGrid();
         this.addEventListeners();
+        this.initMovement();
     }
 
     initGrid() {
@@ -50,6 +51,8 @@ export class Grid {
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
         this.container.addEventListener("stationclick", () => this.startTrain());
+        addEventListener("keydown", (event) => this.keyDownDetected(event));
+        addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
     }
 
     removeRail(event) {
@@ -227,4 +230,57 @@ export class Grid {
 
         this.train.animationFrame = requestAnimationFrame(move);
     }
+
+    keyDownDetected(e){
+        if (e.code === "ArrowRight" || e.code === "ArrowLeft" || e.code === "ArrowUp" || e.code === "ArrowDown") {
+            this.movingOnGridWithKeyboard(e.code)
+        }
+        else {
+            console.log("Keypress not supported yet.");
+        }
+    }
+
+    movingOnGridWithKeyboard(key){
+        const xyCell = getCellPosition(this.activeCell);
+        let cell;
+
+        switch (key) {
+            case "ArrowRight":
+                cell = getCell(xyCell.x, xyCell.y+1, this.container);
+                break;
+            case "ArrowLeft":
+                cell = getCell(xyCell.x, xyCell.y-1, this.container);
+                break;
+            case "ArrowUp":
+                cell = getCell(xyCell.x-1, xyCell.y, this.container);
+                break;
+            case "ArrowDown":
+                cell = getCell(xyCell.x+1, xyCell.y, this.container);
+                break;
+        }
+        cell ? this.updateActiveCell(cell) : console.log('Trying to go out of grid');
+    }
+
+    movingOnGridWithMouse(event){
+        let cell = event.target;
+
+        if(!Array.from(cell.classList).includes("c-wrapper__grid-container__grid__cell")){
+            console.log("Not on the grid");
+            return;
+        }
+
+        this.updateActiveCell(cell);
+    }
+
+    updateActiveCell(cell) {
+        this.activeCell.classList.remove("active");
+        this.activeCell = cell;
+        this.activeCell.classList.add("active");
+    }
+
+    initMovement(){
+        this.activeCell = getCell(0, 0, this.container);
+        this.activeCell.classList.add("active");
+    }
+
 }
