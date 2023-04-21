@@ -12,8 +12,6 @@ const grid = new Grid(gridWidth, gridHeight, gridContainer);
 const defaultCell = grid.getCell(0, 0)
 defaultCell.classList.add("active")
 let activeCell = defaultCell;
-let activeCellX = 0;
-let activeCellY = 0;
 
 addEventListener("keydown", (event) => keyDownDetected(event));
 
