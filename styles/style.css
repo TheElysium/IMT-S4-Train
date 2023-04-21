@@ -27,12 +27,6 @@ html, body {
   line-height: 0;
   outline: 2px solid #88C15B;
 }
-.c-wrapper__grid-container__grid__cell:hover {
-  outline: 10px solid rgba(255, 255, 255, 0.5);
-  outline-offset: -10px;
-  position: relative;
-  z-index: 1000;
-}
 .active {
   outline: 10px solid rgba(255, 255, 255, 0.5);
   outline-offset: -10px;

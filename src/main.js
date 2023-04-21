@@ -14,33 +14,33 @@ defaultCell.classList.add("active")
 let activeCell = defaultCell;
 
 addEventListener("keydown", (event) => keyDownDetected(event));
+addEventListener("mousemove", (event) => movingOnGridWithMouse(event));
 
 function keyDownDetected(e){
 
     switch (e.code) {
         case "ArrowRight":
-            movingOnGrid(e.code)
+            movingOnGridWithKeyboard(e.code)
             break;
         case "ArrowLeft":
-            movingOnGrid(e.code)
+            movingOnGridWithKeyboard(e.code)
             break;
         case "ArrowUp":
-            movingOnGrid(e.code)
+            movingOnGridWithKeyboard(e.code)
             break;
         case "ArrowDown":
-            movingOnGrid(e.code)
+            movingOnGridWithKeyboard(e.code)
             break;
         // Other key detection like rotation...
     }
 
 }
 
-function movingOnGrid(key){
-    // TODO : verifier toujours sur la grille
+function movingOnGridWithKeyboard(key){
 
     let xyCell = grid.getCellPosition(activeCell)
     let cell
-    activeCell.classList.remove("active")
+    
     
     switch (key) {
         case "ArrowRight":
@@ -61,7 +61,21 @@ function movingOnGrid(key){
         console.log('Trying to go out of grid')
         return;
     }
+    activeCell.classList.remove("active")
+    activeCell = cell
+    activeCell.classList.add("active")
+}
 
+function movingOnGridWithMouse(event){
+    
+    let cell = event.target
+   
+    if(!Array.from(cell.classList).includes("c-wrapper__grid-container__grid__cell")){
+        console.log("Not on the grid")
+        return;
+    }
+    
+    activeCell.classList.remove("active")
     activeCell = cell
     activeCell.classList.add("active")
     
