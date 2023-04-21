@@ -1,5 +1,5 @@
 export class Train {
-    constructor(path, speed = 0.0005) {
+    constructor(path, speed = 0.001) {
         this.path = path;
         this.speed = speed;
         this.progress = 0;
@@ -71,12 +71,13 @@ export class Train {
         if (!this.svgElement) {
             this.addToDom(container);
         }
+        console.log("Train position", position)
         // Move the train to the new position
         this.svgElement.style.top = position.x + "px";
         this.svgElement.style.left = position.y + "px";
 
+        // this.svgElement.style.transform = `rotate(${position.rotation}deg)`;
 
-
-        this.svgElement.style.transform = `rotate(${position.rotation}deg)`;
+        this.svgElement.style.transform = `translate(-50%, -50%) rotate(${position.rotation}deg)`;
     }
 }

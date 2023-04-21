@@ -70,5 +70,11 @@ export class TurnRail extends Rail {
         }
         return this.orientation.angle;
     }
+
+    getPointOnBezierCurve(t, startPoint, controlPoint, endPoint) {
+        const x = Math.pow(1 - t, 2) * startPoint.x + 2 * t * (1 - t) * controlPoint.x + Math.pow(t, 2) * endPoint.x;
+        const y = Math.pow(1 - t, 2) * startPoint.y + 2 * t * (1 - t) * controlPoint.y + Math.pow(t, 2) * endPoint.y;
+        return {x, y};
+    }
 }
   
