@@ -178,28 +178,16 @@ export class Grid {
     }
 
     keyDownDetected(e){
-
-        switch (e.code) {
-            case "ArrowRight":
-                this.movingOnGridWithKeyboard(e.code)
-                break;
-            case "ArrowLeft":
-                this.movingOnGridWithKeyboard(e.code)
-                break;
-            case "ArrowUp":
-                this.movingOnGridWithKeyboard(e.code)
-                break;
-            case "ArrowDown":
-                this.movingOnGridWithKeyboard(e.code)
-                break;
-            // Other key detection like rotation...
+        if (e.code === "ArrowRight" || e.code === "ArrowLeft" || e.code === "ArrowUp" || e.code === "ArrowDown") {
+            this.movingOnGridWithKeyboard(e.code)
         }
-    
+        else {
+            console.log("Keypress not supported yet.");
+        }
     }
     
     movingOnGridWithKeyboard(key){
-    
-        let xyCell = this.getCellPosition(this.activeCell);
+        const xyCell = this.getCellPosition(this.activeCell);
         let cell;
         
         switch (key) {
@@ -216,36 +204,28 @@ export class Grid {
                 cell = this.getCell(xyCell.x+1, xyCell.y);
                 break;
         }
-    
-        if(cell == undefined){
-            console.log('Trying to go out of grid');
-            return;
-        }
-        this.activeCell.classList.remove("active");
-        this.activeCell = cell;
-        this.activeCell.classList.add("active");
+        cell ? this.updateActiveCell(cell) : console.log('Trying to go out of grid');
     }
     
     movingOnGridWithMouse(event){
-        
         let cell = event.target;
        
         if(!Array.from(cell.classList).includes("c-wrapper__grid-container__grid__cell")){
             console.log("Not on the grid");
             return;
         }
-    
-        //console.log(this.activeCell)
 
+        this.updateActiveCell(cell);
+    }
+
+    updateActiveCell(cell) {
         this.activeCell.classList.remove("active");
         this.activeCell = cell;
         this.activeCell.classList.add("active");
-        
     }
 
     initMovement(){
-        let defaultCell = this.getCell(0, 0);
-        this.activeCell = defaultCell;
+        this.activeCell = this.getCell(0, 0);
         this.activeCell.classList.add("active");
     }
 
