@@ -36,15 +36,16 @@ export class Rail {
         throw new Error('rotate() must be implemented by child classes');
     }
 
-    isConnectedTo(previous, goal) {
+    getPathTo(previous = this, goal) {
         if(this === goal) {
-            return true;
+            return [goal];
         } else {
+            // A rail has max 2 neighbours (FOR NOW), so we can assume that the next rail is the only one that is not the previous rail
             const next = this.neighbours.filter(n => n !== previous)[0];
             if(next) {
-                return next.isConnectedTo(this, goal);
+                return [this, ...next.getPathTo(this, goal)]
             } else {
-                return false;
+                return [null];
             }
         }
     }

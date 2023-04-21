@@ -1,10 +1,11 @@
 import {TurnRail} from "./models/turnRail.js";
 import {RailCell} from "./components/rail-cell.js";
-import {StraightRailOrientation, TurnRailOrientation} from "./models/orientations.js";
 import {StraightRail} from "./models/straightRail.js";
 import {Station} from "./models/station.js";
 import {stationType as StationType} from "./models/stationType.js";
 import {StationCell} from "./components/station-cell.js";
+import {Train} from "./models/train.js";
+import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
 
 export class Grid {
     constructor(width, height, container) {
@@ -14,6 +15,7 @@ export class Grid {
         this.grid = new Array(height).fill(null).map(() => new Array(width).fill(null));
         this.startStation = new Station({x: 0, y: 0}, StationType.START);
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
+        this.train = null;
         this.initGrid();
         this.addEventListeners();
         this.initMovement();
@@ -30,6 +32,8 @@ export class Grid {
                 this.container.appendChild(cell);
                 if(x === this.startStation.position.x && y === this.startStation.position.y){
                     const stationCell = new StationCell(this.startStation);
+                    this.train = new Train(this.getPathCoordinates([this.startStation]));
+                    this.train.addToDom(stationCell);
                     cell.appendChild(stationCell);
                     this.addRailToGridArray(this.startStation, {x, y});
                 }
@@ -46,6 +50,7 @@ export class Grid {
         this.container.addEventListener("mousedown", (event) => this.addRail(event));
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
+        this.container.addEventListener("stationclick", () => this.startTrain());
         addEventListener("keydown", (event) => this.keyDownDetected(event));
         addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
     }
@@ -53,7 +58,7 @@ export class Grid {
     removeRail(event) {
         const railCell = event.target;
         const cell = railCell.parentElement;
-        const position = this.getCellPosition(cell);
+        const position = getCellPosition(cell);
 
         // Remove rail from the grid array
         this.removeRailFromGridArray(position.x, position.y);
@@ -61,7 +66,7 @@ export class Grid {
         // Remove rail cell from DOM
         cell.removeChild(railCell);
 
-        this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        this.updatePath();
     }
 
     rotateRail(event) {
@@ -69,13 +74,20 @@ export class Grid {
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
-        this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+
+        this.updatePath();
     }
+
+    updatePath() {
+        const pathBetweenStations = this.pathBetweenStations();
+        pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+    }
+
 
     addRail(event) {
         const cell = event.target;
         if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const position = this.getCellPosition(cell);
+            const position = getCellPosition(cell);
             const {x, y} = position;
 
             // TODO : Remove the left click and right click logic, it is only for testing purposes
@@ -83,10 +95,10 @@ export class Grid {
             let railCell;
             if (event.button === 0) {
                 // Left click: Add turn rail
-                rail = new TurnRail(x, y, TurnRailOrientation.BOTTOM_RIGHT);
+                rail = new TurnRail(x, y);
             } else if (event.button === 2) {
                 // Right click: Add straight rail
-                rail = new StraightRail(x, y, StraightRailOrientation.VERTICAL);
+                rail = new StraightRail(x, y);
             }
             railCell = new RailCell(rail);
 
@@ -95,8 +107,7 @@ export class Grid {
             cell.appendChild(railCell);
 
             this.addRailToGridArray(rail, {x, y});
-
-            this.areStationsConnected() ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+            this.updatePath();
         }
     }
 
@@ -160,21 +171,64 @@ export class Grid {
         endStationCell.updateStationColor(color);
     }
 
-    getCellPosition(cell) {
-        return {
-            x: parseInt(cell.dataset.x),
-            y: parseInt(cell.dataset.y),
+    startTrain() {
+        const pathBetweenStations = this.pathBetweenStations();
+        if(this.train.animationFrame) {
+            this.resetTrain();
+            return;
+        }
+        this.train.path = this.getPathCoordinates(pathBetweenStations);
+        this.moveTrain();
+    }
+
+    resetTrain() {
+        cancelAnimationFrame(this.train.animationFrame);
+        this.train.progress = 0;
+        this.train.previousDeltaTime = null;
+        this.train.currentCell = this.train.path[0];
+        this.train.animationFrame = null;
+        this.train.render(this.train.currentCell, this.container)
+    }
+
+    pathBetweenStations() {
+        const path = this.startStation.getPathTo(this.startStation, this.endStation);
+        visualizePath(this.getPathCoordinates(path), this.container);
+        return path;
+    }
+
+    getPathCoordinates(path) {
+        const coordinates = [];
+        path.filter((rail) => rail !== null).forEach((rail) => {
+            const cell = getCell(rail.x, rail.y, this.container);
+            const cellWidth = cell.clientWidth;
+            const cellHeight = cell.clientHeight;
+            let trainPosition = {
+                x: rail.x * cellHeight + cellHeight / 2,
+                y: rail.y * cellWidth + cellWidth / 2,
+                orientation: rail.orientation,
+            }
+            coordinates.push(trainPosition);
+        });
+        return coordinates;
+    }
+
+    moveTrain() {
+        console.log(this.train.path)
+        const move = (timestamp) => {
+            if (!this.train.previousDeltaTime) {
+                this.train.previousDeltaTime = timestamp;
+            }
+            const deltaTime = (timestamp - this.train.previousDeltaTime);
+            const newPos = this.train.move(deltaTime);
+
+            if (newPos) {
+                this.train.render(newPos, this.container);
+                this.train.previousDeltaTime = timestamp;
+                this.train.animationFrame = requestAnimationFrame(move);
+            }
         };
-    }
 
-    getCell(x, y) {
-        return this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
-        );
-    }
-
-    areStationsConnected() {
-        return this.startStation.isConnectedTo(this.startStation, this.endStation);
+        this.train.animationFrame = requestAnimationFrame(move);
     }
 
     keyDownDetected(e){
@@ -185,31 +239,31 @@ export class Grid {
             console.log("Keypress not supported yet.");
         }
     }
-    
+
     movingOnGridWithKeyboard(key){
-        const xyCell = this.getCellPosition(this.activeCell);
+        const xyCell = getCellPosition(this.activeCell);
         let cell;
-        
+
         switch (key) {
             case "ArrowRight":
-                cell = this.getCell(xyCell.x, xyCell.y+1);
+                cell = getCell(xyCell.x, xyCell.y+1, this.container);
                 break;
             case "ArrowLeft":
-                cell = this.getCell(xyCell.x, xyCell.y-1);
+                cell = getCell(xyCell.x, xyCell.y-1, this.container);
                 break;
             case "ArrowUp":
-                cell = this.getCell(xyCell.x-1, xyCell.y);
+                cell = getCell(xyCell.x-1, xyCell.y, this.container);
                 break;
             case "ArrowDown":
-                cell = this.getCell(xyCell.x+1, xyCell.y);
+                cell = getCell(xyCell.x+1, xyCell.y, this.container);
                 break;
         }
         cell ? this.updateActiveCell(cell) : console.log('Trying to go out of grid');
     }
-    
+
     movingOnGridWithMouse(event){
         let cell = event.target;
-       
+
         if(!Array.from(cell.classList).includes("c-wrapper__grid-container__grid__cell")){
             console.log("Not on the grid");
             return;
@@ -225,7 +279,7 @@ export class Grid {
     }
 
     initMovement(){
-        this.activeCell = this.getCell(0, 0);
+        this.activeCell = getCell(0, 0, this.container);
         this.activeCell.classList.add("active");
     }
 
