@@ -238,13 +238,13 @@ export class Grid {
                         break;
                     case TurnRailOrientation.TOP_LEFT:
                         trainPosition1 = {
-                            x: rail.x * cellHeight + cellHeight / 4,
-                            y: rail.y * cellWidth + cellWidth / 2,
+                            x: rail.x * cellHeight + cellHeight / 2,
+                            y: rail.y * cellWidth + cellWidth / 4,
                             rotation: 0
                         }
                         trainPosition3 = {
-                            x: rail.x * cellHeight + cellHeight / 2,
-                            y: rail.y * cellWidth + cellWidth / 4,
+                            x: rail.x * cellHeight + cellHeight / 4,
+                            y: rail.y * cellWidth + cellWidth / 2,
                             rotation: 0
                         }
                         trainPosition4 = {
