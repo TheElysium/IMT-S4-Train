@@ -16,6 +16,7 @@ export class Grid {
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
         this.initGrid();
         this.addEventListeners();
+        this.initMovement();
     }
 
     initGrid() {
@@ -45,6 +46,8 @@ export class Grid {
         this.container.addEventListener("mousedown", (event) => this.addRail(event));
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
+        addEventListener("keydown", (event) => this.keyDownDetected(event));
+        addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
     }
 
     removeRail(event) {
@@ -164,7 +167,66 @@ export class Grid {
         };
     }
 
+    getCell(x, y) {
+        return this.container.querySelector(
+            `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
+        );
+    }
+
     areStationsConnected() {
         return this.startStation.isConnectedTo(this.startStation, this.endStation);
     }
+
+    keyDownDetected(e){
+        if (e.code === "ArrowRight" || e.code === "ArrowLeft" || e.code === "ArrowUp" || e.code === "ArrowDown") {
+            this.movingOnGridWithKeyboard(e.code)
+        }
+        else {
+            console.log("Keypress not supported yet.");
+        }
+    }
+    
+    movingOnGridWithKeyboard(key){
+        const xyCell = this.getCellPosition(this.activeCell);
+        let cell;
+        
+        switch (key) {
+            case "ArrowRight":
+                cell = this.getCell(xyCell.x, xyCell.y+1);
+                break;
+            case "ArrowLeft":
+                cell = this.getCell(xyCell.x, xyCell.y-1);
+                break;
+            case "ArrowUp":
+                cell = this.getCell(xyCell.x-1, xyCell.y);
+                break;
+            case "ArrowDown":
+                cell = this.getCell(xyCell.x+1, xyCell.y);
+                break;
+        }
+        cell ? this.updateActiveCell(cell) : console.log('Trying to go out of grid');
+    }
+    
+    movingOnGridWithMouse(event){
+        let cell = event.target;
+       
+        if(!Array.from(cell.classList).includes("c-wrapper__grid-container__grid__cell")){
+            console.log("Not on the grid");
+            return;
+        }
+
+        this.updateActiveCell(cell);
+    }
+
+    updateActiveCell(cell) {
+        this.activeCell.classList.remove("active");
+        this.activeCell = cell;
+        this.activeCell.classList.add("active");
+    }
+
+    initMovement(){
+        this.activeCell = this.getCell(0, 0);
+        this.activeCell.classList.add("active");
+    }
+
 }
