@@ -12,7 +12,7 @@ export class Train {
     getSvg() {
         return `
         <svg width="100%" height="100%" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="74" y="185" width="353" height="130" fill="#8D7AFF"/>
+            <path d="M74 185H362C397.899 185 427 214.101 427 250V250C427 285.899 397.899 315 362 315H74V185Z" fill="#8D7AFF"/>
         </svg>
         `;
     }
@@ -45,19 +45,16 @@ export class Train {
 
         const prevPosition = this.path[prevIndex];
         const nextPosition = this.path[nextIndex];
-        console.log(prevPosition.orientation)
 
         if(prevPosition !== this.currentCell){
             console.log("Train has entered cell", prevPosition);
             this.currentCell = prevPosition;
-            this.currentRotation += prevPosition.orientation.rotation;
-            console.log("New rotation: ", this.currentRotation)
         }
 
         // Linear interpolation
         const x = prevPosition.x * (1 - t) + nextPosition.x * t;
         const y = prevPosition.y * (1 - t) + nextPosition.y * t;
-        const rotation = this.currentRotation;
+        const rotation = 0;
 
         return { x, y, rotation };
     }
@@ -81,8 +78,7 @@ export class Train {
         this.svgElement.style.top = position.x + "px";
         this.svgElement.style.left = position.y + "px";
 
-        this.svgElement.style.transform = `rotate(${position.rotation}deg)`;
-
-        this.svgElement.style.transform = `translate(-50%, -50%) rotate(${position.rotation}deg)`;
+        // this.svgElement.style.transform = `translate(-50%, -50%) rotate(${position.rotation}deg)`;
+        this.svgElement.style.transform = `translate(-50%, -50%)`;
     }
 }
