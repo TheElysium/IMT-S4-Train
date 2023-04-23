@@ -213,7 +213,6 @@ export class Grid {
     }
 
     moveTrain() {
-        console.log(this.train.path)
         const move = (timestamp) => {
             if (!this.train.previousDeltaTime) {
                 this.train.previousDeltaTime = timestamp;
@@ -273,7 +272,6 @@ export class Grid {
     }
 
     updateActiveCell(cell) {
-        console.log("updateActiveCell")
         this.activeCell.classList.remove("active");
         this.activeCell = cell;
         this.activeCell.classList.add("active");
@@ -281,7 +279,6 @@ export class Grid {
 
     initMovement(){
         this.activeCell = getCell(0, 0, this.container);
-        console.log(this.activeCell)
         this.activeCell.classList.add("active");
     }
 
