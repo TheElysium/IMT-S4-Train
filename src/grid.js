@@ -47,12 +47,75 @@ export class Grid {
     }
 
     addEventListeners() {
-        this.container.addEventListener("mousedown", (event) => this.addRail(event));
+        this.container.addEventListener("mousedown", (event) => this.menuRail(event));
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
         this.container.addEventListener("stationclick", () => this.startTrain());
         addEventListener("keydown", (event) => this.keyDownDetected(event));
         addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
+    }
+
+    menuRail(event) {
+        var menu = document.getElementById('circle');
+
+        var posx = document.body.scrollLeft;
+        menu.style.display = 'flex';
+        var width = menu.offsetWidth;
+        var height = menu.offsetHeight;
+
+        menu.style.left = event.pageX - (width/2) + 'px';
+        menu.style.top = event.pageY - (height/2) + 'px';
+
+        var rail_straight = menu.getElementById('rail-droit');
+        var rail_intersection = menu.getElementById('rail-intersection');
+        var rail_turn = menu.getElementById('rail-courbe');
+
+        this.container.removeEventListener("mousedown", (event) => this.menuRail(event));
+        this.rail_straight.addEventListener("mousedown", (event) => this.addStraightRail(event));
+        this.rail_intersection.addEventListener("mousedown", (event) => this.addIntersectionRail(event));
+        this.rail_turn.addEventListener("mousedown", (event) => this.addTurnRail(event));
+    }
+
+    addStraightRail(event){
+        const cell = event.target;
+        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
+            const position = getCellPosition(cell);
+            const {x, y} = position;
+
+            // Click: Add straight rail
+            let rail = new StraightRail(x, y);
+            let railCell = new RailCell(rail);
+
+            // Add rail to the DOM
+            cell.innerHTML = '';
+            cell.appendChild(railCell);
+
+            this.addRailToGridArray(rail, {x, y});
+            this.updatePath();
+        }
+    }
+
+    addTurnRail(event){
+        const cell = event.target;
+        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
+            const position = getCellPosition(cell);
+            const {x, y} = position;
+
+            // Click: Add turn rail
+            let rail = new TurnRail(x, y);
+            let railCell = new RailCell(rail);
+
+            // Add rail to the DOM
+            cell.innerHTML = '';
+            cell.appendChild(railCell);
+
+            this.addRailToGridArray(rail, {x, y});
+            this.updatePath();
+        }
+    }
+
+    addIntersectionRail(event){
+        // TODO Click: Add intersection rail
     }
 
     removeRail(event) {
