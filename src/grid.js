@@ -26,6 +26,7 @@ export class Grid {
             for (let y = 0; y < this.width; y++) {
                 const cell = document.createElement("div");
                 cell.classList.add("c-wrapper__grid-container__grid__cell");
+                cell.addEventListener("mousedown", (event) => this.menuRail(event));
                 cell.innerHTML = '';
                 cell.dataset.x = x;
                 cell.dataset.y = y;
@@ -47,12 +48,92 @@ export class Grid {
     }
 
     addEventListeners() {
-        this.container.addEventListener("mousedown", (event) => this.addRail(event));
+        // this.container.addEventListener("mousedown", (event) => this.menuRail(event));
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
         this.container.addEventListener("stationclick", () => this.startTrain());
-        addEventListener("keydown", (event) => this.keyDownDetected(event));
-        addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
+        // addEventListener("keydown", (event) => this.keyDownDetected(event));
+        // addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
+    }
+
+    menuRail(event) {
+        const position = getCellPosition(event.target);
+        const menu = document.getElementById('circle');
+
+        this.showMenu(menu, event.pageX, event.pageY);
+
+        const addStraightRail = document.getElementById('add-straight-rail');
+        // const addSwitchRail = document.getElementById('add-switch-rail');
+        const addTurnRail = document.getElementById('add-turn-rail');
+
+        addStraightRail.onmouseup = () => {
+            this.addStraightRail(position);
+            this.hideMenu(menu);
+        };
+
+        addTurnRail.onmouseup = () => {
+            this.addTurnRail(position);
+            this.hideMenu(menu);
+        };
+
+        menu.onmouseup = () => {
+            this.hideMenu(menu);
+        };
+
+        menu.onmouseleave = () => {
+            this.hideMenu(menu);
+        }
+    }
+
+    showMenu(menu, x, y) {
+        menu.style.display = 'flex';
+        const width = menu.offsetWidth;
+        const height = menu.offsetHeight;
+
+        menu.style.left = x - (width/2) + 'px';
+        menu.style.top = y - (height/2) + 'px';
+    }
+
+    hideMenu(menu) {
+        menu.style.display = 'none';
+    }
+
+
+    addStraightRail(position){
+        const cell = getCell(position.x, position.y, this.container);
+        const {x, y} = position;
+
+        // Click: Add straight rail
+        let rail = new StraightRail(x, y);
+        let railCell = new RailCell(rail);
+
+        // Add rail to the DOM
+        cell.innerHTML = '';
+        cell.appendChild(railCell);
+
+        this.addRailToGridArray(rail, {x, y});
+        this.updatePath();
+    }
+
+    addTurnRail(position){
+        const cell = getCell(position.x, position.y, this.container);
+        const {x, y} = position;
+
+        // Click: Add turn rail
+        let rail = new TurnRail(x, y);
+        let railCell = new RailCell(rail);
+
+        // Add rail to the DOM
+        cell.innerHTML = '';
+        cell.appendChild(railCell);
+
+        this.addRailToGridArray(rail, {x, y});
+        this.updatePath();
+
+    }
+
+    addIntersectionRail(event){
+        // TODO Click: Add intersection rail
     }
 
     removeRail(event) {
