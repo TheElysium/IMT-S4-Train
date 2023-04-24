@@ -26,6 +26,7 @@ export class Grid {
             for (let y = 0; y < this.width; y++) {
                 const cell = document.createElement("div");
                 cell.classList.add("c-wrapper__grid-container__grid__cell");
+                cell.addEventListener("mousedown", (event) => this.menuRail(event));
                 cell.innerHTML = '';
                 cell.dataset.x = x;
                 cell.dataset.y = y;
@@ -47,71 +48,77 @@ export class Grid {
     }
 
     addEventListeners() {
-        this.container.addEventListener("mousedown", (event) => this.menuRail(event));
+        // this.container.addEventListener("mousedown", (event) => this.menuRail(event));
         this.container.addEventListener("railclick", (event) => this.removeRail(event));
         this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
         this.container.addEventListener("stationclick", () => this.startTrain());
-        addEventListener("keydown", (event) => this.keyDownDetected(event));
-        addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
+        // addEventListener("keydown", (event) => this.keyDownDetected(event));
+        // addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
     }
 
     menuRail(event) {
-        var menu = document.getElementById('circle');
+        const position = getCellPosition(event.target);
 
-        var posx = document.body.scrollLeft;
+        const menu = document.getElementById('circle');
+
         menu.style.display = 'flex';
-        var width = menu.offsetWidth;
-        var height = menu.offsetHeight;
+        const width = menu.offsetWidth;
+        const height = menu.offsetHeight;
 
         menu.style.left = event.pageX - (width/2) + 'px';
         menu.style.top = event.pageY - (height/2) + 'px';
 
-        var rail_straight = menu.getElementById('rail-droit');
-        var rail_intersection = menu.getElementById('rail-intersection');
-        var rail_turn = menu.getElementById('rail-courbe');
+        const rail_straight = document.getElementById('rail-droit');
+        // const rail_intersection = document.getElementById('rail-intersection');
+        const rail_turn = document.getElementById('rail-courbe');
 
-        this.container.removeEventListener("mousedown", (event) => this.menuRail(event));
-        this.rail_straight.addEventListener("mousedown", (event) => this.addStraightRail(event));
-        this.rail_intersection.addEventListener("mousedown", (event) => this.addIntersectionRail(event));
-        this.rail_turn.addEventListener("mousedown", (event) => this.addTurnRail(event));
+        rail_straight.onmouseup = () => {
+            this.addStraightRail(position);
+            menu.style.display = 'none';
+        };
+
+        rail_turn.onmouseup = () => {
+            this.addTurnRail(position);
+            menu.style.display = 'none';
+        };
+
+        menu.onmouseup = () => {
+            menu.style.display = 'none';
+        };
     }
 
-    addStraightRail(event){
-        const cell = event.target;
-        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const position = getCellPosition(cell);
-            const {x, y} = position;
 
-            // Click: Add straight rail
-            let rail = new StraightRail(x, y);
-            let railCell = new RailCell(rail);
+    addStraightRail(position){
+        const cell = getCell(position.x, position.y, this.container);
+        const {x, y} = position;
 
-            // Add rail to the DOM
-            cell.innerHTML = '';
-            cell.appendChild(railCell);
+        // Click: Add straight rail
+        let rail = new StraightRail(x, y);
+        let railCell = new RailCell(rail);
 
-            this.addRailToGridArray(rail, {x, y});
-            this.updatePath();
-        }
+        // Add rail to the DOM
+        cell.innerHTML = '';
+        cell.appendChild(railCell);
+
+        this.addRailToGridArray(rail, {x, y});
+        this.updatePath();
     }
 
-    addTurnRail(event){
-        const cell = event.target;
-        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const position = getCellPosition(cell);
-            const {x, y} = position;
+    addTurnRail(position){
+        const cell = getCell(position.x, position.y, this.container);
+        const {x, y} = position;
 
-            // Click: Add turn rail
-            let rail = new TurnRail(x, y);
-            let railCell = new RailCell(rail);
+        // Click: Add turn rail
+        let rail = new TurnRail(x, y);
+        let railCell = new RailCell(rail);
 
-            // Add rail to the DOM
-            cell.innerHTML = '';
-            cell.appendChild(railCell);
+        // Add rail to the DOM
+        cell.innerHTML = '';
+        cell.appendChild(railCell);
 
-            this.addRailToGridArray(rail, {x, y});
-            this.updatePath();
-        }
+        this.addRailToGridArray(rail, {x, y});
+        this.updatePath();
+
     }
 
     addIntersectionRail(event){
