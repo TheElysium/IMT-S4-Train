@@ -58,33 +58,44 @@ export class Grid {
 
     menuRail(event) {
         const position = getCellPosition(event.target);
-
         const menu = document.getElementById('circle');
 
+        this.showMenu(menu, event.pageX, event.pageY);
+
+        const addStraightRail = document.getElementById('add-straight-rail');
+        // const addSwitchRail = document.getElementById('add-switch-rail');
+        const addTurnRail = document.getElementById('add-turn-rail');
+
+        addStraightRail.onmouseup = () => {
+            this.addStraightRail(position);
+            this.hideMenu(menu);
+        };
+
+        addTurnRail.onmouseup = () => {
+            this.addTurnRail(position);
+            this.hideMenu(menu);
+        };
+
+        menu.onmouseup = () => {
+            this.hideMenu(menu);
+        };
+
+        menu.onmouseleave = () => {
+            this.hideMenu(menu);
+        }
+    }
+
+    showMenu(menu, x, y) {
         menu.style.display = 'flex';
         const width = menu.offsetWidth;
         const height = menu.offsetHeight;
 
-        menu.style.left = event.pageX - (width/2) + 'px';
-        menu.style.top = event.pageY - (height/2) + 'px';
+        menu.style.left = x - (width/2) + 'px';
+        menu.style.top = y - (height/2) + 'px';
+    }
 
-        const rail_straight = document.getElementById('rail-droit');
-        // const rail_intersection = document.getElementById('rail-intersection');
-        const rail_turn = document.getElementById('rail-courbe');
-
-        rail_straight.onmouseup = () => {
-            this.addStraightRail(position);
-            menu.style.display = 'none';
-        };
-
-        rail_turn.onmouseup = () => {
-            this.addTurnRail(position);
-            menu.style.display = 'none';
-        };
-
-        menu.onmouseup = () => {
-            menu.style.display = 'none';
-        };
+    hideMenu(menu) {
+        menu.style.display = 'none';
     }
 
 
