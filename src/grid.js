@@ -8,6 +8,7 @@ import { StraightRail } from "./models/straightRail.js";
 import { Station } from "./models/station.js";
 import { stationType as StationType } from "./models/stationType.js";
 import { StationCell } from "./components/station-cell.js";
+import { gridHeight, gridWidth } from "./main.js";
 
 export class Grid {
   constructor(width, height, container) {
@@ -63,6 +64,9 @@ export class Grid {
     );
     this.container.addEventListener("railrotate", (event) =>
       this.rotateRail(event)
+    );
+    this.container.addEventListener("wheel", (event) =>
+      this.zoomHandler(event)
     );
   }
 
@@ -225,21 +229,46 @@ export class Grid {
       };
 
       const mouseUpHandler = (event) => {
-        console.log("Quoiquoubeuh");
-
         document.removeEventListener("mousemove", mouseMoveHandler);
         document.removeEventListener("mouseup", mouseUpHandler);
 
         container.style.removeProperty("cursor");
         container.style.removeProperty("user-select");
-
-        console.log("Au revoir");
       };
 
       document.addEventListener("mouseup", mouseUpHandler);
       document.addEventListener("mousemove", mouseMoveHandler);
     } else {
       this.addRail(event);
+    }
+  }
+
+  zoomHandler(event) {
+    console.log("zoomHandler");
+
+    // ONLY IF CTRL IS PRESSED
+    if (event.ctrlKey) {
+      // determine the direction of the scroll
+      const direction = event.deltaY > 0 ? -1 : 1;
+
+      // redifined the size of the grid template columns and rows
+      // first get the current size
+      const currentSize = parseInt(
+          this.container.style.gridTemplateColumns
+            .split(" ")[1]
+            .replace("px)", "")
+        ),
+        // then calculate the new size
+        newSize = currentSize + direction * 2;
+
+      // if the new size is between 50 and 200, update the size
+      if (newSize >= 30 && newSize <= 300) {
+        this.container.style.gridTemplateColumns = `repeat(${gridWidth}, ${newSize}px)`;
+        this.container.style.gridTemplateRows = `repeat(${gridHeight}, ${newSize}px)`;
+      }
+
+      // prevent the page from scrolling
+      event.preventDefault();
     }
   }
 }

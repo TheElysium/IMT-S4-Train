@@ -1,7 +1,7 @@
 import { Grid } from "./grid.js";
 
-const gridWidth = 11;
-const gridHeight = 7;
+export const gridWidth = 25;
+export const gridHeight = 20;
 const gridContainer = document.querySelector(
   ".c-wrapper__grid-container__grid"
 );
