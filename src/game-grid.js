@@ -7,7 +7,7 @@ import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
 import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
 
-export class Grid {
+export class GameGrid {
     constructor(width, height, container) {
         this.width = width;
         this.height = height;
@@ -23,7 +23,7 @@ export class Grid {
         for (let x = 0; x < this.height; x++) {
             for (let y = 0; y < this.width; y++) {
                 const cell = document.createElement("div");
-                cell.classList.add("c-wrapper__grid-container__grid__cell");
+                cell.classList.add("c-wrapper__grid-container__game-grid__cell");
                 cell.innerHTML = '';
                 cell.dataset.x = x;
                 cell.dataset.y = y;
@@ -144,14 +144,14 @@ export class Grid {
 
     updateTrackColor(position, color) {
         const railCell = this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${position.x}"][data-y="${position.y}"] rail-cell`
+            `.c-wrapper__grid-container__game-grid__cell[data-x="${position.x}"][data-y="${position.y}"] rail-cell`
         );
         if (railCell) {
             railCell.updateTrackColor(color);
         }
         else {
             const stationCell = this.container.querySelector(
-                `.c-wrapper__grid-container__grid__cell[data-x="${position.x}"][data-y="${position.y}"] station-cell`
+                `.c-wrapper__grid-container__game-grid__cell[data-x="${position.x}"][data-y="${position.y}"] station-cell`
             );
             stationCell.updateTrackColor(color);
         }
@@ -159,10 +159,10 @@ export class Grid {
 
     updateStationsColor(color) {
         const startStationCell = this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${this.startStation.position.x}"][data-y="${this.startStation.position.y}"] station-cell`
+            `.c-wrapper__grid-container__game-grid__cell[data-x="${this.startStation.position.x}"][data-y="${this.startStation.position.y}"] station-cell`
         );
         const endStationCell = this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${this.endStation.position.x}"][data-y="${this.endStation.position.y}"] station-cell`
+            `.c-wrapper__grid-container__game-grid__cell[data-x="${this.endStation.position.x}"][data-y="${this.endStation.position.y}"] station-cell`
         );
         startStationCell.updateStationColor(color);
         endStationCell.updateStationColor(color);
