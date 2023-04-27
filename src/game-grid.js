@@ -7,7 +7,7 @@ import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
 import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
 
-export class Grid {
+export class GameGrid {
     constructor(width, height, container) {
         this.width = width;
         this.height = height;
@@ -17,16 +17,13 @@ export class Grid {
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
         this.train = null;
         this.initGrid();
-        this.addEventListeners();
-        this.initMovement();
     }
 
     initGrid() {
         for (let x = 0; x < this.height; x++) {
             for (let y = 0; y < this.width; y++) {
                 const cell = document.createElement("div");
-                cell.classList.add("c-wrapper__grid-container__grid__cell");
-                cell.addEventListener("mousedown", (event) => this.menuRail(event));
+                cell.classList.add("c-wrapper__grid-container__game-grid__cell");
                 cell.innerHTML = '';
                 cell.dataset.x = x;
                 cell.dataset.y = y;
@@ -46,58 +43,6 @@ export class Grid {
             }
         }
     }
-
-    addEventListeners() {
-        // this.container.addEventListener("mousedown", (event) => this.menuRail(event));
-        this.container.addEventListener("railclick", (event) => this.removeRail(event));
-        this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
-        this.container.addEventListener("stationclick", () => this.startTrain());
-        // addEventListener("keydown", (event) => this.keyDownDetected(event));
-        // addEventListener("mousemove", (event) => this.movingOnGridWithMouse(event));
-    }
-
-    menuRail(event) {
-        const position = getCellPosition(event.target);
-        const menu = document.getElementById('circle');
-
-        this.showMenu(menu, event.pageX, event.pageY);
-
-        const addStraightRail = document.getElementById('add-straight-rail');
-        // const addSwitchRail = document.getElementById('add-switch-rail');
-        const addTurnRail = document.getElementById('add-turn-rail');
-
-        addStraightRail.onmouseup = () => {
-            this.addStraightRail(position);
-            this.hideMenu(menu);
-        };
-
-        addTurnRail.onmouseup = () => {
-            this.addTurnRail(position);
-            this.hideMenu(menu);
-        };
-
-        menu.onmouseup = () => {
-            this.hideMenu(menu);
-        };
-
-        menu.onmouseleave = () => {
-            this.hideMenu(menu);
-        }
-    }
-
-    showMenu(menu, x, y) {
-        menu.style.display = 'flex';
-        const width = menu.offsetWidth;
-        const height = menu.offsetHeight;
-
-        menu.style.left = x - (width/2) + 'px';
-        menu.style.top = y - (height/2) + 'px';
-    }
-
-    hideMenu(menu) {
-        menu.style.display = 'none';
-    }
-
 
     addStraightRail(position){
         const cell = getCell(position.x, position.y, this.container);
@@ -136,22 +81,20 @@ export class Grid {
         // TODO Click: Add intersection rail
     }
 
-    removeRail(event) {
-        const railCell = event.target;
-        const cell = railCell.parentElement;
-        const position = getCellPosition(cell);
+    removeRail(position) {
 
         // Remove rail from the grid array
         this.removeRailFromGridArray(position.x, position.y);
 
         // Remove rail cell from DOM
-        cell.removeChild(railCell);
+        const cell = getCell(position.x, position.y, this.container);
+        cell.innerHTML = '';
 
         this.updatePath();
     }
 
-    rotateRail(event) {
-        const railCell = event.target;
+    rotateRail(position) {
+        const railCell = getCell(position.x, position.y, this.container).firstChild;
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
@@ -164,33 +107,6 @@ export class Grid {
         pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
-
-    addRail(event) {
-        const cell = event.target;
-        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const position = getCellPosition(cell);
-            const {x, y} = position;
-
-            // TODO : Remove the left click and right click logic, it is only for testing purposes
-            let rail;
-            let railCell;
-            if (event.button === 0) {
-                // Left click: Add turn rail
-                rail = new TurnRail(x, y);
-            } else if (event.button === 2) {
-                // Right click: Add straight rail
-                rail = new StraightRail(x, y);
-            }
-            railCell = new RailCell(rail);
-
-            // Add rail to the DOM
-            cell.innerHTML = '';
-            cell.appendChild(railCell);
-
-            this.addRailToGridArray(rail, {x, y});
-            this.updatePath();
-        }
-    }
 
     // Add rail to the array representation of the grid
     addRailToGridArray(rail, position) {
@@ -228,14 +144,14 @@ export class Grid {
 
     updateTrackColor(position, color) {
         const railCell = this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${position.x}"][data-y="${position.y}"] rail-cell`
+            `.c-wrapper__grid-container__game-grid__cell[data-x="${position.x}"][data-y="${position.y}"] rail-cell`
         );
         if (railCell) {
             railCell.updateTrackColor(color);
         }
         else {
             const stationCell = this.container.querySelector(
-                `.c-wrapper__grid-container__grid__cell[data-x="${position.x}"][data-y="${position.y}"] station-cell`
+                `.c-wrapper__grid-container__game-grid__cell[data-x="${position.x}"][data-y="${position.y}"] station-cell`
             );
             stationCell.updateTrackColor(color);
         }
@@ -243,10 +159,10 @@ export class Grid {
 
     updateStationsColor(color) {
         const startStationCell = this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${this.startStation.position.x}"][data-y="${this.startStation.position.y}"] station-cell`
+            `.c-wrapper__grid-container__game-grid__cell[data-x="${this.startStation.position.x}"][data-y="${this.startStation.position.y}"] station-cell`
         );
         const endStationCell = this.container.querySelector(
-            `.c-wrapper__grid-container__grid__cell[data-x="${this.endStation.position.x}"][data-y="${this.endStation.position.y}"] station-cell`
+            `.c-wrapper__grid-container__game-grid__cell[data-x="${this.endStation.position.x}"][data-y="${this.endStation.position.y}"] station-cell`
         );
         startStationCell.updateStationColor(color);
         endStationCell.updateStationColor(color);
@@ -310,57 +226,4 @@ export class Grid {
 
         this.train.animationFrame = requestAnimationFrame(move);
     }
-
-    keyDownDetected(e){
-        if (e.code === "ArrowRight" || e.code === "ArrowLeft" || e.code === "ArrowUp" || e.code === "ArrowDown") {
-            this.movingOnGridWithKeyboard(e.code)
-        }
-        else {
-            console.log("Keypress not supported yet.");
-        }
-    }
-
-    movingOnGridWithKeyboard(key){
-        const xyCell = getCellPosition(this.activeCell);
-        let cell;
-
-        switch (key) {
-            case "ArrowRight":
-                cell = getCell(xyCell.x, xyCell.y+1, this.container);
-                break;
-            case "ArrowLeft":
-                cell = getCell(xyCell.x, xyCell.y-1, this.container);
-                break;
-            case "ArrowUp":
-                cell = getCell(xyCell.x-1, xyCell.y, this.container);
-                break;
-            case "ArrowDown":
-                cell = getCell(xyCell.x+1, xyCell.y, this.container);
-                break;
-        }
-        cell ? this.updateActiveCell(cell) : console.log('Trying to go out of grid');
-    }
-
-    movingOnGridWithMouse(event){
-        let cell = event.target;
-
-        if(!Array.from(cell.classList).includes("c-wrapper__grid-container__grid__cell")){
-            console.log("Not on the grid");
-            return;
-        }
-
-        this.updateActiveCell(cell);
-    }
-
-    updateActiveCell(cell) {
-        this.activeCell.classList.remove("active");
-        this.activeCell = cell;
-        this.activeCell.classList.add("active");
-    }
-
-    initMovement(){
-        this.activeCell = getCell(0, 0, this.container);
-        this.activeCell.classList.add("active");
-    }
-
 }

@@ -2,35 +2,6 @@ export class RailCell extends HTMLElement {
     constructor(rail) {
         super();
         this.rail = rail;
-
-        // TODO : Perhaps temporary, this is for testing purposes
-        this.addEventListener("mousedown", (event) => {
-            event.stopPropagation(); // Stop event propagation
-
-            // Dispatch a custom event with the click event details
-            const railClickEvent = new CustomEvent("railclick", {
-                bubbles: true,
-                detail: {
-                    originalEvent: event,
-                },
-            });
-
-            this.dispatchEvent(railClickEvent);
-        });
-
-        this.addEventListener("wheel", (event) => {
-            event.stopPropagation(); // Stop event propagation
-
-            // Dispatch a custom event with the click event details
-            const railClickEvent = new CustomEvent("railrotate", {
-                bubbles: true,
-                detail: {
-                    originalEvent: event,
-                },
-            });
-
-            this.dispatchEvent(railClickEvent);
-        });
     }
 
 
