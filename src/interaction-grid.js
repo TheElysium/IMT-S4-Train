@@ -30,21 +30,19 @@ export class InteractionGrid {
     }
 
     addEventListeners() {
-        this.container.addEventListener("click", (event) => {
-            const cell = event.target;
-            const x = cell.dataset.x;
-            const y = cell.dataset.y;
-        });
         addEventListener("keydown", (event) => this.keyDownDetected(event));
         this.container.addEventListener("mousedown", (event) => this.handleClick(event));
-        this.container.addEventListener("wheel", (event) => {
+        this.container.addEventListener("wheel", () => {
             const position = getCellPosition(this.activeCell);
             this.gameGrid.rotateRail(position);
         });
     }
 
     handleClick(event) {
-        const position = getCellPosition(event.target);
+        if(event.button !== 0) {
+            return;
+        }
+        const position = getCellPosition(this.activeCell);
         const gameGridCell = this.gameGrid.grid[position.x][position.y];
         if(gameGridCell === null){
             this.menuRail(position, event.pageX, event.pageY);
