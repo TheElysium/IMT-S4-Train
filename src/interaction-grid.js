@@ -1,4 +1,7 @@
 import {getCell, getCellPosition} from "./utils/utils.js";
+import {StraightRail} from "./models/straightRail.js";
+import {TurnRail} from "./models/turnRail.js";
+import {Station} from "./models/station.js";
 
 export class InteractionGrid {
     constructor(width, height, container, gameGrid) {
@@ -20,13 +23,6 @@ export class InteractionGrid {
                 cell.dataset.x = x;
                 cell.dataset.y = y;
 
-                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("width", "100%");
-                svg.setAttribute("height", "100%");
-                svg.setAttribute("viewBox", "0 0 100 100");
-                svg.setAttribute("fill", "none");
-
-                cell.appendChild(svg);
                 this.container.appendChild(cell);
                 cell.addEventListener("mouseenter", (event) => this.movingOnGridWithMouse(event));
             }
@@ -40,6 +36,25 @@ export class InteractionGrid {
             const y = cell.dataset.y;
         });
         addEventListener("keydown", (event) => this.keyDownDetected(event));
+        this.container.addEventListener("mousedown", (event) => this.handleClick(event));
+        this.container.addEventListener("wheel", (event) => {
+            const position = getCellPosition(this.activeCell);
+            this.gameGrid.rotateRail(position);
+        });
+    }
+
+    handleClick(event) {
+        const position = getCellPosition(event.target);
+        const gameGridCell = this.gameGrid.grid[position.x][position.y];
+        if(gameGridCell === null){
+            this.menuRail(position, event.pageX, event.pageY);
+        }
+        else if(gameGridCell instanceof StraightRail || gameGridCell instanceof TurnRail){
+            this.gameGrid.removeRail(position);
+        }
+        else if (gameGridCell instanceof Station){
+            this.gameGrid.startTrain();
+        }
     }
 
     keyDownDetected(e){
@@ -91,5 +106,45 @@ export class InteractionGrid {
     initMovement(){
         this.activeCell = getCell(0, 0, this.container);
         this.activeCell.classList.add("active");
+    }
+
+    menuRail(position, width, height) {
+        const menu = document.getElementById('circle');
+
+        this.showMenu(menu, width, height);
+
+        const addStraightRail = document.getElementById('add-straight-rail');
+        // const addSwitchRail = document.getElementById('add-switch-rail');
+        const addTurnRail = document.getElementById('add-turn-rail');
+
+        addStraightRail.onmouseup = () => {
+            this.gameGrid.addStraightRail(position);
+            this.hideMenu(menu);
+        };
+
+        addTurnRail.onmouseup = () => {
+            this.gameGrid.addTurnRail(position);
+            this.hideMenu(menu);
+        };
+
+        menu.onmouseup = () => {
+            this.hideMenu(menu);
+        };
+
+        menu.onmouseleave = () => {
+            this.hideMenu(menu);
+        }
+    }
+    showMenu(menu, x, y) {
+        menu.style.display = 'flex';
+        const width = menu.offsetWidth;
+        const height = menu.offsetHeight;
+
+        menu.style.left = x - (width/2) + 'px';
+        menu.style.top = y - (height/2) + 'px';
+    }
+
+    hideMenu(menu) {
+        menu.style.display = 'none';
     }
 }

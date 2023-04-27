@@ -17,7 +17,6 @@ export class Grid {
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
         this.train = null;
         this.initGrid();
-        this.addEventListeners();
     }
 
     initGrid() {
@@ -25,7 +24,6 @@ export class Grid {
             for (let y = 0; y < this.width; y++) {
                 const cell = document.createElement("div");
                 cell.classList.add("c-wrapper__grid-container__grid__cell");
-                cell.addEventListener("mousedown", (event) => this.menuRail(event));
                 cell.innerHTML = '';
                 cell.dataset.x = x;
                 cell.dataset.y = y;
@@ -45,56 +43,6 @@ export class Grid {
             }
         }
     }
-
-    addEventListeners() {
-        // this.container.addEventListener("mousedown", (event) => this.menuRail(event));
-        this.container.addEventListener("railclick", (event) => this.removeRail(event));
-        this.container.addEventListener("railrotate", (event) => this.rotateRail(event));
-        this.container.addEventListener("stationclick", () => this.startTrain());
-    }
-
-    menuRail(event) {
-        const position = getCellPosition(event.target);
-        const menu = document.getElementById('circle');
-
-        this.showMenu(menu, event.pageX, event.pageY);
-
-        const addStraightRail = document.getElementById('add-straight-rail');
-        // const addSwitchRail = document.getElementById('add-switch-rail');
-        const addTurnRail = document.getElementById('add-turn-rail');
-
-        addStraightRail.onmouseup = () => {
-            this.addStraightRail(position);
-            this.hideMenu(menu);
-        };
-
-        addTurnRail.onmouseup = () => {
-            this.addTurnRail(position);
-            this.hideMenu(menu);
-        };
-
-        menu.onmouseup = () => {
-            this.hideMenu(menu);
-        };
-
-        menu.onmouseleave = () => {
-            this.hideMenu(menu);
-        }
-    }
-
-    showMenu(menu, x, y) {
-        menu.style.display = 'flex';
-        const width = menu.offsetWidth;
-        const height = menu.offsetHeight;
-
-        menu.style.left = x - (width/2) + 'px';
-        menu.style.top = y - (height/2) + 'px';
-    }
-
-    hideMenu(menu) {
-        menu.style.display = 'none';
-    }
-
 
     addStraightRail(position){
         const cell = getCell(position.x, position.y, this.container);
@@ -133,22 +81,20 @@ export class Grid {
         // TODO Click: Add intersection rail
     }
 
-    removeRail(event) {
-        const railCell = event.target;
-        const cell = railCell.parentElement;
-        const position = getCellPosition(cell);
+    removeRail(position) {
 
         // Remove rail from the grid array
         this.removeRailFromGridArray(position.x, position.y);
 
         // Remove rail cell from DOM
-        cell.removeChild(railCell);
+        const cell = getCell(position.x, position.y, this.container);
+        cell.innerHTML = '';
 
         this.updatePath();
     }
 
-    rotateRail(event) {
-        const railCell = event.target;
+    rotateRail(position) {
+        const railCell = getCell(position.x, position.y, this.container).firstChild;
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
         this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
@@ -161,33 +107,6 @@ export class Grid {
         pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
     }
 
-
-    addRail(event) {
-        const cell = event.target;
-        if (cell.classList.contains("c-wrapper__grid-container__grid__cell")) {
-            const position = getCellPosition(cell);
-            const {x, y} = position;
-
-            // TODO : Remove the left click and right click logic, it is only for testing purposes
-            let rail;
-            let railCell;
-            if (event.button === 0) {
-                // Left click: Add turn rail
-                rail = new TurnRail(x, y);
-            } else if (event.button === 2) {
-                // Right click: Add straight rail
-                rail = new StraightRail(x, y);
-            }
-            railCell = new RailCell(rail);
-
-            // Add rail to the DOM
-            cell.innerHTML = '';
-            cell.appendChild(railCell);
-
-            this.addRailToGridArray(rail, {x, y});
-            this.updatePath();
-        }
-    }
 
     // Add rail to the array representation of the grid
     addRailToGridArray(rail, position) {
