@@ -49,7 +49,17 @@ export function getCellPosition(cell) {
 }
 
 export function getCell(x, y, container) {
-    return container.querySelector(
-        `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
-    );
+    if(container.className === "c-wrapper__grid-container__grid") {
+        return container.querySelector(
+            `.c-wrapper__grid-container__grid__cell[data-x="${x}"][data-y="${y}"]`
+        );
+    }
+    else if(container.className === "c-wrapper__grid-container__interaction-grid") {
+        return container.querySelector(
+            `.c-wrapper__grid-container__interaction-grid__cell[data-x="${x}"][data-y="${y}"]`
+        );
+    }
+    else {
+        console.log("Container not supported yet.");
+    }
 }

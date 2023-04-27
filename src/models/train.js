@@ -26,7 +26,7 @@ export class Train {
         svg.style.position = "absolute";
         svg.style.top = 0 + "px";
         svg.style.left = 0 + "px";
-        svg.style.zIndex = "100";
+        svg.style.zIndex = "2";
         return svg;
     }
 
