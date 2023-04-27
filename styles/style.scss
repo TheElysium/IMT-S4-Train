@@ -69,7 +69,7 @@ html, body {
       }
       .active {
         outline: 10px solid rgba(255, 255, 255, 0.5);
-        outline-offset: -10px;
+        outline-offset: -8px;
         position: relative;
       }
     }
@@ -79,7 +79,6 @@ html, body {
 #circle {
   position: absolute;
   display: none;
-  border: 3px solid white;
   padding: 0;
   margin: 1em auto;
   width: 20vh;
@@ -127,8 +126,9 @@ li.triple{
   width: 70%;
   height: 70%;
   transform-origin: 0% 100%;
-  background-color: whitesmoke;
-  border: 2px solid white;
+  background-color: rgb(255, 255, 255, 0.7);
+  border: 1px solid white;
+  transition: all 0.1s ease-in-out;
 }
 li.triple:first-child {
   transform: rotate(0deg) skewY(30deg);
@@ -164,7 +164,7 @@ li.triple:nth-child(3) {
 }
 
 li.triple:hover, li.double:hover{
-  background-color: white;
+  background-color: rgb(255, 255, 255, 0.9);
 }
 
 #circle::after {
@@ -173,8 +173,7 @@ li.triple:hover, li.double:hover{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid transparent;
-  background-color: transparent;
+  background-color: $grid-background-color;
   width: 25%;
   height: 25%;
   border-radius: 50%;
