@@ -30,7 +30,7 @@ export class GameGrid {
                 this.container.appendChild(cell);
                 if(x === this.startStation.position.x && y === this.startStation.position.y){
                     const stationCell = new StationCell(this.startStation);
-                    this.train = new Train(this.getPathCoordinates([this.startStation]));
+                    this.train = new Train(this.getPathCoordinates([{from: null, rail: this.startStation, to: null}]));
                     this.train.addToDom(stationCell);
                     cell.appendChild(stationCell);
                     this.addRailToGridArray(this.startStation, {x, y});
@@ -195,28 +195,59 @@ export class GameGrid {
 
     getPathCoordinates(path) {
         const coordinates = [];
-        path.filter((rail) => rail !== null).forEach((rail) => {
-            const cell = getCell(rail.x, rail.y, this.container);
+        path.filter((railOnPath) => railOnPath !== null).forEach((railOnPath) => {
+            const {x, y} = railOnPath.rail;
+            const cell = getCell(x, y, this.container)
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
-            let trainPosition = {
-                x: rail.x * cellHeight + cellHeight / 2,
-                y: rail.y * cellWidth + cellWidth / 2,
-                orientation: rail.orientation,
+            let trainCoordinates = {
+                x: x * cellWidth + cellWidth / 2,
+                y: y * cellHeight + cellHeight / 2,
+                rotation: this.getRotation(railOnPath),
             }
-            coordinates.push(trainPosition);
+            coordinates.push(trainCoordinates);
         });
         return coordinates;
     }
 
+    getRotation(railOnPath) {
+        if(railOnPath.from === null || railOnPath.to ===  null || ! (railOnPath.rail instanceof TurnRail)) return 0;
+        console.log('railOnPath')
+        const fromPosition = {x: railOnPath.from.x, y: railOnPath.from.y};
+        const railPosition = {x: railOnPath.rail.x, y: railOnPath.rail.y};
+        const toPosition = {x: railOnPath.to.x, y: railOnPath.to.y};
+
+        const angle = this.calculateTurnAngle(fromPosition, railPosition, toPosition);
+        console.log(angle)
+        return angle
+    }
+
+    calculateTurnAngle(fromPosition, turnRail, toPosition) {
+        const prevDiffX = turnRail.x - fromPosition.x;
+        const prevDiffY = turnRail.y - fromPosition.y;
+        const nextDiffX = toPosition.x - turnRail.x;
+        const nextDiffY = toPosition.y - turnRail.y;
+
+        if ((prevDiffX === 0 && nextDiffY === 0) || (prevDiffY === 0 && nextDiffX === 0)) {
+            if (prevDiffX * nextDiffY - prevDiffY * nextDiffX > 0) {
+                return -90;
+            } else {
+                return 90;
+            }
+        } else {
+            throw new Error('Invalid turn configuration');
+        }
+    }
+
+
     moveTrain() {
+        console.log(this.train.path)
         const move = (timestamp) => {
             if (!this.train.previousDeltaTime) {
                 this.train.previousDeltaTime = timestamp;
             }
             const deltaTime = (timestamp - this.train.previousDeltaTime);
             const newPos = this.train.move(deltaTime);
-
             if (newPos) {
                 this.train.render(newPos, this.container);
                 this.train.previousDeltaTime = timestamp;
