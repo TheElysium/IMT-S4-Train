@@ -76,6 +76,17 @@ html, body {
   overflow: hidden;
   z-index: 1000;
 }
+#circle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #your-color-here;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+}
 
 li.double {
   overflow: hidden;
@@ -85,20 +96,17 @@ li.double {
   background-color: whitesmoke;
   border: 1px solid white;
 }
-
-li.double:first-child {
+li.double.first-child {
   left: 0;
   transform-origin: 100% 100%;
   opacity: 0.8;
 }
-
-li#double:nth-child(2) {
+li.double.second-child {
   right: 0;
   transform-origin: 0% 100%;
   opacity: 0.8;
 }
-
-.icon-double {
+li.double .icon-double {
   display: flex;
   width: 40%;
   height: 40%;
@@ -108,7 +116,6 @@ li#double:nth-child(2) {
   justify-content: center;
   align-items: center;
 }
-
 li.triple {
   overflow: hidden;
   position: absolute;
@@ -121,7 +128,9 @@ li.triple {
   border: 1px solid white;
   transition: all 0.1s ease-in-out;
 }
-
+li.triple:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 li.triple:first-child {
   transform: rotate(0deg) skewY(30deg);
   opacity: 0.8;
@@ -129,7 +138,6 @@ li.triple:first-child {
 li.triple:first-child .icon-triple {
   transform: skewY(-30deg);
 }
-
 li.triple:nth-child(2) {
   transform: rotate(120deg) skewY(30deg);
   opacity: 0.8;
@@ -137,7 +145,6 @@ li.triple:nth-child(2) {
 li.triple:nth-child(2) .icon-triple {
   transform: skewY(-30deg) rotate(240deg);
 }
-
 li.triple:nth-child(3) {
   transform: rotate(240deg) skewY(30deg);
   opacity: 0.8;
@@ -145,30 +152,13 @@ li.triple:nth-child(3) {
 li.triple:nth-child(3) .icon-triple {
   transform: skewY(-30deg) rotate(30deg);
 }
-
-.icon-triple {
+li.triple .icon-triple {
   display: block;
   width: 50%;
   height: 50%;
   margin-left: 15%;
   margin-top: 30%;
   position: absolute;
-}
-
-li.triple:hover, li.double:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-#circle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #99D46B;
-  width: 25%;
-  height: 25%;
-  border-radius: 50%;
 }
 
 /*# sourceMappingURL=style.css.map */
