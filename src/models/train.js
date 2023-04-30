@@ -82,4 +82,13 @@ export class Train {
         this.svgElement.style.transform = `translate(-50%, -50%) rotate(${position.rotation}deg)`;
         // this.svgElement.style.transform = `translate(-50%, -50%)`;
     }
+
+    reset() {
+        cancelAnimationFrame(this.animationFrame);
+        this.progress = 0;
+        this.previousDeltaTime = null;
+        this.currentCell = this.path[0];
+        this.animationFrame = null;
+        this.currentRotation = 0;
+    }
 }

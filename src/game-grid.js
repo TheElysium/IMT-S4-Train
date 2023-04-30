@@ -179,11 +179,7 @@ export class GameGrid {
     }
 
     resetTrain() {
-        cancelAnimationFrame(this.train.animationFrame);
-        this.train.progress = 0;
-        this.train.previousDeltaTime = null;
-        this.train.currentCell = this.train.path[0];
-        this.train.animationFrame = null;
+        this.train.reset();
         this.train.render(this.train.currentCell, this.container)
     }
 
