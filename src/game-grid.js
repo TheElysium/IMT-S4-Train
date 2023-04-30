@@ -17,6 +17,7 @@ export class GameGrid {
         this.startStation = new Station({x: 0, y: 0}, StationType.START);
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
         this.train = null;
+        this.playing = false;
         this.initGrid();
     }
 
@@ -237,7 +238,7 @@ export class GameGrid {
     }
 
 
-    moveTrain() {
+     moveTrain() {
         console.log(this.train.path)
         const move = (timestamp) => {
             if (!this.train.previousDeltaTime) {
@@ -249,6 +250,9 @@ export class GameGrid {
                 this.train.render(newPos, this.container);
                 this.train.previousDeltaTime = timestamp;
                 this.train.animationFrame = requestAnimationFrame(move);
+            }
+            else {
+                this.playing = false;
             }
         };
 

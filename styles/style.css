@@ -63,6 +63,52 @@ html, body {
   outline-offset: -8px;
   position: relative;
 }
+.c-wrapper__ui-container {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000000;
+  justify-content: center;
+}
+.c-wrapper__ui-container__control-panel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2vh;
+}
+.c-wrapper__ui-container__control-panel button {
+  background: none;
+  border: none;
+}
+.c-wrapper__ui-container__control-panel button svg {
+  width: 2vw;
+  height: auto;
+}
+.c-wrapper__ui-container__control-panel #backward, .c-wrapper__ui-container__control-panel #play-pause-reset, .c-wrapper__ui-container__control-panel #forward {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+.c-wrapper__ui-container__control-panel #backward {
+  margin-right: 1vw;
+  padding: 1vh 0.5vw 1vh 0.25vw;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset {
+  padding: 2vh 1vw;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5vw;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #reset-button svg {
+  width: 1.8vw;
+  height: auto;
+}
+.c-wrapper__ui-container__control-panel #forward {
+  margin-left: 1vw;
+  padding: 1vh 0.25vw 1vh 0.5vw;
+}
 
 #circle {
   position: absolute;

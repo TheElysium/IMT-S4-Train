@@ -74,6 +74,64 @@ html, body {
       }
     }
   }
+
+  &__ui-container {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000000;
+    justify-content: center;
+
+    &__control-panel {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 2vh;
+
+      button {
+        background: none;
+        border: none;
+
+        svg {
+          width: 2vw;
+          height: auto;
+        }
+      }
+
+      #backward, #play-pause-reset, #forward {
+        background-color: rgba(255, 255, 255, .4);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+      }
+
+      #backward {
+        margin-right: 1vw;
+        padding: 1vh 0.5vw 1vh 0.25vw;
+      }
+
+      #play-pause-reset {
+        padding: 2vh 1vw;
+        display: flex;
+        flex-direction: row;
+        column-gap: 0.5vw;
+        #reset-button {
+          svg {
+            width: 1.8vw;
+            height: auto;
+          }
+        }
+
+      }
+
+      #forward {
+        margin-left: 1vw;
+        padding: 1vh 0.25vw 1vh 0.5vw;
+      }
+    }
+  }
+
 }
 
 #circle {

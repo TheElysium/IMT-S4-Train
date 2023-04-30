@@ -51,7 +51,7 @@ export class InteractionGrid {
             this.gameGrid.removeRail(position);
         }
         else if (gameGridCell instanceof Station){
-            this.gameGrid.startTrain();
+            this.play();
         }
     }
 
@@ -145,4 +145,25 @@ export class InteractionGrid {
     hideMenu(menu) {
         menu.style.display = 'none';
     }
+
+    play() {
+        if (!this.playing) {
+            this.gameGrid.playing = true;
+            this.gameGrid.startTrain();
+        }
+    }
+
+    pause() {
+        if (this.playing) {
+            cancelAnimationFrame(this.gameGrid.train.animationFrame);
+            this.gameGrid.train.animationFrame = null;
+            this.playing = false;
+        }
+    }
+
+    reset() {
+        this.pause();
+        this.gameGrid.resetTrain();
+    }
+
 }
