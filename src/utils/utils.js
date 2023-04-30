@@ -48,18 +48,8 @@ export function getCellPosition(cell) {
     };
 }
 
-export function getCell(x, y, container) {
-    if(container.className === "c-wrapper__grid-container__game-grid") {
-        return container.querySelector(
-            `.c-wrapper__grid-container__game-grid__cell[data-x="${x}"][data-y="${y}"]`
-        );
-    }
-    else if(container.className === "c-wrapper__grid-container__interaction-grid") {
-        return container.querySelector(
-            `.c-wrapper__grid-container__interaction-grid__cell[data-x="${x}"][data-y="${y}"]`
-        );
-    }
-    else {
-        console.log("Container not supported yet.");
-    }
+export function getCell(x, y, container, type="") {
+    return container.querySelector(
+        `.${container.className}__cell[data-x="${x}"][data-y="${y}"] ${type}`
+    );
 }

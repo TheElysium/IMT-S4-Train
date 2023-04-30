@@ -36,16 +36,22 @@ export class Rail {
         throw new Error('rotate() must be implemented by child classes');
     }
 
-    getPathTo(previous = this, goal) {
+    getPathTo(previous, goal) {
+        const currentRail = {
+            from: previous,
+            rail: this,
+            to: null,
+        };
         if(this === goal) {
-            return [goal];
+            return [currentRail];
         } else {
             // A rail has max 2 neighbours (FOR NOW), so we can assume that the next rail is the only one that is not the previous rail
             const next = this.neighbours.filter(n => n !== previous)[0];
             if(next) {
-                return [this, ...next.getPathTo(this, goal)]
+                currentRail.to = next;
+                return [currentRail, ...next.getPathTo(this, goal)]
             } else {
-                return [null];
+                return [currentRail, null];
             }
         }
     }

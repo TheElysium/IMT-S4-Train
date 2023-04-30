@@ -1,4 +1,4 @@
-import {getCell, getCellPosition} from "./utils/utils.js";
+import {getCell, getCellPosition, visualizePath} from "./utils/utils.js";
 import {StraightRail} from "./models/straightRail.js";
 import {TurnRail} from "./models/turnRail.js";
 import {Station} from "./models/station.js";

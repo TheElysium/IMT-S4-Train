@@ -6,6 +6,7 @@ import {stationType as StationType} from "./models/stationType.js";
 import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
 import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
+import {Rail} from "./models/rail.js";
 
 export class GameGrid {
     constructor(width, height, container) {
@@ -30,7 +31,7 @@ export class GameGrid {
                 this.container.appendChild(cell);
                 if(x === this.startStation.position.x && y === this.startStation.position.y){
                     const stationCell = new StationCell(this.startStation);
-                    this.train = new Train(this.getPathCoordinates([this.startStation]));
+                    this.train = new Train(this.getPathCoordinates([{from: null, rail: this.startStation, to: null}]));
                     this.train.addToDom(stationCell);
                     cell.appendChild(stationCell);
                     this.addRailToGridArray(this.startStation, {x, y});
@@ -104,7 +105,13 @@ export class GameGrid {
 
     updatePath() {
         const pathBetweenStations = this.pathBetweenStations();
-        pathBetweenStations[pathBetweenStations.length - 1] === this.endStation ? this.updateStationsColor("green") : this.updateStationsColor("#D9D9D9");
+        this.train.path = this.getPathCoordinates(pathBetweenStations);
+        pathBetweenStations.forEach((pathElem) => {
+            if(pathElem !== null) {
+                const {x,y} = {x: pathElem.rail.x, y: pathElem.rail.y};
+                this.updateConnectionIndicators({x, y}, '#ff0000');
+            }
+        });
     }
 
 
@@ -112,17 +119,13 @@ export class GameGrid {
     addRailToGridArray(rail, position) {
         const {x, y} = position;
         this.grid[x][y] = rail;
-        this.updateTrackColor(position, "#595959");
 
         const neighbours = rail.getPossibleNeighbours(this.grid);
         neighbours.forEach((neighbour) => {
             if (neighbour) {
-                const neighbourPosition = {x: neighbour.x, y: neighbour.y};
                 if (rail.canConnect(neighbour, this.grid)) {
                     rail.addNeighbour(neighbour);
                     neighbour.addNeighbour(rail);
-                    this.updateTrackColor(position, "red");
-                    this.updateTrackColor(neighbourPosition, "red");
                 }
             }
         });
@@ -135,35 +138,38 @@ export class GameGrid {
 
         railToRemove.neighbours.forEach((neighbour) => {
             neighbour.removeNeighbour(railToRemove);
-            if(neighbour.neighbours.length === 0) {
-                this.updateTrackColor({x: neighbour.x, y: neighbour.y}, '#595959');
-            }
         });
         railToRemove.neighbours = [];
     }
 
-    updateTrackColor(position, color) {
-        const railCell = this.container.querySelector(
-            `.c-wrapper__grid-container__game-grid__cell[data-x="${position.x}"][data-y="${position.y}"] rail-cell`
-        );
-        if (railCell) {
-            railCell.updateTrackColor(color);
+    updateConnectionIndicators(position, color) {
+        const cell = this.grid[position.x][position.y];
+        if (cell instanceof Rail) {
+            this.updateTrackColor(position, color);
         }
-        else {
-            const stationCell = this.container.querySelector(
-                `.c-wrapper__grid-container__game-grid__cell[data-x="${position.x}"][data-y="${position.y}"] station-cell`
-            );
-            stationCell.updateTrackColor(color);
+        else if (cell instanceof Station) {
+            this.updateStationsColor(color);
+        }
+        visualizePath(this.train.path, this.container);
+    }
+
+    updateTrackColor(position, color) {
+        const gridCell = this.grid[position.x][position.y];
+        if(gridCell instanceof Station) {
+            const cell = getCell(position.x, position.y, this.container, "station-cell");
+            cell.updateTrackColor(color);
+        }
+        else if (gridCell instanceof Rail) {
+            const cell = getCell(position.x, position.y, this.container, "rail-cell");
+            cell.updateTrackColor(color);
         }
     }
 
     updateStationsColor(color) {
-        const startStationCell = this.container.querySelector(
-            `.c-wrapper__grid-container__game-grid__cell[data-x="${this.startStation.position.x}"][data-y="${this.startStation.position.y}"] station-cell`
-        );
-        const endStationCell = this.container.querySelector(
-            `.c-wrapper__grid-container__game-grid__cell[data-x="${this.endStation.position.x}"][data-y="${this.endStation.position.y}"] station-cell`
-        );
+        const startStationCell = getCell(this.startStation.position.x, this.startStation.position.y, this.container, "station-cell");
+
+        const endStationCell =  getCell(this.endStation.position.x, this.endStation.position.y, this.container, "station-cell");
+
         startStationCell.updateStationColor(color);
         endStationCell.updateStationColor(color);
     }
@@ -179,44 +185,66 @@ export class GameGrid {
     }
 
     resetTrain() {
-        cancelAnimationFrame(this.train.animationFrame);
-        this.train.progress = 0;
-        this.train.previousDeltaTime = null;
-        this.train.currentCell = this.train.path[0];
-        this.train.animationFrame = null;
+        this.train.reset();
         this.train.render(this.train.currentCell, this.container)
     }
 
     pathBetweenStations() {
-        const path = this.startStation.getPathTo(this.startStation, this.endStation);
-        visualizePath(this.getPathCoordinates(path), this.container);
-        return path;
+        return this.startStation.getPathTo(null, this.endStation);
     }
 
     getPathCoordinates(path) {
         const coordinates = [];
-        path.filter((rail) => rail !== null).forEach((rail) => {
-            const cell = getCell(rail.x, rail.y, this.container);
+        path.filter((railOnPath) => railOnPath !== null).forEach((railOnPath) => {
+            const {x, y} = railOnPath.rail;
+            const cell = getCell(x, y, this.container)
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
-            let trainPosition = {
-                x: rail.x * cellHeight + cellHeight / 2,
-                y: rail.y * cellWidth + cellWidth / 2,
-                orientation: rail.orientation,
+            let trainCoordinates = {
+                x: x * cellWidth + cellWidth / 2,
+                y: y * cellHeight + cellHeight / 2,
+                rotation: this.getRotation(railOnPath),
             }
-            coordinates.push(trainPosition);
+            coordinates.push(trainCoordinates);
         });
         return coordinates;
     }
 
+    getRotation(railOnPath) {
+        if(railOnPath.from === null || railOnPath.to ===  null || ! (railOnPath.rail instanceof TurnRail)) return 0;
+        const fromPosition = {x: railOnPath.from.x, y: railOnPath.from.y};
+        const railPosition = {x: railOnPath.rail.x, y: railOnPath.rail.y};
+        const toPosition = {x: railOnPath.to.x, y: railOnPath.to.y};
+
+        return this.calculateTurnAngle(fromPosition, railPosition, toPosition);
+    }
+
+    calculateTurnAngle(fromPosition, turnRail, toPosition) {
+        const prevDiffX = turnRail.x - fromPosition.x;
+        const prevDiffY = turnRail.y - fromPosition.y;
+        const nextDiffX = toPosition.x - turnRail.x;
+        const nextDiffY = toPosition.y - turnRail.y;
+
+        if ((prevDiffX === 0 && nextDiffY === 0) || (prevDiffY === 0 && nextDiffX === 0)) {
+            if (prevDiffX * nextDiffY - prevDiffY * nextDiffX > 0) {
+                return -90;
+            } else {
+                return 90;
+            }
+        } else {
+            throw new Error('Invalid turn configuration');
+        }
+    }
+
+
     moveTrain() {
+        console.log(this.train.path)
         const move = (timestamp) => {
             if (!this.train.previousDeltaTime) {
                 this.train.previousDeltaTime = timestamp;
             }
             const deltaTime = (timestamp - this.train.previousDeltaTime);
             const newPos = this.train.move(deltaTime);
-
             if (newPos) {
                 this.train.render(newPos, this.container);
                 this.train.previousDeltaTime = timestamp;
