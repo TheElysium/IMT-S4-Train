@@ -121,9 +121,16 @@ html, body {
         }
       }
 
+      #backward, #forward {
+        svg {
+          width: 1.8vw;
+          height: auto;
+        }
+      }
+
       #backward {
-        margin-right: 1vw;
-        padding: 1vh 0.5vw 1vh 0.25vw;
+        margin-right: 1.5vw;
+        padding: .8vh 0.5vw .8vh 0.25vw;
 
         path {
           fill: #EDF8E5;
@@ -135,12 +142,16 @@ html, body {
       }
 
       #play-pause-reset {
-        padding: 1.2vw 1vw;
+        padding: 1vw .8vw;
         display: flex;
         flex-direction: row;
         column-gap: 0.5vw;
 
         #play-pause-button {
+          #play-icon, #pause-icon {
+            display: block;
+          }
+
           path {
             fill: #EDF8E5;
           }
@@ -167,8 +178,8 @@ html, body {
       }
 
       #forward {
-        margin-left: 1vw;
-        padding: 1vh 0.25vw 1vh 0.5vw;
+        margin-left: 1.5vw;
+        padding: .8vh 0.25vw .8vh 0.5vw;
 
         path {
           fill: #EDF8E5;

@@ -197,6 +197,7 @@ export class GameGrid {
     }
     startTrain(timestamp) {
         const pathBetweenStations = this.pathBetweenStations();
+        if (pathBetweenStations[pathBetweenStations.length - 1] === null) return;
         this.train.path = this.getPathCoordinates(pathBetweenStations);
         this.train.start(timestamp);
         this.playing = true;

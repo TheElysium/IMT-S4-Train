@@ -17,8 +17,12 @@ export class ControlPanel extends HTMLElement {
                 </div>
                 <div id="play-pause-reset">
                     <button id="play-pause-button">
-                        <svg width="100%" height="100%" viewBox="0 0 67 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg id="play-icon" width="100%" height="100%" viewBox="0 0 67 74" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M62 28.3397C68.6666 32.1887 68.6667 41.8113 62 45.6603L15.5 72.507C8.83336 76.356 0.5 71.5448 0.5 63.8468V10.1532C0.5 2.45524 8.83333 -2.35604 15.5 1.49297L62 28.3397Z" fill="#EDF8E5"/>
+                        </svg>
+                        <svg id="pause-icon" width="100%" height="100%" viewBox="0 0 67 74" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none">
+                            <path d="M0 9.61039C0 4.30272 4.83821 0 10.8065 0C16.7747 0 21.6129 4.30272 21.6129 9.61039V64.3896C21.6129 69.6973 16.7747 74 10.8065 74C4.83821 74 0 69.6973 0 64.3896V9.61039Z" fill="#EDF8E5"/>
+                            <path d="M45.3871 9.61039C45.3871 4.30272 50.2253 0 56.1936 0C62.1618 0 67 4.30272 67 9.61039V64.3896C67 69.6973 62.1618 74 56.1936 74C50.2253 74 45.3871 69.6973 45.3871 64.3896V9.61039Z" fill="#EDF8E5"/>
                         </svg>
                     </button>
                     <button id="reset-button">
@@ -49,10 +53,22 @@ export class ControlPanel extends HTMLElement {
                 const resumeTimestamp = performance.now();
                 this.interactionGrid.play(resumeTimestamp);
             }
+            this.updateButtons();
         });
         this.querySelector("#reset-button").addEventListener("click", () => {
             this.interactionGrid.reset();
+            this.updateButtons();
         });
+    }
+
+    updateButtons() {
+        if (this.interactionGrid.isPlaying()) {
+            this.querySelector("#play-icon").style.display = "none";
+            this.querySelector("#pause-icon").style.display = "block";
+        } else {
+            this.querySelector("#play-icon").style.display = "block";
+            this.querySelector("#pause-icon").style.display = "none";
+        }
     }
 }
 
