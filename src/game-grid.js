@@ -17,6 +17,7 @@ export class GameGrid {
         this.startStation = new Station({x: 0, y: 0}, StationType.START);
         this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
         this.train = null;
+        this.playing = false;
         this.initGrid();
     }
 
@@ -174,19 +175,52 @@ export class GameGrid {
         endStationCell.updateStationColor(color);
     }
 
-    startTrain() {
-        const pathBetweenStations = this.pathBetweenStations();
-        if(this.train.animationFrame) {
-            this.resetTrain();
-            return;
+
+    play(timestamp) {
+        if (!this.playing) {
+            if (this.train.reachedEnd) {
+                this.resetTrain();
+            }
+            this.startTrain(timestamp);
         }
+    }
+
+    pause(timestamp) {
+        if (this.playing) {
+            this.pauseTrain(timestamp);
+        }
+    }
+
+    reset() {
+        this.pauseTrain();
+        this.resetTrain();
+    }
+
+    accelerate() {
+        this.train.accelerate();
+    }
+
+    decelerate() {
+        this.train.decelerate();
+    }
+
+    startTrain(timestamp) {
+        const pathBetweenStations = this.pathBetweenStations();
+        if (pathBetweenStations[pathBetweenStations.length - 1] === null) return;
         this.train.path = this.getPathCoordinates(pathBetweenStations);
+        this.train.start(timestamp);
+        this.playing = true;
         this.moveTrain();
+    }
+
+    pauseTrain(timestamp) {
+        this.train.pause(timestamp);
+        this.playing = false;
     }
 
     resetTrain() {
         this.train.reset();
-        this.train.render(this.train.currentCell, this.container)
+        this.train.render(this.train.currentCell, this.container);
     }
 
     pathBetweenStations() {
@@ -238,20 +272,32 @@ export class GameGrid {
 
 
     moveTrain() {
-        console.log(this.train.path)
         const move = (timestamp) => {
             if (!this.train.previousDeltaTime) {
                 this.train.previousDeltaTime = timestamp;
             }
+
+            if (this.train.timestamp.pause && this.train.timestamp.resume) {
+                const pauseDuration = this.train.timestamp.resume - this.train.timestamp.pause;
+                this.train.previousDeltaTime += pauseDuration;
+                this.train.timestamp.pause = null;
+                this.train.timestamp.resume = null;
+            }
+
             const deltaTime = (timestamp - this.train.previousDeltaTime);
+
             const newPos = this.train.move(deltaTime);
             if (newPos) {
                 this.train.render(newPos, this.container);
                 this.train.previousDeltaTime = timestamp;
                 this.train.animationFrame = requestAnimationFrame(move);
+            } else {
+                this.playing = false;
+                this.train.reachedEnd = true;
             }
         };
 
         this.train.animationFrame = requestAnimationFrame(move);
     }
+
 }

@@ -63,6 +63,95 @@ html, body {
   outline-offset: -8px;
   position: relative;
 }
+.c-wrapper__ui-container {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000000;
+  justify-content: center;
+  pointer-events: none;
+}
+.c-wrapper__ui-container__control-panel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2vh;
+  pointer-events: auto;
+}
+.c-wrapper__ui-container__control-panel button {
+  background: none;
+  border: none;
+}
+.c-wrapper__ui-container__control-panel button:hover {
+  cursor: pointer;
+}
+.c-wrapper__ui-container__control-panel button svg {
+  width: 2vw;
+  height: auto;
+}
+.c-wrapper__ui-container__control-panel button svg path {
+  transition: fill 0.3s ease;
+}
+.c-wrapper__ui-container__control-panel #backward, .c-wrapper__ui-container__control-panel #play-pause-reset, .c-wrapper__ui-container__control-panel #forward {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 1vw;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease;
+}
+.c-wrapper__ui-container__control-panel #backward:hover, .c-wrapper__ui-container__control-panel #play-pause-reset:hover, .c-wrapper__ui-container__control-panel #forward:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.c-wrapper__ui-container__control-panel #backward svg, .c-wrapper__ui-container__control-panel #forward svg {
+  width: 1.8vw;
+  height: auto;
+}
+.c-wrapper__ui-container__control-panel #backward {
+  margin-right: 1.5vw;
+  padding: 0.8vh 0.5vw 0.8vh 0.25vw;
+}
+.c-wrapper__ui-container__control-panel #backward path {
+  fill: #EDF8E5;
+}
+.c-wrapper__ui-container__control-panel #backward:hover path {
+  fill: white;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset {
+  padding: 1vw 0.8vw;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5vw;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #play-pause-button #play-icon, .c-wrapper__ui-container__control-panel #play-pause-reset #play-pause-button #pause-icon {
+  display: block;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #play-pause-button path {
+  fill: #EDF8E5;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #play-pause-button:hover path {
+  fill: white;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #reset-button svg {
+  width: 1.8vw;
+  height: auto;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #reset-button svg path {
+  fill: #D7966D;
+}
+.c-wrapper__ui-container__control-panel #play-pause-reset #reset-button svg:hover path {
+  fill: #D0755A;
+}
+.c-wrapper__ui-container__control-panel #forward {
+  margin-left: 1.5vw;
+  padding: 0.8vh 0.25vw 0.8vh 0.5vw;
+}
+.c-wrapper__ui-container__control-panel #forward path {
+  fill: #EDF8E5;
+}
+.c-wrapper__ui-container__control-panel #forward:hover path {
+  fill: white;
+}
 
 #circle {
   position: absolute;

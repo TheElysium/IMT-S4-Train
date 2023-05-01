@@ -50,9 +50,6 @@ export class InteractionGrid {
         else if(gameGridCell instanceof StraightRail || gameGridCell instanceof TurnRail){
             this.gameGrid.removeRail(position);
         }
-        else if (gameGridCell instanceof Station){
-            this.gameGrid.startTrain();
-        }
     }
 
     keyDownDetected(e){
@@ -145,4 +142,37 @@ export class InteractionGrid {
     hideMenu(menu) {
         menu.style.display = 'none';
     }
+
+    play(timestamp) {
+        this.gameGrid.play(timestamp);
+    }
+
+    pause(timestamp) {
+        this.gameGrid.pause(timestamp);
+    }
+
+    reset() {
+        this.gameGrid.reset();
+    }
+
+    accelerate() {
+        this.gameGrid.accelerate();
+    }
+
+    decelerate() {
+        this.gameGrid.decelerate();
+    }
+
+    hideGrid() {
+        this.container.style.display = "none";
+    }
+
+    showGrid() {
+        this.container.style.display = "grid";
+    }
+
+    isPlaying() {
+        return this.gameGrid.playing;
+    }
+
 }

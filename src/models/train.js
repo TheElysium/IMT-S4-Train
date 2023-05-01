@@ -7,6 +7,8 @@ export class Train {
         this.previousDeltaTime = null;
         this.currentCell = path[0];
         this.currentRotation = 0;
+        this.timestamp = {resume: null, pause: null};
+        this.reachedEnd = false;
     }
 
     getSvg() {
@@ -43,18 +45,18 @@ export class Train {
 
         const t = this.progress - prevIndex;
 
-        const prevPosition = this.path[prevIndex];
-        const nextPosition = this.path[nextIndex];
+        const prevCoordinates = this.path[prevIndex];
+        const nextCoordinates = this.path[nextIndex];
 
-        if(prevPosition !== this.currentCell){
-            console.log("Train has entered cell", prevPosition);
-            this.currentCell = prevPosition;
-            this.currentRotation += prevPosition.rotation;
+        if(!this.areCoordinatesEqual(prevCoordinates, this.currentCell)){
+            console.log("Train has entered cell", prevCoordinates);
+            this.currentCell = prevCoordinates;
+            this.currentRotation += prevCoordinates.rotation;
         }
 
         // Linear interpolation
-        const x = prevPosition.x * (1 - t) + nextPosition.x * t;
-        const y = prevPosition.y * (1 - t) + nextPosition.y * t;
+        const x = prevCoordinates.x * (1 - t) + nextCoordinates.x * t;
+        const y = prevCoordinates.y * (1 - t) + nextCoordinates.y * t;
 
         const rotation = this.currentRotation;
 
@@ -72,6 +74,10 @@ export class Train {
         }
     }
 
+    areCoordinatesEqual(a, b) {
+        return a.x === b.x && a.y === b.y && a.rotation === b.rotation;
+    }
+
     render(position, container) {
         if (!this.svgElement) {
             this.addToDom(container);
@@ -83,6 +89,17 @@ export class Train {
         // this.svgElement.style.transform = `translate(-50%, -50%)`;
     }
 
+    start(timestamp) {
+        this.timestamp.resume = timestamp;
+        this.playing = true;
+    }
+
+    pause(timestamp) {
+        cancelAnimationFrame(this.animationFrame);
+        this.animationFrame = null;
+        this.timestamp.pause = timestamp;
+    }
+
     reset() {
         cancelAnimationFrame(this.animationFrame);
         this.progress = 0;
@@ -90,5 +107,21 @@ export class Train {
         this.currentCell = this.path[0];
         this.animationFrame = null;
         this.currentRotation = 0;
+        this.reachedEnd = false;
+        this.timestamp.resume = null;
+        this.timestamp.pause = null;
+        this.speed = 0.001;
+    }
+
+    decelerate() {
+        if (this.speed > 0.00021){
+            this.speed -= 0.0002;
+        }
+    }
+
+    accelerate() {
+        if (this.speed < 0.003){
+            this.speed += 0.0002;
+        }
     }
 }
