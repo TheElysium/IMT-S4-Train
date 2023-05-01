@@ -42,11 +42,12 @@ export class ControlPanel extends HTMLElement {
 
     initEventListeners() {
         this.querySelector("#play-pause-button").addEventListener("click", () => {
-            if(this.interactionGrid.isPlaying()) {
-                this.interactionGrid.pause();
-            }
-            else {
-                this.interactionGrid.play();
+            if (this.interactionGrid.isPlaying()) {
+                const pauseTimestamp = performance.now();
+                this.interactionGrid.pause(pauseTimestamp);
+            } else {
+                const resumeTimestamp = performance.now();
+                this.interactionGrid.play(resumeTimestamp);
             }
         });
         this.querySelector("#reset-button").addEventListener("click", () => {

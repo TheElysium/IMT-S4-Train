@@ -143,24 +143,16 @@ export class InteractionGrid {
         menu.style.display = 'none';
     }
 
-    play() {
-        if (!this.gameGrid.playing) {
-            this.gameGrid.playing = true;
-            this.gameGrid.startTrain();
-        }
+    play(timestamp) {
+        this.gameGrid.play(timestamp);
     }
 
-    pause() {
-        if (this.gameGrid.playing) {
-            cancelAnimationFrame(this.gameGrid.train.animationFrame);
-            this.gameGrid.train.animationFrame = null;
-            this.gameGrid.playing = false;
-        }
+    pause(timestamp) {
+        this.gameGrid.pause(timestamp);
     }
 
     reset() {
-        this.pause();
-        this.gameGrid.resetTrain();
+        this.gameGrid.reset();
     }
 
     isPlaying() {

@@ -7,6 +7,8 @@ export class Train {
         this.previousDeltaTime = null;
         this.currentCell = path[0];
         this.currentRotation = 0;
+        this.timestamp = {resume: null, pause: null};
+        this.reachedEnd = false;
     }
 
     getSvg() {
@@ -83,6 +85,17 @@ export class Train {
         // this.svgElement.style.transform = `translate(-50%, -50%)`;
     }
 
+    start(timestamp) {
+        this.timestamp.resume = timestamp;
+        this.playing = true;
+    }
+
+    pause(timestamp) {
+        cancelAnimationFrame(this.animationFrame);
+        this.animationFrame = null;
+        this.timestamp.pause = timestamp;
+    }
+
     reset() {
         cancelAnimationFrame(this.animationFrame);
         this.progress = 0;
@@ -90,5 +103,8 @@ export class Train {
         this.currentCell = this.path[0];
         this.animationFrame = null;
         this.currentRotation = 0;
+        this.reachedEnd = false;
+        this.timestamp.resume = null;
+        this.timestamp.pause = null;
     }
 }
