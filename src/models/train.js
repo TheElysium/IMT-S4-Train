@@ -45,18 +45,18 @@ export class Train {
 
         const t = this.progress - prevIndex;
 
-        const prevPosition = this.path[prevIndex];
-        const nextPosition = this.path[nextIndex];
+        const prevCoordinates = this.path[prevIndex];
+        const nextCoordinates = this.path[nextIndex];
 
-        if(prevPosition !== this.currentCell){
-            console.log("Train has entered cell", prevPosition);
-            this.currentCell = prevPosition;
-            this.currentRotation += prevPosition.rotation;
+        if(!this.areCoordinatesEqual(prevCoordinates, this.currentCell)){
+            console.log("Train has entered cell", prevCoordinates);
+            this.currentCell = prevCoordinates;
+            this.currentRotation += prevCoordinates.rotation;
         }
 
         // Linear interpolation
-        const x = prevPosition.x * (1 - t) + nextPosition.x * t;
-        const y = prevPosition.y * (1 - t) + nextPosition.y * t;
+        const x = prevCoordinates.x * (1 - t) + nextCoordinates.x * t;
+        const y = prevCoordinates.y * (1 - t) + nextCoordinates.y * t;
 
         const rotation = this.currentRotation;
 
@@ -72,6 +72,10 @@ export class Train {
         if (this.svgElement) {
             this.svgElement.remove();
         }
+    }
+
+    areCoordinatesEqual(a, b) {
+        return a.x === b.x && a.y === b.y && a.rotation === b.rotation;
     }
 
     render(position, container) {
