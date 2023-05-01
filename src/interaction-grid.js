@@ -50,9 +50,6 @@ export class InteractionGrid {
         else if(gameGridCell instanceof StraightRail || gameGridCell instanceof TurnRail){
             this.gameGrid.removeRail(position);
         }
-        else if (gameGridCell instanceof Station){
-            this.play();
-        }
     }
 
     keyDownDetected(e){
@@ -147,23 +144,27 @@ export class InteractionGrid {
     }
 
     play() {
-        if (!this.playing) {
+        if (!this.gameGrid.playing) {
             this.gameGrid.playing = true;
             this.gameGrid.startTrain();
         }
     }
 
     pause() {
-        if (this.playing) {
+        if (this.gameGrid.playing) {
             cancelAnimationFrame(this.gameGrid.train.animationFrame);
             this.gameGrid.train.animationFrame = null;
-            this.playing = false;
+            this.gameGrid.playing = false;
         }
     }
 
     reset() {
         this.pause();
         this.gameGrid.resetTrain();
+    }
+
+    isPlaying() {
+        return this.gameGrid.playing;
     }
 
 }

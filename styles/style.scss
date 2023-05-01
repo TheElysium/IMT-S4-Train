@@ -83,43 +83,84 @@ html, body {
     right: 0;
     z-index: 1000000;
     justify-content: center;
+    pointer-events: none;
 
     &__control-panel {
       display: flex;
       flex-direction: row;
       align-items: center;
       margin-top: 2vh;
+      pointer-events: auto;
 
       button {
         background: none;
         border: none;
 
+        &:hover {
+            cursor: pointer;
+        }
+
         svg {
           width: 2vw;
           height: auto;
+
+          path {
+            transition: fill 0.3s ease;
+          }
         }
       }
 
       #backward, #play-pause-reset, #forward {
         background-color: rgba(255, 255, 255, .4);
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
+        border-radius: 1vw;
+        backdrop-filter: blur(8px);
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, .5);
+        }
       }
 
       #backward {
         margin-right: 1vw;
         padding: 1vh 0.5vw 1vh 0.25vw;
+
+        path {
+          fill: #EDF8E5;
+        }
+
+        &:hover path {
+          fill: white;
+        }
       }
 
       #play-pause-reset {
-        padding: 2vh 1vw;
+        padding: 1.2vw 1vw;
         display: flex;
         flex-direction: row;
         column-gap: 0.5vw;
+
+        #play-pause-button {
+          path {
+            fill: #EDF8E5;
+          }
+
+          &:hover path {
+            fill: white;
+          }
+        }
         #reset-button {
           svg {
             width: 1.8vw;
             height: auto;
+
+            path {
+              fill: #D7966D;
+            }
+
+            &:hover path {
+              fill: #D0755A;
+            }
           }
         }
 
@@ -128,6 +169,14 @@ html, body {
       #forward {
         margin-left: 1vw;
         padding: 1vh 0.25vw 1vh 0.5vw;
+
+        path {
+          fill: #EDF8E5;
+        }
+
+        &:hover path {
+          fill: white;
+        }
       }
     }
   }
