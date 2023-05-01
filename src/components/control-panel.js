@@ -53,11 +53,11 @@ export class ControlPanel extends HTMLElement {
                 const resumeTimestamp = performance.now();
                 this.interactionGrid.play(resumeTimestamp);
             }
-            this.updateButtons();
+            this.update();
         });
         this.querySelector("#reset-button").addEventListener("click", () => {
             this.interactionGrid.reset();
-            this.updateButtons();
+            this.update();
         });
         this.querySelector("#decelerate-button").addEventListener("click", () => {
             this.interactionGrid.decelerate();
@@ -67,13 +67,15 @@ export class ControlPanel extends HTMLElement {
         });
     }
 
-    updateButtons() {
+    update() {
         if (this.interactionGrid.isPlaying()) {
             this.querySelector("#play-icon").style.display = "none";
             this.querySelector("#pause-icon").style.display = "block";
+            this.interactionGrid.hideGrid();
         } else {
             this.querySelector("#play-icon").style.display = "block";
             this.querySelector("#pause-icon").style.display = "none";
+            this.interactionGrid.showGrid();
         }
     }
 }

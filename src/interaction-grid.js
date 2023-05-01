@@ -163,6 +163,14 @@ export class InteractionGrid {
         this.gameGrid.decelerate();
     }
 
+    hideGrid() {
+        this.container.style.display = "none";
+    }
+
+    showGrid() {
+        this.container.style.display = "grid";
+    }
+
     isPlaying() {
         return this.gameGrid.playing;
     }
