@@ -195,6 +195,15 @@ export class GameGrid {
         this.pauseTrain();
         this.resetTrain();
     }
+
+    accelerate() {
+        this.train.accelerate();
+    }
+
+    decelerate() {
+        this.train.decelerate();
+    }
+
     startTrain(timestamp) {
         const pathBetweenStations = this.pathBetweenStations();
         if (pathBetweenStations[pathBetweenStations.length - 1] === null) return;

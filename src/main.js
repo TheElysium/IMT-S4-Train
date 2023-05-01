@@ -2,8 +2,8 @@ import { GameGrid } from './game-grid.js';
 import {InteractionGrid} from "./interaction-grid.js";
 import {ControlPanel} from "./components/control-panel.js";
 
-const gridWidth = 4;
-const gridHeight = 2;
+const gridWidth = 6;
+const gridHeight = 4;
 const gameGridContainer = document.querySelector(".c-wrapper__grid-container__game-grid");
 gameGridContainer.style.gridTemplateColumns = `repeat(${gridWidth}, 1fr)`;
 gameGridContainer.style.gridTemplateRows = `repeat(${gridHeight}, 1fr)`;

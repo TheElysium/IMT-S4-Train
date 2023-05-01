@@ -110,7 +110,7 @@ html, body {
         }
       }
 
-      #backward, #play-pause-reset, #forward {
+      #decelerate, #play-pause-reset, #accelerate {
         background-color: rgba(255, 255, 255, .4);
         border-radius: 1vw;
         backdrop-filter: blur(8px);
@@ -121,14 +121,14 @@ html, body {
         }
       }
 
-      #backward, #forward {
+      #decelerate, #accelerate {
         svg {
           width: 1.8vw;
           height: auto;
         }
       }
 
-      #backward {
+      #decelerate {
         margin-right: 1.5vw;
         padding: .8vh 0.5vw .8vh 0.25vw;
 
@@ -177,7 +177,7 @@ html, body {
 
       }
 
-      #forward {
+      #accelerate {
         margin-left: 1.5vw;
         padding: .8vh 0.25vw .8vh 0.5vw;
 

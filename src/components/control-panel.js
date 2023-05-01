@@ -7,8 +7,8 @@ export class ControlPanel extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
             <div class="c-wrapper__ui-container__control-panel">
-                <div id="backward">
-                    <button id="backward-button">
+                <div id="decelerate">
+                    <button id="decelerate-button">
                         <svg width="100%" height="100%" viewBox="0 0 50 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.5 19.5981C-0.499999 18.4434 -0.500001 15.5566 1.5 14.4019L25.5 0.545499C27.5 -0.609202 30 0.834173 30 3.14357V30.8564C30 33.1658 27.5 34.6092 25.5 33.4545L1.5 19.5981Z" fill="#EDF8E5"/>
                             <path d="M21.5 19.5981C19.5 18.4434 19.5 15.5566 21.5 14.4019L45.5 0.545499C47.5 -0.609202 50 0.834173 50 3.14357V30.8564C50 33.1658 47.5 34.6092 45.5 33.4545L21.5 19.5981Z" fill="#EDF8E5"/>
@@ -31,8 +31,8 @@ export class ControlPanel extends HTMLElement {
                         </svg>
                     </button>
                 </div>
-                <div id="forward">
-                    <button id="forward-button">
+                <div id="accelerate">
+                    <button id="accelerate-button">
                         <svg width="100%" height="100%" viewBox="0 0 50 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M28.5 14.4019C30.5 15.5566 30.5 18.4434 28.5 19.5981L4.5 33.4545C2.5 34.6092 0 33.1658 0 30.8564V3.14358C0 0.834176 2.5 -0.609202 4.5 0.545498L28.5 14.4019Z" fill="#EDF8E5"/>
                             <path d="M48.5 14.4019C50.5 15.5566 50.5 18.4434 48.5 19.5981L24.5 33.4545C22.5 34.6092 20 33.1658 20 30.8564V3.14358C20 0.834176 22.5 -0.609202 24.5 0.545498L48.5 14.4019Z" fill="#EDF8E5"/>
@@ -58,6 +58,12 @@ export class ControlPanel extends HTMLElement {
         this.querySelector("#reset-button").addEventListener("click", () => {
             this.interactionGrid.reset();
             this.updateButtons();
+        });
+        this.querySelector("#decelerate-button").addEventListener("click", () => {
+            this.interactionGrid.decelerate();
+        });
+        this.querySelector("#accelerate-button").addEventListener("click", () => {
+            this.interactionGrid.accelerate();
         });
     }
 

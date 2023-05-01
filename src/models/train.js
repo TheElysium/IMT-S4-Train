@@ -106,5 +106,18 @@ export class Train {
         this.reachedEnd = false;
         this.timestamp.resume = null;
         this.timestamp.pause = null;
+        this.speed = 0.001;
+    }
+
+    decelerate() {
+        if (this.speed > 0.00021){
+            this.speed -= 0.0002;
+        }
+    }
+
+    accelerate() {
+        if (this.speed < 0.003){
+            this.speed += 0.0002;
+        }
     }
 }

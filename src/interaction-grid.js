@@ -155,6 +155,14 @@ export class InteractionGrid {
         this.gameGrid.reset();
     }
 
+    accelerate() {
+        this.gameGrid.accelerate();
+    }
+
+    decelerate() {
+        this.gameGrid.decelerate();
+    }
+
     isPlaying() {
         return this.gameGrid.playing;
     }
