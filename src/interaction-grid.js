@@ -48,7 +48,8 @@ export class InteractionGrid {
             this.menuRail(position, event.pageX, event.pageY);
         }
         else if(gameGridCell instanceof StraightRail || gameGridCell instanceof TurnRail){
-            this.gameGrid.removeRail(position);
+            this.menuRail2(position, event.pageX, event.pageY);
+            //this.gameGrid.removeRail(position);
         }
     }
 
@@ -104,7 +105,7 @@ export class InteractionGrid {
     }
 
     menuRail(position, width, height) {
-        const menu = document.getElementById('circle');
+        const menu = document.getElementById('circle-triple');
 
         this.showMenu(menu, width, height);
 
@@ -130,6 +131,34 @@ export class InteractionGrid {
             this.hideMenu(menu);
         }
     }
+
+    menuRail2(position, width, height) {
+        const menu2 = document.getElementById('circle-double');
+
+        this.showMenu(menu2, width, height);
+
+        const rotateRail = document.getElementById('rotate-rail');
+        const removeRail = document.getElementById('remove-rail');
+
+        rotateRail.onmouseup = () => {
+            this.gameGrid.rotateRail(position);
+            this.hideMenu(menu2);
+        };
+
+        removeRail.onmouseup = () => {
+            this.gameGrid.removeRail(position);
+            this.hideMenu(menu2);
+        };
+
+        menu2.onmouseup = () => {
+            this.hideMenu(menu2);
+        };
+
+        menu2.onmouseleave = () => {
+            this.hideMenu(menu2);
+        }
+    }
+
     showMenu(menu, x, y) {
         menu.style.display = 'flex';
         const width = menu.offsetWidth;

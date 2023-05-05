@@ -194,9 +194,9 @@ html, body {
 
 }
 
-#circle {
+#circle-double, #circle-triple {
   position: absolute;
-  display: none;
+  display: flex;
   padding: 0;
   margin: 1em auto;
   width: 20vh;
@@ -226,19 +226,27 @@ li {
     position: absolute;
     width: 50%;
     height: 100%;
-    background-color: whitesmoke;
-    border: 1px solid white;
+    transform-origin: 0% 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid $grid-background-color;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
 
     &.first-child {
       left: 0;
       transform-origin: 100% 100%;
       opacity: 0.8;
+      border: 2px solid $grid-background-color;
     }
 
-    &.second-child {
+    &:nth-child(2) {
       right: 0;
-      transform-origin: 0% 100%;
+      transform-origin: 0% 0%;
       opacity: 0.8;
+      border: 2px solid $grid-background-color;
     }
 
     .icon-double {
@@ -304,5 +312,6 @@ li {
       margin-top: 30%;
       position: absolute;
     }
+
   }
 }

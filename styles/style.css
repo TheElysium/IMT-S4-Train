@@ -94,27 +94,27 @@ html, body {
 .c-wrapper__ui-container__control-panel button svg path {
   transition: fill 0.3s ease;
 }
-.c-wrapper__ui-container__control-panel #backward, .c-wrapper__ui-container__control-panel #play-pause-reset, .c-wrapper__ui-container__control-panel #forward {
+.c-wrapper__ui-container__control-panel #decelerate, .c-wrapper__ui-container__control-panel #play-pause-reset, .c-wrapper__ui-container__control-panel #accelerate {
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 1vw;
   backdrop-filter: blur(8px);
   transition: background-color 0.3s ease;
 }
-.c-wrapper__ui-container__control-panel #backward:hover, .c-wrapper__ui-container__control-panel #play-pause-reset:hover, .c-wrapper__ui-container__control-panel #forward:hover {
+.c-wrapper__ui-container__control-panel #decelerate:hover, .c-wrapper__ui-container__control-panel #play-pause-reset:hover, .c-wrapper__ui-container__control-panel #accelerate:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-.c-wrapper__ui-container__control-panel #backward svg, .c-wrapper__ui-container__control-panel #forward svg {
+.c-wrapper__ui-container__control-panel #decelerate svg, .c-wrapper__ui-container__control-panel #accelerate svg {
   width: 1.8vw;
   height: auto;
 }
-.c-wrapper__ui-container__control-panel #backward {
+.c-wrapper__ui-container__control-panel #decelerate {
   margin-right: 1.5vw;
   padding: 0.8vh 0.5vw 0.8vh 0.25vw;
 }
-.c-wrapper__ui-container__control-panel #backward path {
+.c-wrapper__ui-container__control-panel #decelerate path {
   fill: #EDF8E5;
 }
-.c-wrapper__ui-container__control-panel #backward:hover path {
+.c-wrapper__ui-container__control-panel #decelerate:hover path {
   fill: white;
 }
 .c-wrapper__ui-container__control-panel #play-pause-reset {
@@ -142,20 +142,20 @@ html, body {
 .c-wrapper__ui-container__control-panel #play-pause-reset #reset-button svg:hover path {
   fill: #D0755A;
 }
-.c-wrapper__ui-container__control-panel #forward {
+.c-wrapper__ui-container__control-panel #accelerate {
   margin-left: 1.5vw;
   padding: 0.8vh 0.25vw 0.8vh 0.5vw;
 }
-.c-wrapper__ui-container__control-panel #forward path {
+.c-wrapper__ui-container__control-panel #accelerate path {
   fill: #EDF8E5;
 }
-.c-wrapper__ui-container__control-panel #forward:hover path {
+.c-wrapper__ui-container__control-panel #accelerate:hover path {
   fill: white;
 }
 
-#circle {
+#circle-double, #circle-triple {
   position: absolute;
-  display: none;
+  display: flex;
   padding: 0;
   margin: 1em auto;
   width: 20vh;
@@ -164,8 +164,9 @@ html, body {
   list-style: none;
   overflow: hidden;
   z-index: 1000;
+  backdrop-filter: blur(8px);
 }
-#circle::after {
+#circle-double::after, #circle-triple::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -182,18 +183,25 @@ li.double {
   position: absolute;
   width: 50%;
   height: 100%;
-  background-color: whitesmoke;
-  border: 1px solid white;
+  transform-origin: 0% 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 2px solid #99D46B;
+  transition: all 0.1s ease-in-out;
+}
+li.double:hover {
+  background-color: rgba(255, 255, 255, 0.9);
 }
 li.double.first-child {
   left: 0;
   transform-origin: 100% 100%;
   opacity: 0.8;
+  border: 2px solid #99D46B;
 }
-li.double.second-child {
+li.double:nth-child(2) {
   right: 0;
-  transform-origin: 0% 100%;
+  transform-origin: 0% 0%;
   opacity: 0.8;
+  border: 2px solid #99D46B;
 }
 li.double .icon-double {
   display: flex;
@@ -213,8 +221,8 @@ li.triple {
   width: 70%;
   height: 70%;
   transform-origin: 0% 100%;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 2px solid #99D46B;
   transition: all 0.1s ease-in-out;
 }
 li.triple:hover {
