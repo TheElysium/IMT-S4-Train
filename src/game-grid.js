@@ -5,7 +5,7 @@ import {Station} from "./models/station.js";
 import {stationType as StationType} from "./models/stationType.js";
 import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
-import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
+import {getCell, visualizePath} from "./utils/utils.js";
 import {Rail} from "./models/rail.js";
 
 export class GameGrid {
@@ -15,7 +15,7 @@ export class GameGrid {
         this.container = container;
         this.grid = new Array(height).fill(null).map(() => new Array(width).fill(null));
         this.startStation = new Station({x: 0, y: 0}, StationType.START);
-        this.endStation = new Station({x: height-1, y: width-1}, StationType.END);
+        this.endStation = new Station({x: height - 1, y: width - 1}, StationType.END);
         this.train = null;
         this.playing = false;
         this.initGrid();
@@ -30,14 +30,13 @@ export class GameGrid {
                 cell.dataset.x = x;
                 cell.dataset.y = y;
                 this.container.appendChild(cell);
-                if(x === this.startStation.position.x && y === this.startStation.position.y){
+                if (x === this.startStation.position.x && y === this.startStation.position.y) {
                     const stationCell = new StationCell(this.startStation);
                     this.train = new Train(this.getPathCoordinates([{from: null, rail: this.startStation, to: null}]));
                     this.train.addToDom(stationCell);
                     cell.appendChild(stationCell);
                     this.addRailToGridArray(this.startStation, {x, y});
-                }
-                else if (x === this.endStation.position.x && y === this.endStation.position.y){
+                } else if (x === this.endStation.position.x && y === this.endStation.position.y) {
                     const stationCell = new StationCell(this.endStation);
                     cell.appendChild(stationCell);
                     this.addRailToGridArray(this.endStation, {x, y});
@@ -46,7 +45,7 @@ export class GameGrid {
         }
     }
 
-    addStraightRail(position){
+    addStraightRail(position) {
         const cell = getCell(position.x, position.y, this.container);
         const {x, y} = position;
 
@@ -62,7 +61,7 @@ export class GameGrid {
         this.updatePath();
     }
 
-    addTurnRail(position){
+    addTurnRail(position) {
         const cell = getCell(position.x, position.y, this.container);
         const {x, y} = position;
 
@@ -79,7 +78,7 @@ export class GameGrid {
 
     }
 
-    addIntersectionRail(event){
+    addIntersectionRail(event) {
         // TODO Click: Add intersection rail
     }
 
@@ -108,8 +107,8 @@ export class GameGrid {
         const pathBetweenStations = this.pathBetweenStations();
         this.train.path = this.getPathCoordinates(pathBetweenStations);
         pathBetweenStations.forEach((pathElem) => {
-            if(pathElem !== null) {
-                const {x,y} = {x: pathElem.rail.x, y: pathElem.rail.y};
+            if (pathElem !== null) {
+                const {x, y} = {x: pathElem.rail.x, y: pathElem.rail.y};
                 this.updateConnectionIndicators({x, y}, '#ff0000');
             }
         });
@@ -147,8 +146,7 @@ export class GameGrid {
         const cell = this.grid[position.x][position.y];
         if (cell instanceof Rail) {
             this.updateTrackColor(position, color);
-        }
-        else if (cell instanceof Station) {
+        } else if (cell instanceof Station) {
             this.updateStationsColor(color);
         }
         visualizePath(this.train.path, this.container);
@@ -156,11 +154,10 @@ export class GameGrid {
 
     updateTrackColor(position, color) {
         const gridCell = this.grid[position.x][position.y];
-        if(gridCell instanceof Station) {
+        if (gridCell instanceof Station) {
             const cell = getCell(position.x, position.y, this.container, "station-cell");
             cell.updateTrackColor(color);
-        }
-        else if (gridCell instanceof Rail) {
+        } else if (gridCell instanceof Rail) {
             const cell = getCell(position.x, position.y, this.container, "rail-cell");
             cell.updateTrackColor(color);
         }
@@ -169,7 +166,7 @@ export class GameGrid {
     updateStationsColor(color) {
         const startStationCell = getCell(this.startStation.position.x, this.startStation.position.y, this.container, "station-cell");
 
-        const endStationCell =  getCell(this.endStation.position.x, this.endStation.position.y, this.container, "station-cell");
+        const endStationCell = getCell(this.endStation.position.x, this.endStation.position.y, this.container, "station-cell");
 
         startStationCell.updateStationColor(color);
         endStationCell.updateStationColor(color);
@@ -245,7 +242,7 @@ export class GameGrid {
     }
 
     getRotation(railOnPath) {
-        if(railOnPath.from === null || railOnPath.to ===  null || ! (railOnPath.rail instanceof TurnRail)) return 0;
+        if (railOnPath.from === null || railOnPath.to === null || !(railOnPath.rail instanceof TurnRail)) return 0;
         const fromPosition = {x: railOnPath.from.x, y: railOnPath.from.y};
         const railPosition = {x: railOnPath.rail.x, y: railOnPath.rail.y};
         const toPosition = {x: railOnPath.to.x, y: railOnPath.to.y};

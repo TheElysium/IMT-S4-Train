@@ -48,7 +48,7 @@ export function getCellPosition(cell) {
     };
 }
 
-export function getCell(x, y, container, type="") {
+export function getCell(x, y, container, type = "") {
     return container.querySelector(
         `.${container.className}__cell[data-x="${x}"][data-y="${y}"] ${type}`
     );
