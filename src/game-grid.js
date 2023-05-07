@@ -264,7 +264,9 @@ export class GameGrid {
     }
 
     getRotation(railOnPath) {
-        if(railOnPath.from === null || railOnPath.to ===  null || ! (railOnPath.rail instanceof TurnRail)) return 0;
+        if(railOnPath.from === null || railOnPath.to ===  null ) return 0;
+        if(railOnPath.rail instanceof StraightRail || (railOnPath.rail instanceof SwitchRail && railOnPath.rail.getCurrentRail() instanceof StraightRail)) return 0;
+
         const fromPosition = {x: railOnPath.from.x, y: railOnPath.from.y};
         const railPosition = {x: railOnPath.rail.x, y: railOnPath.rail.y};
         const toPosition = {x: railOnPath.to.x, y: railOnPath.to.y};
