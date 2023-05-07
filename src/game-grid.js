@@ -117,10 +117,10 @@ export class GameGrid {
     }
 
     updatePath() {
-        this.updateConnectionIndicators(this.path, 0.5);
+        this.updateConnectionIndicators(this.path, "#595959");
         this.path = this.pathBetweenStations();
         this.train.path = this.getPathCoordinates(this.path);
-        this.updateConnectionIndicators(this.path, 1);
+        this.updateConnectionIndicators(this.path, "green");
     }
 
 
@@ -163,25 +163,25 @@ export class GameGrid {
     //     visualizePath(this.train.path, this.container);
     // }
 
-    updateConnectionIndicators(path, opacity) {
+    updateConnectionIndicators(path, color) {
         path.forEach((pathElem) => {
             if(pathElem !== null) {
                 const {x,y} = {x: pathElem.rail.x, y: pathElem.rail.y};
-                this.updateTrackColor(pathElem.rail, opacity);
+                this.updateTrackColor(pathElem.rail, color);
             }
         });
         visualizePath(this.train.path, this.container);
     }
 
-    updateTrackColor(rail, opacity) {
+    updateTrackColor(rail, color) {
         const position = {x: rail.x, y: rail.y};
         if(rail instanceof Station) {
             const cell = getCell(position.x, position.y, this.container, "station-cell");
-            cell.updateTrackColor(opacity);
+            cell.updateTrackColor(color);
         }
         else if (rail instanceof Rail) {
             const cell = getCell(position.x, position.y, this.container, "rail-cell");
-            cell.updateTrackColor(opacity);
+            cell.updateTrackColor(color);
         }
     }
 
