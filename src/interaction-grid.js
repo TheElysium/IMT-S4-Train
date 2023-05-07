@@ -109,7 +109,7 @@ export class InteractionGrid {
         this.showMenu(menu, width, height);
 
         const addStraightRail = document.getElementById('add-straight-rail');
-        // const addSwitchRail = document.getElementById('add-switch-rail');
+        const addSwitchRail = document.getElementById('add-switch-rail');
         const addTurnRail = document.getElementById('add-turn-rail');
 
         addStraightRail.onmouseup = () => {
@@ -121,6 +121,11 @@ export class InteractionGrid {
             this.gameGrid.addTurnRail(position);
             this.hideMenu(menu);
         };
+
+        addSwitchRail.onmouseup = () => {
+            this.gameGrid.addSwitchRail(position);
+            this.hideMenu(menu);
+        }
 
         menu.onmouseup = () => {
             this.hideMenu(menu);

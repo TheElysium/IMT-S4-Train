@@ -7,6 +7,7 @@ import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
 import {visualizePath, getCellPosition, getCell} from "./utils/utils.js";
 import {Rail} from "./models/rail.js";
+import {SwitchRail} from "./models/switchRail.js";
 
 export class GameGrid {
     constructor(width, height, container) {
@@ -79,8 +80,18 @@ export class GameGrid {
 
     }
 
-    addIntersectionRail(event){
-        // TODO Click: Add intersection rail
+    addSwitchRail(position){
+        const cell = getCell(position.x, position.y, this.container);
+        const {x, y} = position;
+
+        let rail = new SwitchRail(x, y);
+        let railCell = new RailCell(rail);
+
+        cell.innerHTML = '';
+        cell.appendChild(railCell);
+
+        this.addRailToGridArray(rail, {x, y});
+        this.updatePath();
     }
 
     removeRail(position) {
