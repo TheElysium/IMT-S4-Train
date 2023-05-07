@@ -20,36 +20,25 @@ export class SwitchRail extends Rail {
 
     getSvg() {
         return `
-<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="76.8462" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="131.737" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="21.9561" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="241.517" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="296.407" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="186.627" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="406.188" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="461.078" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="351.297" y="201" width="14.9701" height="98" fill="#964415"/>
-<rect x="200.1" y="92.5" width="15" height="97.8044" transform="rotate(-90 200.1 92.5)" fill="#964415"/>
-<rect x="200.1" y="37.5" width="15" height="97.8044" transform="rotate(-90 200.1 37.5)" fill="#964415"/>
-<rect x="200.1" y="147.5" width="15" height="97.8044" transform="rotate(-90 200.1 147.5)" fill="#964415"/>
-<rect x="107.784" y="209" width="15" height="107.784" transform="rotate(90 107.784 209)" fill="#595959"/>
-<rect x="141.717" y="277" width="15" height="141.717" transform="rotate(90 141.717 277)" fill="#595959"/>
-<rect x="291.417" y="143" width="14.9701" height="143" transform="rotate(180 291.417 143)" fill="#595959"/>
-<rect x="223.553" y="108.761" width="14.9701" height="108.761" transform="rotate(180 223.553 108.761)" fill="#595959"/>
-<path d="M216.068 107.5C216.068 137.646 211.869 173.908 192.116 193.5C172.786 212.672 137.226 216.5 107.784 216.5" stroke="#595959" stroke-width="15"/>
-<path d="M141.717 284.5C179.302 284.5 214.35 269.039 240.927 242.409C267.504 215.779 283.932 180.661 283.932 143" stroke="#595959" stroke-width="15"/>
-<rect width="15" height="107.784" transform="matrix(0 1 1 0 392.216 209)" fill="#595959"/>
-<rect width="15" height="141.717" transform="matrix(0 1 1 0 358.283 277)" fill="#595959"/>
-<rect width="14.9701" height="143" transform="matrix(1 0 0 -1 208.583 143)" fill="#595959"/>
-<rect width="14.9701" height="108.761" transform="matrix(1 0 0 -1 276.447 108.761)" fill="#595959"/>
-<path d="M283.932 107.5C283.932 137.646 288.131 173.908 307.884 193.5C327.214 212.672 362.774 216.5 392.216 216.5" stroke="#595959" stroke-width="15"/>
-<path d="M358.283 284.5C320.698 284.5 285.65 269.039 259.073 242.409C232.496 215.779 216.068 180.661 216.068 143" stroke="#595959" stroke-width="15"/>
-<rect x="499.002" y="209" width="15" height="499.002" transform="rotate(90 499.002 209)" fill="#595959"/>
-<rect x="499.002" y="277" width="15" height="499.002" transform="rotate(90 499.002 277)" fill="#595959"/>
-</svg>
-
-            `
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="wood-straight-turn1" d="M76.8463 201H91.8163V299H76.8463V201Z" fill="#964415"/>
+            <path class="wood-straight-turn1" d="M131.737 201H146.707V299H131.737V201Z" fill="#964415"/>
+            <path class="wood-straight-turn1" d="M21.9561 201H36.9261V299H21.9561V201Z" fill="#964415"/>
+            <path class="wood-straight" d="M241.517 201H256.487V299H241.517V201Z" fill="#964415"/>
+            <path class="wood-straight" d="M296.407 201H311.377V299H296.407V201Z" fill="#964415"/>
+            <path class="wood-straight" d="M186.627 201H201.597V299H186.627V201Z" fill="#964415"/>
+            <path class="wood-straight-turn2" d="M406.188 201H421.158V299H406.188V201Z" fill="#964415"/>
+            <path class="wood-straight-turn2" d="M461.078 201H476.048V299H461.078V201Z" fill="#964415"/>
+            <path class="wood-straight-turn2" d="M351.297 201H366.267V299H351.297V201Z" fill="#964415"/>
+            <path class="wood-turn1-turn2" d="M200.1 92.5V77.5H297.904V92.5H200.1Z" fill="#964415"/>
+            <path class="wood-turn1-turn2" d="M200.1 37.5V22.5H297.904V37.5H200.1Z" fill="#964415"/>
+            <path class="wood-turn1-turn2" d="M200.1 147.5V132.5H297.904V147.5H200.1Z" fill="#964415"/>
+            <path class="path-turn1" d="M1.52588e-05 216.5H107.784C137.226 216.5 172.786 212.672 192.116 193.5C211.869 173.908 216.068 138.907 216.068 108.761V0M283.932 7.62939e-06L283.932 143C283.932 180.661 267.504 215.779 240.927 242.409C214.35 269.039 179.302 284.5 141.717 284.5H0" stroke="#595959" stroke-width="15"/>
+            <path class="path-straight" d="M499.002 209V224H0V209L499.002 209Z" fill="#595959"/>
+            <path class="path-straight" d="M499.002 277V292H0V277H499.002Z" fill="#595959"/>
+            <path class="path-turn2" d="M216.068 7.62939e-06V143C216.068 180.661 232.496 215.779 259.073 242.409C285.65 269.039 320.698 284.5 358.283 284.5H500M283.932 0V108.761C283.932 138.907 288.132 173.908 307.884 193.5C327.214 212.672 362.774 216.5 392.216 216.5H500" stroke="#595959" stroke-width="15"/>
+        </svg>
+        `
     }
 
     getPossibleNeighbours(grid) {
