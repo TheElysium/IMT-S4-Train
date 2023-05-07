@@ -53,31 +53,20 @@ export class SwitchRail extends Rail {
     }
 
     getPossibleNeighbours(grid) {
-        const neighbours = [];
+        let neighbours = [];
 
-        switch (this.orientation) {
-            case SwitchRailOrientation.HORIZONTAL_TOP:
-                neighbours.push(grid[this.x][this.y - 1]);
-                neighbours.push(grid[this.x][this.y + 1]);
-                neighbours.push(grid[this.x - 1][this.y]);
+        switch (this.switchType) {
+            case SwitchType.STRAIGHT:
+                neighbours = this.straightRail.getPossibleNeighbours(grid);
                 break;
-            case SwitchRailOrientation.HORIZONTAL_BOTTOM:
-                neighbours.push(grid[this.x][this.y - 1]);
-                neighbours.push(grid[this.x][this.y + 1]);
-                neighbours.push(grid[this.x + 1][this.y]);
+            case SwitchType.TURN_1:
+                neighbours = this.turnRail1.getPossibleNeighbours(grid);
                 break;
-            case SwitchRailOrientation.VERTICAL_LEFT:
-                neighbours.push(grid[this.x - 1][this.y]);
-                neighbours.push(grid[this.x + 1][this.y]);
-                neighbours.push(grid[this.x][this.y - 1]);
-                break;
-            case SwitchRailOrientation.VERTICAL_RIGHT:
-                neighbours.push(grid[this.x - 1][this.y]);
-                neighbours.push(grid[this.x + 1][this.y]);
-                neighbours.push(grid[this.x][this.y + 1]);
+            case SwitchType.TURN_2:
+                neighbours = this.turnRail2.getPossibleNeighbours(grid);
                 break;
             default:
-                throw new Error("Unknown orientation");
+                throw new Error("Unknown switch type");
         }
 
         return neighbours;
