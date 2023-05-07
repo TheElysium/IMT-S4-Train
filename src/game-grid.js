@@ -141,6 +141,7 @@ export class GameGrid {
                 }
             }
         });
+        this.updatePath();
     }
 
     // Remove rail from the array representation of the grid

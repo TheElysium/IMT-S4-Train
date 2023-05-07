@@ -1,7 +1,7 @@
 import {getCell, getCellPosition, visualizePath} from "./utils/utils.js";
 import {StraightRail} from "./models/straightRail.js";
 import {TurnRail} from "./models/turnRail.js";
-import {Station} from "./models/station.js";
+import {SwitchRail} from "./models/switchRail.js";
 
 export class InteractionGrid {
     constructor(width, height, container, gameGrid) {
@@ -49,6 +49,12 @@ export class InteractionGrid {
         }
         else if(gameGridCell instanceof StraightRail || gameGridCell instanceof TurnRail){
             this.gameGrid.removeRail(position);
+        }
+        else if(gameGridCell instanceof SwitchRail){
+            console.log("Switching rail");
+            gameGridCell.switch();
+            this.gameGrid.removeRailFromGridArray(position.x, position.y);
+            this.gameGrid.addRailToGridArray(gameGridCell, position);
         }
     }
 

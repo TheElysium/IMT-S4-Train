@@ -108,6 +108,22 @@ export class SwitchRail extends Rail {
         }
     }
 
+    switch() {
+        switch (this.switchType) {
+            case SwitchType.STRAIGHT:
+                this.switchType = SwitchType.TURN_1;
+                break;
+            case SwitchType.TURN_1:
+                this.switchType = SwitchType.TURN_2;
+                break;
+            case SwitchType.TURN_2:
+                this.switchType = SwitchType.STRAIGHT;
+                break;
+            default:
+                throw new Error("Unknown switch type");
+        }
+    }
+
     // canConnect(neighbourRail, grid) {
     //     let currRail = this.getCurrentRail();
     //     return neighbourRail.getPossibleNeighbours(grid).includes(currRail);
