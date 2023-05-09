@@ -26,3 +26,7 @@ const interactionGrid = new InteractionGrid(
 const uiContainer = document.querySelector(".c-wrapper__ui-container");
 const controlPanel = new ControlPanel(interactionGrid);
 uiContainer.appendChild(controlPanel);
+const help = document.querySelector(".c-wrapper__ui-container__help")
+help.addEventListener("click", event => {
+
+});
