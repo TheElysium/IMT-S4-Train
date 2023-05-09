@@ -6,6 +6,7 @@ body {
   color: $main-color;
   margin: 0;
   font-family: 'Inter', sans-serif;
+  font-size: .8vw;
 }
 
 .c-wrapper {
@@ -414,3 +415,6 @@ li {
   border-radius: 6px;
 }
 
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
