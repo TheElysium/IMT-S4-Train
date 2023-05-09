@@ -1,6 +1,7 @@
 import {getCell, getCellPosition} from "./utils/utils.js";
 import {StraightRail} from "./models/straightRail.js";
 import {TurnRail} from "./models/turnRail.js";
+import {SwitchRail} from "./models/switchRail.js";
 import {gridHeight, gridWidth} from "./main.js";
 
 export class InteractionGrid {
@@ -68,6 +69,12 @@ export class InteractionGrid {
             gameGridCell instanceof TurnRail
         ) {
             this.gameGrid.removeRail(position);
+        }
+        else if(gameGridCell instanceof SwitchRail){
+            console.log("Switching rail");
+            gameGridCell.switch();
+            this.gameGrid.removeRailFromGridArray(position.x, position.y);
+            this.gameGrid.addRailToGridArray(gameGridCell, position);
         }
     }
 
@@ -137,9 +144,9 @@ export class InteractionGrid {
 
         this.showMenu(menu, width, height);
 
-        const addStraightRail = document.getElementById("add-straight-rail");
-        // const addSwitchRail = document.getElementById('add-switch-rail');
-        const addTurnRail = document.getElementById("add-turn-rail");
+        const addStraightRail = document.getElementById('add-straight-rail');
+        const addSwitchRail = document.getElementById('add-switch-rail');
+        const addTurnRail = document.getElementById('add-turn-rail');
 
         addStraightRail.onmouseup = () => {
             this.gameGrid.addStraightRail(position);
@@ -150,6 +157,11 @@ export class InteractionGrid {
             this.gameGrid.addTurnRail(position);
             this.hideMenu(menu);
         };
+
+        addSwitchRail.onmouseup = () => {
+            this.gameGrid.addSwitchRail(position);
+            this.hideMenu(menu);
+        }
 
         menu.onmouseup = () => {
             this.hideMenu(menu);

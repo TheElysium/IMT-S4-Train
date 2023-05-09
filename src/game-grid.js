@@ -7,6 +7,7 @@ import {StationCell} from "./components/station-cell.js";
 import {Train} from "./models/train.js";
 import {getCell, visualizePath} from "./utils/utils.js";
 import {Rail} from "./models/rail.js";
+import {SwitchRail} from "./models/switchRail.js";
 
 export class GameGrid {
     constructor(width, height, container) {
@@ -17,6 +18,7 @@ export class GameGrid {
         this.startStation = new Station({x: 0, y: 0}, StationType.START);
         this.endStation = new Station({x: height - 1, y: width - 1}, StationType.END);
         this.train = null;
+        this.path = [];
         this.playing = false;
         this.initGrid();
     }
@@ -78,8 +80,18 @@ export class GameGrid {
 
     }
 
-    addIntersectionRail(event) {
-        // TODO Click: Add intersection rail
+    addSwitchRail(position){
+        const cell = getCell(position.x, position.y, this.container);
+        const {x, y} = position;
+
+        let rail = new SwitchRail(x, y);
+        let railCell = new RailCell(rail);
+
+        cell.innerHTML = '';
+        cell.appendChild(railCell);
+
+        this.addRailToGridArray(rail, {x, y});
+        this.updatePath();
     }
 
     removeRail(position) {
@@ -104,14 +116,10 @@ export class GameGrid {
     }
 
     updatePath() {
-        const pathBetweenStations = this.pathBetweenStations();
-        this.train.path = this.getPathCoordinates(pathBetweenStations);
-        pathBetweenStations.forEach((pathElem) => {
-            if (pathElem !== null) {
-                const {x, y} = {x: pathElem.rail.x, y: pathElem.rail.y};
-                this.updateConnectionIndicators({x, y}, '#ff0000');
-            }
-        });
+        this.updateConnectionIndicators(this.path, "#595959");
+        this.path = this.pathBetweenStations();
+        this.train.path = this.getPathCoordinates(this.path);
+        this.updateConnectionIndicators(this.path, "green");
     }
 
 
@@ -129,6 +137,7 @@ export class GameGrid {
                 }
             }
         });
+        this.updatePath();
     }
 
     // Remove rail from the array representation of the grid
@@ -142,22 +151,23 @@ export class GameGrid {
         railToRemove.neighbours = [];
     }
 
-    updateConnectionIndicators(position, color) {
-        const cell = this.grid[position.x][position.y];
-        if (cell instanceof Rail) {
-            this.updateTrackColor(position, color);
-        } else if (cell instanceof Station) {
-            this.updateStationsColor(color);
-        }
+    updateConnectionIndicators(path, color) {
+        path.forEach((pathElem) => {
+            if(pathElem !== null) {
+                const {x,y} = {x: pathElem.rail.x, y: pathElem.rail.y};
+                this.updateTrackColor(pathElem.rail, color);
+            }
+        });
         visualizePath(this.train.path, this.container);
     }
 
-    updateTrackColor(position, color) {
-        const gridCell = this.grid[position.x][position.y];
-        if (gridCell instanceof Station) {
+    updateTrackColor(rail, color) {
+        const position = {x: rail.x, y: rail.y};
+        if(rail instanceof Station) {
             const cell = getCell(position.x, position.y, this.container, "station-cell");
             cell.updateTrackColor(color);
-        } else if (gridCell instanceof Rail) {
+        }
+        else if (rail instanceof Rail) {
             const cell = getCell(position.x, position.y, this.container, "rail-cell");
             cell.updateTrackColor(color);
         }
@@ -202,9 +212,9 @@ export class GameGrid {
     }
 
     startTrain(timestamp) {
-        const pathBetweenStations = this.pathBetweenStations();
-        if (pathBetweenStations[pathBetweenStations.length - 1] === null) return;
-        this.train.path = this.getPathCoordinates(pathBetweenStations);
+        this.path = this.pathBetweenStations();
+        if (this.path[this.path.length - 1] === null) return;
+        this.train.path = this.getPathCoordinates(this.path);
         this.train.start(timestamp);
         this.playing = true;
         this.moveTrain();
@@ -242,7 +252,8 @@ export class GameGrid {
     }
 
     getRotation(railOnPath) {
-        if (railOnPath.from === null || railOnPath.to === null || !(railOnPath.rail instanceof TurnRail)) return 0;
+        if(railOnPath.from === null || railOnPath.to ===  null ) return 0;
+        if(railOnPath.rail instanceof StraightRail || (railOnPath.rail instanceof SwitchRail && railOnPath.rail.getCurrentRail() instanceof StraightRail)) return 0;
         const fromPosition = {x: railOnPath.from.x, y: railOnPath.from.y};
         const railPosition = {x: railOnPath.rail.x, y: railOnPath.rail.y};
         const toPosition = {x: railOnPath.to.x, y: railOnPath.to.y};
@@ -296,5 +307,4 @@ export class GameGrid {
 
         this.train.animationFrame = requestAnimationFrame(move);
     }
-
 }
