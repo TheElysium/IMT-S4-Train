@@ -7,6 +7,7 @@ export class Station extends Rail {
         this.position = position;
         this.type = type;
     }
+
     getSvg() {
         return `
         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,11 +31,10 @@ export class Station extends Rail {
 
     getPossibleNeighbours(grid) {
         const neighbours = [];
-        if(this.type === "start"){
-            neighbours.push(grid[this.x]?.[this.y+1]);
-        }
-        else {
-            neighbours.push(grid[this.x]?.[this.y-1]);
+        if (this.type === "start") {
+            neighbours.push(grid[this.x]?.[this.y + 1]);
+        } else {
+            neighbours.push(grid[this.x]?.[this.y - 1]);
         }
         return neighbours;
     }
