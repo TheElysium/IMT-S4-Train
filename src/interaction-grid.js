@@ -207,6 +207,11 @@ export class InteractionGrid {
 
             gameGridContainer.style.gridTemplateColumns = `repeat(${gridWidth}, ${newSize}px)`;
             gameGridContainer.style.gridTemplateRows = `repeat(${gridHeight}, ${newSize}px)`;
+
+            document.querySelectorAll(".c-wrapper__grid-container__trees-container__tree").forEach(tree => {
+                tree.style.width = `${newSize}px`;
+                tree.style.height = `${newSize}px`;
+            });
         }
 
         // prevent the page from scrolling
