@@ -26,7 +26,11 @@ const interactionGrid = new InteractionGrid(
 const uiContainer = document.querySelector(".c-wrapper__ui-container");
 const controlPanel = new ControlPanel(interactionGrid);
 uiContainer.appendChild(controlPanel);
-const help = document.querySelector(".c-wrapper__ui-container__help")
-help.addEventListener("click", event => {
+document.addEventListener('DOMContentLoaded', () => {
+    const helpIcon = document.querySelector('.c-wrapper__ui-container__help__icon');
+    const helpContent = document.querySelector('.c-wrapper__ui-container__help__content');
 
+    helpIcon.addEventListener('click', () => {
+        helpContent.classList.toggle('visible');
+    });
 });
