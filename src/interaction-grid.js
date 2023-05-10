@@ -198,10 +198,10 @@ export class InteractionGrid {
             ),
             // then calculate the new size
             newSize = currentSize + direction * 2;
-        const gameGridContainer = this.gameGrid.container
+        const gameGridContainer = this.gameGrid.container;
 
         // if the new size is between 50 and 200, update the size
-        if (newSize >= 50 && newSize <= 300) {
+        if (newSize >= 50 && newSize <= 300 && newSize * gridWidth >= this.container.offsetWidth && newSize * gridHeight >= this.container.offsetHeight) {
             this.container.style.gridTemplateColumns = `repeat(${gridWidth}, ${newSize}px)`;
             this.container.style.gridTemplateRows = `repeat(${gridHeight}, ${newSize}px)`;
 
