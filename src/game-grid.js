@@ -15,7 +15,7 @@ export class GameGrid {
         this.height = height;
         this.container = container;
         this.grid = new Array(height).fill(null).map(() => new Array(width).fill(null));
-        this.startStation = new Station({x: Math.round(height/4), y: Math.round(width/4)}, StationType.START);
+        this.startStation = new Station({x: Math.round(height / 4), y: Math.round(width / 4)}, StationType.START);
         this.endStation = new Station({x: Math.round(height * 3/4 - 1), y: Math.round(width * 3/4 - 1)}, StationType.END);
         this.train = null;
         this.path = [];
@@ -158,7 +158,7 @@ export class GameGrid {
                 this.updateTrackColor(pathElem.rail, color);
             }
         });
-        visualizePath(this.train.path, this.container);
+        // visualizePath(this.train.path, this.container);
     }
 
     updateTrackColor(rail, color) {
@@ -231,19 +231,31 @@ export class GameGrid {
     }
 
     pathBetweenStations() {
-        return this.startStation.getPathTo(null, this.endStation);
+        // Loop
+        if(this.startStation.neighbours.length === 2 && this.endStation.neighbours.length === 2) {
+            return this.startStation.getPathTo(null, this.startStation);
+        }
+        else {
+            return this.startStation.getPathTo(null, this.endStation);
+        }
     }
 
     getPathCoordinates(path) {
         const coordinates = [];
+        const startStationCell = getCell(this.startStation.x, this.startStation.y, this.container);
+        const startStationCellWidth = startStationCell.clientWidth;
+        const startStationCellHeight = startStationCell.clientHeight;
+        const offsetWidth = this.startStation.x * (startStationCellWidth);
+        const offsetHeight = this.startStation.y * (startStationCellHeight);
+
         path.filter((railOnPath) => railOnPath !== null).forEach((railOnPath) => {
             const {x, y} = railOnPath.rail;
             const cell = getCell(x, y, this.container)
             const cellWidth = cell.clientWidth;
             const cellHeight = cell.clientHeight;
             let trainCoordinates = {
-                x: x * cellWidth + cellWidth / 2,
-                y: y * cellHeight + cellHeight / 2,
+                x: x * cellWidth + cellWidth / 2 - offsetWidth,
+                y: y * cellHeight + cellHeight / 2 - offsetHeight,
                 rotation: this.getRotation(railOnPath),
             }
             coordinates.push(trainCoordinates);
@@ -253,7 +265,7 @@ export class GameGrid {
 
     getRotation(railOnPath) {
         if(railOnPath.from === null || railOnPath.to ===  null ) return 0;
-        if(railOnPath.rail instanceof StraightRail || (railOnPath.rail instanceof SwitchRail && railOnPath.rail.getCurrentRail() instanceof StraightRail)) return 0;
+        if(railOnPath.rail instanceof StraightRail || railOnPath.rail instanceof Station ||(railOnPath.rail instanceof SwitchRail && railOnPath.rail.getCurrentRail() instanceof StraightRail)) return 0;
         const fromPosition = {x: railOnPath.from.x, y: railOnPath.from.y};
         const railPosition = {x: railOnPath.rail.x, y: railOnPath.rail.y};
         const toPosition = {x: railOnPath.to.x, y: railOnPath.to.y};
