@@ -15,8 +15,8 @@ export class GameGrid {
         this.height = height;
         this.container = container;
         this.grid = new Array(height).fill(null).map(() => new Array(width).fill(null));
-        this.startStation = new Station({x: 0, y: 0}, StationType.START);
-        this.endStation = new Station({x: height - 1, y: width - 1}, StationType.END);
+        this.startStation = new Station({x: Math.round(height/4), y: Math.round(width/4)}, StationType.START);
+        this.endStation = new Station({x: Math.round(height * 3/4 - 1), y: Math.round(width * 3/4 - 1)}, StationType.END);
         this.train = null;
         this.path = [];
         this.playing = false;
