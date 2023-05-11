@@ -8,14 +8,37 @@ Dans le cadre du module UE Web developpement de la filière FIL (IMT Atlantique)
 Chef de projet : Signe-morice Luka
 Developpeurs : Lemoine Aurélie, Suard Mael et Maystre Antonin
 
-## Listes des intéractions possibles
+## Comment jouer ?
+
+### Ajouter un rail
+                    
+Maintenir le clic sur une case vide
+En maintenant le clic, survoler le rail souhaité
+Relacher le clic
+                    
+### Intéragir avec un rail
+                    
+Maintenir le clic sur un rail
+En maintenant le clic, survoler l'action  souhaitée
+Relacher le clic
+                    
+                
+### Intéragir avec la carte
+                    
+Maintenir la touche CTRL
+Zoom:  Molette de la souris
+Déplacer:  Maintenir le clic sur la carte et déplacer la souris
+
+## Listes des intéractions
+
 - Clic
-    > Ouvre une roue afin de choisir une action.
 - Drag
-    > Permet de se déplacer sur la carte.
 - Hover
-    > Mets en surbrillance la case qui est survolée
 - Roulette
-    > Permet de zoomer / dezoomer sur la carte
 - Touche clavier
-    > Permet de se déplacer sur la carte.
+
+
+
+                   
+                    
+                
