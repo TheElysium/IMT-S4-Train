@@ -129,7 +129,7 @@ export class GameGrid {
         this.updateConnectionIndicators(this.path, "#595959");
         this.path = this.pathBetweenStations();
         this.train.path = this.getPathCoordinates(this.path);
-        this.updateConnectionIndicators(this.path, "green");
+        this.updateConnectionIndicators(this.path, "#e76565");
     }
 
 

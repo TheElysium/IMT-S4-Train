@@ -29,17 +29,16 @@ export class MenuModify {
         <ul id="circle-double">
     <li class="double" id="rotate-rail">
         <div class="icon-double">
-            <svg fill="none" height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M85.3742 62.4613C82.6725 70.1292 77.5517 76.7117 70.7829 81.2167C64.0146 85.7217 55.965 87.905 47.8479 87.4379C39.7304 86.9708 31.9848 83.8783 25.7778 78.6267C19.571 73.375 15.2391 66.2483 13.4349 58.3208C11.6308 50.3933 12.452 42.0942 15.7751 34.674C19.0981 27.2538 24.7428 21.1144 31.8587 17.181C38.9745 13.2476 47.1763 11.7331 55.2275 12.8658C68.8213 14.7782 77.8021 24.6309 87.5 33.3333M87.5 33.3333V8.33334M87.5 33.3333H62.5"
-                      stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+            <svg width="100%" viewBox="0 0 87 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M78.8742 60.1279C76.1725 67.7958 71.0517 74.3783 64.2829 78.8833C57.5146 83.3883 49.465 85.5717 41.3479 85.1046C33.2304 84.6375 25.4848 81.545 19.2778 76.2933C13.071 71.0417 8.73909 63.915 6.93492 55.9875C5.13076 48.06 5.95205 39.7608 9.27509 32.3407C12.5981 24.9205 18.2428 18.7811 25.3587 14.8476C32.4745 10.9142 40.6763 9.39971 48.7275 10.5325C62.3213 12.4448 71.3021 22.2976 81 31M81 31V6M81 31H56" stroke="#EDF8E5" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
     </li>
     <li class="double" id="remove-rail">
         <div class="icon-double">
-            <svg fill="none" height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 15L85 85" stroke="black" stroke-width="8"/>
-                <path d="M15 85L85 15.2389" stroke="black" stroke-width="8"/>
+            <svg width="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 15L85 85" stroke="#EDF8E5" stroke-width="12" stroke-linecap="round"/>
+            <path d="M15 85L85 15.2389" stroke="#EDF8E5" stroke-width="12" stroke-linecap="round"/>
             </svg>
         </div>
     </li>
