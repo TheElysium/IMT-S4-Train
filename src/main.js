@@ -2,8 +2,8 @@ import {GameGrid} from "./game-grid.js";
 import {InteractionGrid} from "./interaction-grid.js";
 import {ControlPanel} from "./components/control-panel.js";
 
-export const gridWidth = 35;
-export const gridHeight = 35;
+export const gridWidth = 15;
+export const gridHeight = 10;
 const gameGridContainer = document.querySelector(
     ".c-wrapper__grid-container__game-grid"
 );
