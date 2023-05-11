@@ -1,131 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Ouiouigo</title>
-    <link href="styles/style.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet"/>
     <script src="src/main.js" type="module"></script>
-  </head>
-  <body oncontextmenu="return false;">
-    <div class="c-wrapper">
-      <div class="c-wrapper__ui-container">
+</head>
+<body oncontextmenu="return false;">
+<div class="c-wrapper">
+    <div class="c-wrapper__ui-container">
         <div class="c-wrapper__ui-container__help">
-          <svg class="c-wrapper__ui-container__help__icon" viewBox="0 0 34 53" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.6641 36.3423V35.4972C10.6806 32.5971 10.9375 30.2853 11.4347 28.5618C11.9484 26.8383 12.6941 25.4463 13.6719 24.3857C14.6496 23.325 15.8262 22.3639 17.2017 21.5021C18.2292 20.8393 19.1489 20.1515 19.9609 19.4389C20.773 18.7263 21.4193 17.9392 21.8999 17.0774C22.3804 16.1991 22.6207 15.2214 22.6207 14.1442C22.6207 13.0007 22.3473 11.9981 21.8004 11.1364C21.2536 10.2746 20.5161 9.61174 19.5881 9.14773C18.6766 8.68371 17.6657 8.4517 16.5554 8.4517C15.4782 8.4517 14.459 8.692 13.4979 9.17259C12.5367 9.6366 11.7495 10.3326 11.1364 11.2607C10.5232 12.1721 10.1918 13.3073 10.142 14.6662H0C0.0828598 11.3518 0.878314 8.61742 2.38636 6.46307C3.89441 4.29214 5.89134 2.67637 8.37713 1.61577C10.8629 0.538589 13.6056 0 16.6051 0C19.9029 0 22.8196 0.546875 25.3551 1.64062C27.8906 2.7178 29.8793 4.28385 31.321 6.33878C32.7628 8.3937 33.4837 10.8712 33.4837 13.7713C33.4837 15.7102 33.1605 17.4337 32.5142 18.9418C31.8845 20.4332 30.9979 21.759 29.8544 22.919C28.7109 24.0625 27.3603 25.0982 25.8026 26.0263C24.4934 26.8052 23.4162 27.6172 22.571 28.4624C21.7424 29.3075 21.121 30.2853 20.7067 31.3956C20.309 32.5059 20.1018 33.8731 20.0852 35.4972V36.3423H10.6641ZM15.5859 52.2514C13.9287 52.2514 12.5118 51.6714 11.3352 50.5114C10.1752 49.3348 9.60346 47.9261 9.62003 46.2855C9.60346 44.6615 10.1752 43.2694 11.3352 42.1094C12.5118 40.9493 13.9287 40.3693 15.5859 40.3693C17.1603 40.3693 18.544 40.9493 19.7372 42.1094C20.9304 43.2694 21.5353 44.6615 21.5518 46.2855C21.5353 47.3793 21.2453 48.3819 20.6818 49.2933C20.1349 50.1882 19.4141 50.9091 18.5192 51.456C17.6243 51.9863 16.6465 52.2514 15.5859 52.2514Z" fill="#FFFBA1"/>
-          </svg>
-          <div class="c-wrapper__ui-container__help__content">
-            <div class="c-wrapper__ui-container__help__content__action-container">
-              <h3>Ajouter un rail</h3>
-              <ul>
-                <li><span>Maintenir le clic</span> sur une case vide</li>
-                <li>En maintenant le clic, <span>survoler le rail</span> souhaité</li>
-                <li><span>Relacher</span> le clic</li>
-              </ul>
+            <svg class="c-wrapper__ui-container__help__icon" fill="none" viewBox="0 0 34 53"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.6641 36.3423V35.4972C10.6806 32.5971 10.9375 30.2853 11.4347 28.5618C11.9484 26.8383 12.6941 25.4463 13.6719 24.3857C14.6496 23.325 15.8262 22.3639 17.2017 21.5021C18.2292 20.8393 19.1489 20.1515 19.9609 19.4389C20.773 18.7263 21.4193 17.9392 21.8999 17.0774C22.3804 16.1991 22.6207 15.2214 22.6207 14.1442C22.6207 13.0007 22.3473 11.9981 21.8004 11.1364C21.2536 10.2746 20.5161 9.61174 19.5881 9.14773C18.6766 8.68371 17.6657 8.4517 16.5554 8.4517C15.4782 8.4517 14.459 8.692 13.4979 9.17259C12.5367 9.6366 11.7495 10.3326 11.1364 11.2607C10.5232 12.1721 10.1918 13.3073 10.142 14.6662H0C0.0828598 11.3518 0.878314 8.61742 2.38636 6.46307C3.89441 4.29214 5.89134 2.67637 8.37713 1.61577C10.8629 0.538589 13.6056 0 16.6051 0C19.9029 0 22.8196 0.546875 25.3551 1.64062C27.8906 2.7178 29.8793 4.28385 31.321 6.33878C32.7628 8.3937 33.4837 10.8712 33.4837 13.7713C33.4837 15.7102 33.1605 17.4337 32.5142 18.9418C31.8845 20.4332 30.9979 21.759 29.8544 22.919C28.7109 24.0625 27.3603 25.0982 25.8026 26.0263C24.4934 26.8052 23.4162 27.6172 22.571 28.4624C21.7424 29.3075 21.121 30.2853 20.7067 31.3956C20.309 32.5059 20.1018 33.8731 20.0852 35.4972V36.3423H10.6641ZM15.5859 52.2514C13.9287 52.2514 12.5118 51.6714 11.3352 50.5114C10.1752 49.3348 9.60346 47.9261 9.62003 46.2855C9.60346 44.6615 10.1752 43.2694 11.3352 42.1094C12.5118 40.9493 13.9287 40.3693 15.5859 40.3693C17.1603 40.3693 18.544 40.9493 19.7372 42.1094C20.9304 43.2694 21.5353 44.6615 21.5518 46.2855C21.5353 47.3793 21.2453 48.3819 20.6818 49.2933C20.1349 50.1882 19.4141 50.9091 18.5192 51.456C17.6243 51.9863 16.6465 52.2514 15.5859 52.2514Z"
+                      fill="#FFFBA1"/>
+            </svg>
+            <div class="c-wrapper__ui-container__help__content">
+                <div class="c-wrapper__ui-container__help__content__action-container">
+                    <h3>Ajouter un rail</h3>
+                    <ul>
+                        <li><span>Maintenir le clic</span> sur une case vide</li>
+                        <li>En maintenant le clic, <span>survoler le rail</span> souhaité</li>
+                        <li><span>Relacher</span> le clic</li>
+                    </ul>
+                </div>
+                <div class="c-wrapper__ui-container__help__content__action-container">
+                    <h3>Intéragir avec un rail</h3>
+                    <ul>
+                        <li><span>Maintenir le clic</span> sur un rail</li>
+                        <li>En maintenant le clic, <span>survoler l'action </span> souhaitée</li>
+                        <li><span>Relacher</span> le clic</li>
+                    </ul>
+                </div>
+                <div class="c-wrapper__ui-container__help__content__action-container">
+                    <h3>Intéragir avec la carte</h3>
+                    <ul>
+                        <li><span>Maintenir</span> la touche <span>CTRL</span></li>
+                        <li><span>Zoom: </span> Molette de la souris</li>
+                        <li><span>Déplacer: </span> Maintenir le clic sur la carte et déplacer la souris</li>
+                    </ul>
+                </div>
             </div>
-            <div class="c-wrapper__ui-container__help__content__action-container">
-              <h3>Intéragir avec un rail</h3>
-              <ul>
-                <li><span>Maintenir le clic</span> sur un rail</li>
-                <li>En maintenant le clic, <span>survoler l'action </span> souhaitée</li>
-                <li><span>Relacher</span> le clic</li>
-              </ul>
-            </div>
-            <div class="c-wrapper__ui-container__help__content__action-container">
-              <h3>Intéragir avec la carte</h3>
-              <ul>
-                <li><span>Maintenir</span> la touche <span>CTRL</span></li>
-                <li><span>Zoom: </span> Molette de la souris</li>
-                <li><span>Déplacer: </span> Maintenir le clic sur la carte et déplacer la souris</li>
-              </ul>
-            </div>
-          </div>
         </div>
         <!-- Control-panel generated by main.js -->
-      </div>
-      <div class="c-wrapper__grid-container">
+    </div>
+    <div class="c-wrapper__grid-container">
         <div class="c-wrapper__grid-container__game-grid">
-          <!-- GameGrid generated by main.js -->
+            <!-- GameGrid generated by main.js -->
         </div>
         <div class="c-wrapper__grid-container__interaction-grid"></div>
-      </div>
-      <div></div>
     </div>
+    <div></div>
 </div>
 <ul id="circle-triple">
-    <li class="triple" id="add-straight-rail"><div class="icon-triple"><svg width="100%" height="100%" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="423" y="299" width="15" height="98" transform="rotate(-180 423 299)" fill="#964415"/>
-        <rect x="368" y="299" width="15" height="98" transform="rotate(-180 368 299)" fill="#964415"/>
-        <rect x="478" y="299" width="15" height="98" transform="rotate(-180 478 299)" fill="#964415"/>
-        <rect x="258" y="299" width="15" height="98" transform="rotate(-180 258 299)" fill="#964415"/>
-        <rect x="203" y="299" width="15" height="98" transform="rotate(-180 203 299)" fill="#964415"/>
-        <rect x="313" y="299" width="15" height="98" transform="rotate(-180 313 299)" fill="#964415"/>
-        <rect x="93" y="299" width="15" height="98" transform="rotate(-180 93 299)" fill="#964415"/>
-        <rect x="38" y="299" width="15" height="98" transform="rotate(-180 38 299)" fill="#964415"/>
-        <rect x="148" y="299" width="15" height="98" transform="rotate(-180 148 299)" fill="#964415"/>
-        <rect y="291" width="15" height="500" transform="rotate(-90 0 291)" fill="#595959"/>
-        <rect y="223" width="15" height="500" transform="rotate(-90 0 223)" fill="#595959"/>
-        </svg></div></li>
-    <li class="triple" id="add-switch-rail"><div class="icon-triple"><svg width="100%" height="100%" viewBox="0 0 501 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="77" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="132" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="22" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="242" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="297" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="187" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="407" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="462" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="352" y="201" width="15" height="98" fill="#964415"/>
-        <rect x="200.5" y="92.5" width="15" height="98" transform="rotate(-90 200.5 92.5)" fill="#964415"/>
-        <rect x="200.5" y="37.5" width="15" height="98" transform="rotate(-90 200.5 37.5)" fill="#964415"/>
-        <rect x="200.5" y="147.5" width="15" height="98" transform="rotate(-90 200.5 147.5)" fill="#964415"/>
-        <rect x="108" y="209" width="15" height="108" transform="rotate(90 108 209)" fill="#595959"/>
-        <rect x="142" y="277" width="15" height="142" transform="rotate(90 142 277)" fill="#595959"/>
-        <rect x="292" y="143" width="15" height="143" transform="rotate(180 292 143)" fill="#595959"/>
-        <rect x="224" y="108.761" width="15" height="108.761" transform="rotate(180 224 108.761)" fill="#595959"/>
-        <path d="M216.5 107.5C216.5 137.646 212.292 173.908 192.5 193.5C173.132 212.672 137.5 216.5 108 216.5" stroke="#595959" stroke-width="15"/>
-        <path d="M142 284.5C179.661 284.5 214.779 269.039 241.409 242.409C268.039 215.779 284.5 180.661 284.5 143" stroke="#595959" stroke-width="15"/>
-        <rect width="15" height="108" transform="matrix(0 1 1 0 393 209)" fill="#595959"/>
-        <rect width="15" height="142" transform="matrix(0 1 1 0 359 277)" fill="#595959"/>
-        <rect width="15" height="143" transform="matrix(1 0 0 -1 209 143)" fill="#595959"/>
-        <rect width="15" height="108.761" transform="matrix(1 0 0 -1 277 108.761)" fill="#595959"/>
-        <path d="M284.5 107.5C284.5 137.646 288.708 173.908 308.5 193.5C327.868 212.672 363.5 216.5 393 216.5" stroke="#595959" stroke-width="15"/>
-        <path d="M359 284.5C321.339 284.5 286.221 269.039 259.591 242.409C232.961 215.779 216.5 180.661 216.5 143" stroke="#595959" stroke-width="15"/>
-        <rect x="500" y="209" width="15" height="500" transform="rotate(90 500 209)" fill="#595959"/>
-        <rect x="500" y="277" width="15" height="500" transform="rotate(90 500 277)" fill="#595959"/>
-        </svg></div></li>
-    <li class="triple" id="add-turn-rail"><div class="icon-triple"><svg width="100%" height="100%" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="77.5" y="200.5" width="15" height="98" fill="#964415"/>
-        <rect x="140.131" y="201.93" width="15" height="98" transform="rotate(8.85407 140.131 201.93)" fill="#964415"/>
-        <rect x="210.743" y="218" width="15" height="98" transform="rotate(27.8927 210.743 218)" fill="#964415"/>
-        <rect x="278.457" y="281.304" width="15" height="98" transform="rotate(68.1153 278.457 281.304)" fill="#964415"/>
-        <rect x="22.5" y="200.5" width="15" height="98" fill="#964415"/>
-        <rect x="201" y="422" width="15" height="98" transform="rotate(-90 201 422)" fill="#964415"/>
-        <rect x="202.356" y="373.186" width="15" height="98" transform="rotate(-97.3252 202.356 373.186)" fill="#964415"/>
-        <rect x="201" y="477" width="15" height="98" transform="rotate(-90 201 477)" fill="#964415"/>
-        <rect x="209" y="392" width="15" height="108" fill="#595959"/>
-        <rect x="277" y="358" width="15" height="142" fill="#595959"/>
-        <rect x="143" y="208" width="15" height="143" transform="rotate(90 143 208)" fill="#595959"/>
-        <rect x="108.76" y="276" width="15" height="108.761" transform="rotate(90 108.76 276)" fill="#595959"/>
-        <path d="M107.5 283.5C137.646 283.5 173.908 287.708 193.5 307.5C212.672 326.868 216.5 362.5 216.5 392" stroke="#595959" stroke-width="15"/>
-        <path d="M284.5 358C284.5 320.339 269.039 285.221 242.409 258.591C215.779 231.961 180.661 215.5 143 215.5" stroke="#595959" stroke-width="15"/>
-        </svg></div></li>
+    <li class="triple" id="add-straight-rail">
+        <div class="icon-triple">
+            <svg fill="none" height="100%" viewBox="0 0 500 500" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <rect fill="#964415" height="98" transform="rotate(-180 423 299)" width="15" x="423" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 368 299)" width="15" x="368" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 478 299)" width="15" x="478" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 258 299)" width="15" x="258" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 203 299)" width="15" x="203" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 313 299)" width="15" x="313" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 93 299)" width="15" x="93" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 38 299)" width="15" x="38" y="299"/>
+                <rect fill="#964415" height="98" transform="rotate(-180 148 299)" width="15" x="148" y="299"/>
+                <rect fill="#595959" height="500" transform="rotate(-90 0 291)" width="15" y="291"/>
+                <rect fill="#595959" height="500" transform="rotate(-90 0 223)" width="15" y="223"/>
+            </svg>
+        </div>
+    </li>
+    <li class="triple" id="add-switch-rail">
+        <div class="icon-triple">
+            <svg fill="none" height="100%" viewBox="0 0 501 500" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <rect fill="#964415" height="98" width="15" x="77" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="132" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="22" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="242" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="297" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="187" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="407" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="462" y="201"/>
+                <rect fill="#964415" height="98" width="15" x="352" y="201"/>
+                <rect fill="#964415" height="98" transform="rotate(-90 200.5 92.5)" width="15" x="200.5" y="92.5"/>
+                <rect fill="#964415" height="98" transform="rotate(-90 200.5 37.5)" width="15" x="200.5" y="37.5"/>
+                <rect fill="#964415" height="98" transform="rotate(-90 200.5 147.5)" width="15" x="200.5" y="147.5"/>
+                <rect fill="#595959" height="108" transform="rotate(90 108 209)" width="15" x="108" y="209"/>
+                <rect fill="#595959" height="142" transform="rotate(90 142 277)" width="15" x="142" y="277"/>
+                <rect fill="#595959" height="143" transform="rotate(180 292 143)" width="15" x="292" y="143"/>
+                <rect fill="#595959" height="108.761" transform="rotate(180 224 108.761)" width="15" x="224"
+                      y="108.761"/>
+                <path d="M216.5 107.5C216.5 137.646 212.292 173.908 192.5 193.5C173.132 212.672 137.5 216.5 108 216.5"
+                      stroke="#595959" stroke-width="15"/>
+                <path d="M142 284.5C179.661 284.5 214.779 269.039 241.409 242.409C268.039 215.779 284.5 180.661 284.5 143"
+                      stroke="#595959" stroke-width="15"/>
+                <rect fill="#595959" height="108" transform="matrix(0 1 1 0 393 209)" width="15"/>
+                <rect fill="#595959" height="142" transform="matrix(0 1 1 0 359 277)" width="15"/>
+                <rect fill="#595959" height="143" transform="matrix(1 0 0 -1 209 143)" width="15"/>
+                <rect fill="#595959" height="108.761" transform="matrix(1 0 0 -1 277 108.761)" width="15"/>
+                <path d="M284.5 107.5C284.5 137.646 288.708 173.908 308.5 193.5C327.868 212.672 363.5 216.5 393 216.5"
+                      stroke="#595959" stroke-width="15"/>
+                <path d="M359 284.5C321.339 284.5 286.221 269.039 259.591 242.409C232.961 215.779 216.5 180.661 216.5 143"
+                      stroke="#595959" stroke-width="15"/>
+                <rect fill="#595959" height="500" transform="rotate(90 500 209)" width="15" x="500" y="209"/>
+                <rect fill="#595959" height="500" transform="rotate(90 500 277)" width="15" x="500" y="277"/>
+            </svg>
+        </div>
+    </li>
+    <li class="triple" id="add-turn-rail">
+        <div class="icon-triple">
+            <svg fill="none" height="100%" viewBox="0 0 500 500" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <rect fill="#964415" height="98" width="15" x="77.5" y="200.5"/>
+                <rect fill="#964415" height="98" transform="rotate(8.85407 140.131 201.93)" width="15" x="140.131"
+                      y="201.93"/>
+                <rect fill="#964415" height="98" transform="rotate(27.8927 210.743 218)" width="15" x="210.743"
+                      y="218"/>
+                <rect fill="#964415" height="98" transform="rotate(68.1153 278.457 281.304)" width="15" x="278.457"
+                      y="281.304"/>
+                <rect fill="#964415" height="98" width="15" x="22.5" y="200.5"/>
+                <rect fill="#964415" height="98" transform="rotate(-90 201 422)" width="15" x="201" y="422"/>
+                <rect fill="#964415" height="98" transform="rotate(-97.3252 202.356 373.186)" width="15" x="202.356"
+                      y="373.186"/>
+                <rect fill="#964415" height="98" transform="rotate(-90 201 477)" width="15" x="201" y="477"/>
+                <rect fill="#595959" height="108" width="15" x="209" y="392"/>
+                <rect fill="#595959" height="142" width="15" x="277" y="358"/>
+                <rect fill="#595959" height="143" transform="rotate(90 143 208)" width="15" x="143" y="208"/>
+                <rect fill="#595959" height="108.761" transform="rotate(90 108.76 276)" width="15" x="108.76" y="276"/>
+                <path d="M107.5 283.5C137.646 283.5 173.908 287.708 193.5 307.5C212.672 326.868 216.5 362.5 216.5 392"
+                      stroke="#595959" stroke-width="15"/>
+                <path d="M284.5 358C284.5 320.339 269.039 285.221 242.409 258.591C215.779 231.961 180.661 215.5 143 215.5"
+                      stroke="#595959" stroke-width="15"/>
+            </svg>
+        </div>
+    </li>
 </ul>
 <ul id="circle-double">
-    <li class="double" id="rotate-rail"><div class="icon-double"><svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M85.3742 62.4613C82.6725 70.1292 77.5517 76.7117 70.7829 81.2167C64.0146 85.7217 55.965 87.905 47.8479 87.4379C39.7304 86.9708 31.9848 83.8783 25.7778 78.6267C19.571 73.375 15.2391 66.2483 13.4349 58.3208C11.6308 50.3933 12.452 42.0942 15.7751 34.674C19.0981 27.2538 24.7428 21.1144 31.8587 17.181C38.9745 13.2476 47.1763 11.7331 55.2275 12.8658C68.8213 14.7782 77.8021 24.6309 87.5 33.3333M87.5 33.3333V8.33334M87.5 33.3333H62.5" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        </div></li>
-    <li class="double" id="remove-rail"><svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15 15L85 85" stroke="black" stroke-width="8"/>
-        <path d="M15 85L85 15.2389" stroke="black" stroke-width="8"/>
-        </svg>
-        </div></li>
+    <li class="double" id="rotate-rail">
+        <div class="icon-double">
+            <svg fill="none" height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M85.3742 62.4613C82.6725 70.1292 77.5517 76.7117 70.7829 81.2167C64.0146 85.7217 55.965 87.905 47.8479 87.4379C39.7304 86.9708 31.9848 83.8783 25.7778 78.6267C19.571 73.375 15.2391 66.2483 13.4349 58.3208C11.6308 50.3933 12.452 42.0942 15.7751 34.674C19.0981 27.2538 24.7428 21.1144 31.8587 17.181C38.9745 13.2476 47.1763 11.7331 55.2275 12.8658C68.8213 14.7782 77.8021 24.6309 87.5 33.3333M87.5 33.3333V8.33334M87.5 33.3333H62.5"
+                      stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+            </svg>
+        </div>
+    </li>
+    <li class="double" id="remove-rail">
+        <div class="icon-double">
+            <svg fill="none" height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 15L85 85" stroke="black" stroke-width="8"/>
+                <path d="M15 85L85 15.2389" stroke="black" stroke-width="8"/>
+            </svg>
+        </div>
+    </li>
 </ul>
 </body>
 </html>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 </style>
