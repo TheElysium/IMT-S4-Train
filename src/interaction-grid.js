@@ -69,6 +69,8 @@ export class InteractionGrid {
             this.zoomInOut(event);
         }
         else {
+            event.preventDefault();
+            event.stopPropagation();
             const position = getCellPosition(this.activeCell);
             this.gameGrid.rotateRail(position);
         }
