@@ -110,7 +110,17 @@ export class GameGrid {
         const railCell = getCell(position.x, position.y, this.container).firstChild;
         railCell.rotate();
         this.removeRailFromGridArray(railCell.rail.x, railCell.rail.y);
-        this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y}, this.grid);
+        this.addRailToGridArray(railCell.rail, {x: railCell.rail.x, y: railCell.rail.y});
+
+        this.updatePath();
+    }
+
+    switch(position){
+        const railCell = getCell(position.x, position.y, this.container).firstChild;
+        console.log(railCell)
+        railCell.rail.switch();
+        this.removeRailFromGridArray(position.x, position.y);
+        this.addRailToGridArray(railCell.rail, position);
 
         this.updatePath();
     }

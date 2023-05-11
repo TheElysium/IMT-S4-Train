@@ -6,6 +6,7 @@ import {gridHeight, gridWidth} from "./main.js";
 import {Menu} from "./components/menu.js";
 import {MenuAdd} from "./models/menuAdd.js";
 import {MenuModify} from "./models/menuModify.js";
+import {MenuSwitchModify} from "./models/menuSwitchModify.js";
 
 export class InteractionGrid {
     constructor(width, height, container, gameGrid) {
@@ -16,8 +17,10 @@ export class InteractionGrid {
 
         this.addMenu = null;
         this.modifyMenu = null;
+        this.switchMenu = null;
 
         this.initGrid();
+        this.initMenus();
         this.addEventListeners();
         this.initMovement();
     }
@@ -36,6 +39,9 @@ export class InteractionGrid {
                 );
             }
         }
+    }
+
+    initMenus() {
         const addmenu = new MenuAdd()
         this.addMenu = new Menu(addmenu);
         this.container.appendChild(this.addMenu);
@@ -43,6 +49,10 @@ export class InteractionGrid {
         const modifymenu = new MenuModify();
         this.modifyMenu = new Menu(modifymenu);
         this.container.appendChild(this.modifyMenu);
+
+        const switchmenu = new MenuSwitchModify();
+        this.switchMenu = new Menu(switchmenu);
+        this.container.appendChild(this.switchMenu);
     }
 
     addEventListeners() {
@@ -83,10 +93,7 @@ export class InteractionGrid {
             //this.gameGrid.removeRail(position);
         }
         else if(gameGridCell instanceof SwitchRail){
-            console.log("Switching rail");
-            gameGridCell.switch();
-            this.gameGrid.removeRailFromGridArray(position.x, position.y);
-            this.gameGrid.addRailToGridArray(gameGridCell, position);
+            this.showSwitchMenu(position, event.pageX, event.pageY);
         }
     }
 
@@ -159,6 +166,11 @@ export class InteractionGrid {
     showModifyRailMenu(position, width, height) {
         this.modifyMenu.showMenu(width, height, position);
         this.modifyMenu.addEventListeners(this.gameGrid);
+    }
+
+    showSwitchMenu(position, width, height) {
+        this.switchMenu.showMenu(width, height, position);
+        this.switchMenu.addEventListeners(this.gameGrid);
     }
 
     showMenu(menu, x, y) {
