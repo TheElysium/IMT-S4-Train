@@ -2,9 +2,7 @@ export class ControlPanel extends HTMLElement {
     constructor(interactionGrid) {
         super();
         this.interactionGrid = interactionGrid;
-        this.musicIsOne = false;
-        this.musicPath = "sounds/trainsoundeffect.mp3";
-        this.music;
+        this.musicIsOn = false;
         let svgMusic = document.getElementById("music_svg")
         svgMusic.addEventListener("click", this.music)
     }
@@ -85,12 +83,14 @@ export class ControlPanel extends HTMLElement {
     }
 
     music(){
-        if(this.musicIsOne == true){
-            music.stop()
+        let audio = document.getElementById("audio")
+        if(this.musicIsOn == true){
+            audio.pause();
+            audio.currentTime = 0;
+            this.musicIsOn = false;
         }else{
-            this.music = new Audio(this.musicPath)
-            this.music.play()
-            console.log("playing sound")
+            audio.play()
+            this.musicIsOn = true;
         }
     }
 }
