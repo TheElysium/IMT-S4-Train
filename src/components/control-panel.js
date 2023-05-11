@@ -2,6 +2,9 @@ export class ControlPanel extends HTMLElement {
     constructor(interactionGrid) {
         super();
         this.interactionGrid = interactionGrid;
+        this.musicIsOn = false;
+        let svgMusic = document.getElementById("music_svg")
+        svgMusic.addEventListener("click", this.music)
     }
 
     connectedCallback() {
@@ -76,6 +79,18 @@ export class ControlPanel extends HTMLElement {
             this.querySelector("#play-icon").style.display = "block";
             this.querySelector("#pause-icon").style.display = "none";
             this.interactionGrid.showGrid();
+        }
+    }
+
+    music(){
+        let audio = document.getElementById("audio")
+        if(this.musicIsOn == true){
+            audio.pause();
+            audio.currentTime = 0;
+            this.musicIsOn = false;
+        }else{
+            audio.play()
+            this.musicIsOn = true;
         }
     }
 }
