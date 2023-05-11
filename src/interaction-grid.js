@@ -3,6 +3,9 @@ import {StraightRail} from "./models/straightRail.js";
 import {TurnRail} from "./models/turnRail.js";
 import {SwitchRail} from "./models/switchRail.js";
 import {gridHeight, gridWidth} from "./main.js";
+import {Menu} from "./components/menu.js";
+import {MenuAdd} from "./models/menuAdd.js";
+import {MenuModify} from "./models/menuModify.js";
 
 export class InteractionGrid {
     constructor(width, height, container, gameGrid) {
@@ -10,6 +13,9 @@ export class InteractionGrid {
         this.height = height;
         this.container = container;
         this.gameGrid = gameGrid;
+
+        this.addMenu = null;
+        this.modifyMenu = null;
 
         this.initGrid();
         this.addEventListeners();
@@ -30,6 +36,13 @@ export class InteractionGrid {
                 );
             }
         }
+        const addmenu = new MenuAdd()
+        this.addMenu = new Menu(addmenu);
+        this.container.appendChild(this.addMenu);
+
+        const modifymenu = new MenuModify();
+        this.modifyMenu = new Menu(modifymenu);
+        this.container.appendChild(this.modifyMenu);
     }
 
     addEventListeners() {
@@ -63,10 +76,10 @@ export class InteractionGrid {
         const position = getCellPosition(this.activeCell);
         const gameGridCell = this.gameGrid.grid[position.x][position.y];
         if (gameGridCell === null) {
-            this.menuRail(position, event.pageX, event.pageY);
+            this.showAddRailMenu(position, event.pageX, event.pageY);
         }
         else if(gameGridCell instanceof StraightRail || gameGridCell instanceof TurnRail){
-            this.menuRail2(position, event.pageX, event.pageY);
+            this.showModifyRailMenu(position, event.pageX, event.pageY);
             //this.gameGrid.removeRail(position);
         }
         else if(gameGridCell instanceof SwitchRail){
@@ -138,65 +151,14 @@ export class InteractionGrid {
         this.activeCell.classList.add("active");
     }
 
-    menuRail(position, width, height) {
-        const menu = document.getElementById('circle-triple');
-
-        this.showMenu(menu, width, height);
-
-        const addStraightRail = document.getElementById('add-straight-rail');
-        const addSwitchRail = document.getElementById('add-switch-rail');
-        const addTurnRail = document.getElementById('add-turn-rail');
-
-        addStraightRail.onmouseup = () => {
-            this.gameGrid.addStraightRail(position);
-            this.hideMenu(menu);
-        };
-
-        addTurnRail.onmouseup = () => {
-            this.gameGrid.addTurnRail(position);
-            this.hideMenu(menu);
-        };
-
-        addSwitchRail.onmouseup = () => {
-            this.gameGrid.addSwitchRail(position);
-            this.hideMenu(menu);
-        }
-
-        menu.onmouseup = () => {
-            this.hideMenu(menu);
-        };
-
-        menu.onmouseleave = () => {
-            this.hideMenu(menu);
-        };
+    showAddRailMenu(position, width, height) {
+        this.addMenu.showMenu(width, height, position);
+        this.addMenu.addEventListeners(this.gameGrid);
     }
 
-
-    menuRail2(position, width, height) {
-        const menu2 = document.getElementById('circle-double');
-
-        this.showMenu(menu2, width, height);
-
-        const rotateRail = document.getElementById('rotate-rail');
-        const removeRail = document.getElementById('remove-rail');
-
-        rotateRail.onmouseup = () => {
-            this.gameGrid.rotateRail(position);
-            this.hideMenu(menu2);
-        };
-
-        removeRail.onmouseup = () => {
-            this.gameGrid.removeRail(position);
-            this.hideMenu(menu2);
-        };
-
-        menu2.onmouseup = () => {
-            this.hideMenu(menu2);
-        };
-
-        menu2.onmouseleave = () => {
-            this.hideMenu(menu2);
-        }
+    showModifyRailMenu(position, width, height) {
+        this.modifyMenu.showMenu(width, height, position);
+        this.modifyMenu.addEventListeners(this.gameGrid);
     }
 
     showMenu(menu, x, y) {
