@@ -267,7 +267,6 @@ li.double {
   height: 100%;
   transform-origin: 0% 100%;
   background-color: rgba(255, 255, 255, 0.4);
-  border: 2px solid #99d46b;
   transition: all 0.1s ease-in-out;
 }
 li.double:hover {
@@ -277,13 +276,13 @@ li.double.first-child {
   left: 0;
   transform-origin: 100% 100%;
   opacity: 0.8;
-  border: 2px solid #99d46b;
+  border-right: 3px solid #99d46b;
 }
 li.double:nth-child(2) {
   right: 0;
   transform-origin: 0% 0%;
   opacity: 0.8;
-  border: 2px solid #99d46b;
+  border-left: 3px solid #99d46b;
 }
 li.double .icon-double {
   display: flex;
