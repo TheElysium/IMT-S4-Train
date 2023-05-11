@@ -42,10 +42,10 @@ export class InteractionGrid {
     }
 
     initMenus() {
-        const baseElem = this.container.parentNode.parentNode;
+        const baseElem = this.container.parentNode.parentNode.parentNode;
         const addmenu = new MenuAdd()
         this.addMenu = new Menu(addmenu);
-        baseElem.parentNode.appendChild(this.addMenu);
+        baseElem.appendChild(this.addMenu);
 
         const modifymenu = new MenuModify();
         this.modifyMenu = new Menu(modifymenu);
