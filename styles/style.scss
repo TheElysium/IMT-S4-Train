@@ -7,6 +7,7 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   font-size: .8vw;
+  overflow: hidden;
 }
 
 .c-wrapper {
@@ -283,9 +284,8 @@ body {
   }
 }
 
-#circle {
-  position: absolute;
-  display: none;
+#circle-double, #circle-triple {
+  display: flex;
   padding: 0;
   margin: 1em auto;
   width: 20vh;
@@ -315,19 +315,27 @@ li {
     position: absolute;
     width: 50%;
     height: 100%;
-    background-color: whitesmoke;
-    border: 1px solid white;
+    transform-origin: 0% 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid $grid-background-color;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
 
     &.first-child {
       left: 0;
       transform-origin: 100% 100%;
       opacity: 0.8;
+      border: 2px solid $grid-background-color;
     }
 
-    &.second-child {
+    &:nth-child(2) {
       right: 0;
-      transform-origin: 0% 100%;
+      transform-origin: 0% 0%;
       opacity: 0.8;
+      border: 2px solid $grid-background-color;
     }
 
     .icon-double {
@@ -355,7 +363,7 @@ li {
     transition: all 0.1s ease-in-out;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.7);
     }
 
     &:first-child {
@@ -396,6 +404,51 @@ li {
   }
 }
 
+#remove-switch, #remove-rail {
+  .icon-triple {
+    margin-left: 25%;
+    margin-top: 35%;
+  }
+
+  path {
+    transition: all 0.1s ease-in-out;
+  }
+  &:hover {
+    path {
+      stroke: #d0755a;
+    }
+  }
+}
+
+#rotate-switch, #rotate-rail {
+  .icon-triple {
+    margin-left: 15%;
+    margin-top: 40%;
+  }
+  path {
+    transition: all 0.1s ease-in-out;
+  }
+  &:hover {
+    path {
+    stroke: #5b5b5b;
+    }
+  }
+}
+
+#change-switch {
+  .icon-triple {
+    margin-left: 15%;
+    margin-top: 25%;
+  }
+  path {
+    transition: all 0.1s ease-in-out;
+  }
+  &:hover {
+      path {
+      stroke: #ab765e;
+      }
+  }
+}
 
 * {
   scrollbar-width: thin;
