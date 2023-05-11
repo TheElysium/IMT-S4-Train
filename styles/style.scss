@@ -360,7 +360,6 @@ li {
     height: 100%;
     transform-origin: 0% 100%;
     background-color: rgba(255, 255, 255, 0.4);
-    border: 2px solid $grid-background-color;
     transition: all 0.1s ease-in-out;
 
     &:hover {
@@ -371,14 +370,14 @@ li {
       left: 0;
       transform-origin: 100% 100%;
       opacity: 0.8;
-      border: 2px solid $grid-background-color;
+      border-right: 3px solid $grid-background-color;
     }
 
     &:nth-child(2) {
       right: 0;
       transform-origin: 0% 0%;
       opacity: 0.8;
-      border: 2px solid $grid-background-color;
+      border-left: 3px solid $grid-background-color;
     }
 
     .icon-double {
