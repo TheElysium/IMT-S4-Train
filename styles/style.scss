@@ -93,51 +93,6 @@ body {
     justify-content: center;
     pointer-events: none;
 
-    &__music {
-      position: fixed;
-      top: 11vh;
-      right: 4vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-end;
-
-      &__icon {
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        pointer-events: auto;
-        width: 2vw;
-        height: 2vw;
-        padding: 1vw;
-        border-radius: 100vw;
-        background-color: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(8px);
-        transition: all 0.3s ease;
-
-        svg {
-          width: auto;
-          height: 100%;
-        }
-
-        path {
-          transition: all 0.3s ease;
-        }
-
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.6);
-          cursor: pointer;
-
-          path {
-            fill: #fff98b;
-          }
-        }
-      }
-
-    }
-
     &__help {
       position: fixed;
       top: 2vh;
