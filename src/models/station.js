@@ -1,5 +1,6 @@
 import {Rail} from "./rail.js";
 import {StraightRailOrientation} from "./orientations.js";
+import {stationType as StationType} from "./stationType.js";
 
 export class Station extends Rail {
     constructor(position, type) {
@@ -7,6 +8,7 @@ export class Station extends Rail {
         this.position = position;
         this.type = type;
     }
+
     getSvg() {
         return `
         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,12 +32,45 @@ export class Station extends Rail {
 
     getPossibleNeighbours(grid) {
         const neighbours = [];
-        if(this.type === "start"){
-            neighbours.push(grid[this.x]?.[this.y+1]);
-        }
-        else {
-            neighbours.push(grid[this.x]?.[this.y-1]);
-        }
+        // if (this.type === "start") {
+        //     neighbours.push(grid[this.x]?.[this.y + 1]);
+        // } else {
+        //     neighbours.push(grid[this.x]?.[this.y - 1]);
+        // }
+        neighbours.push(grid[this.x]?.[this.y + 1]);
+        neighbours.push(grid[this.x]?.[this.y - 1]);
         return neighbours;
+    }
+
+    getPathTo(previous, goal, current = this) {
+        const currentRail = {
+            from: previous,
+            rail: current,
+            to: null,
+        };
+        if(previous && this.type === StationType.START) {
+            console.log("goal reached")
+            return [currentRail];
+        }
+        if (this === goal && this.type === StationType.END) {
+            console.log("goal reached")
+            return [currentRail];
+        } else {
+            let next;
+            if(this.type === StationType.START) {
+                next = this.neighbours.filter(n => n.y - 1 === this.y)[0];
+                console.log(next)
+            }
+            else {
+                next = this.neighbours.filter(n => n !== previous)[0];
+            }
+            if (next) {
+                currentRail.to = next;
+                return [currentRail, ...next.getPathTo(current, goal)]
+            } else {
+                console.log("stop")
+                return [currentRail, null];
+            }
+        }
     }
 }

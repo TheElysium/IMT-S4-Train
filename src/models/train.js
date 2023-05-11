@@ -48,7 +48,7 @@ export class Train {
         const prevCoordinates = this.path[prevIndex];
         const nextCoordinates = this.path[nextIndex];
 
-        if(!this.areCoordinatesEqual(prevCoordinates, this.currentCell)){
+        if (!this.areCoordinatesEqual(prevCoordinates, this.currentCell)) {
             console.log("Train has entered cell", prevCoordinates);
             this.currentCell = prevCoordinates;
             this.currentRotation += prevCoordinates.rotation;
@@ -60,7 +60,7 @@ export class Train {
 
         const rotation = this.currentRotation;
 
-        return { x, y, rotation };
+        return {x, y, rotation};
     }
 
     addToDom(container) {
@@ -114,13 +114,13 @@ export class Train {
     }
 
     decelerate() {
-        if (this.speed > 0.00021){
+        if (this.speed > 0.00021) {
             this.speed -= 0.0002;
         }
     }
 
     accelerate() {
-        if (this.speed < 0.003){
+        if (this.speed < 0.003) {
             this.speed += 0.0002;
         }
     }

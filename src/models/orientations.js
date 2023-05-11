@@ -1,4 +1,3 @@
-// straightOrientation.js
 export const StraightRailOrientation = {
     HORIZONTAL: {
         name: 'horizontal',
@@ -27,4 +26,23 @@ export const TurnRailOrientation = {
         name: 'bottom-left',
         angle: 90,
     },
-};  
+};
+
+export const SwitchRailOrientation = {
+    HORIZONTAL_TOP: {
+        name: 'horizontal-top',
+        angle: 0,
+    },
+    HORIZONTAL_BOTTOM: {
+        name: 'horizontal-bottom',
+        angle: 180,
+    },
+    VERTICAL_LEFT: {
+        name: 'vertical-left',
+        angle: -90,
+    },
+    VERTICAL_RIGHT: {
+        name: 'vertical-right',
+        angle: 90,
+    }
+}
