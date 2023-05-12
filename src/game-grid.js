@@ -60,6 +60,11 @@ export class GameGrid {
         cell.appendChild(railCell);
 
         this.addRailToGridArray(rail, {x, y});
+
+        let audio = document.getElementById("audio-place")
+        audio.volume = 0.2;
+        audio.play();
+
         this.updatePath();
     }
 
@@ -76,6 +81,11 @@ export class GameGrid {
         cell.appendChild(railCell);
 
         this.addRailToGridArray(rail, {x, y});
+
+        let audio = document.getElementById("audio-place")
+        audio.volume = 0.2;
+        audio.play();
+
         this.updatePath();
 
     }
@@ -102,6 +112,10 @@ export class GameGrid {
         // Remove rail cell from DOM
         const cell = getCell(position.x, position.y, this.container);
         cell.innerHTML = '';
+
+        let audio = document.getElementById("audio-remove")
+        audio.volume = 0.5;
+        audio.play();
 
         this.updatePath();
     }
